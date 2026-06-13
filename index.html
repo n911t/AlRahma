@@ -11,6 +11,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link class="apple-touch-icon" href="icon.png">
 
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -23,6 +28,7 @@
                     animation: {
                         blob: "blob 7s infinite",
                         pulseLive: "pulseLive 2s infinite",
+                        spinSlow: "spin 3s linear infinite",
                     },
                     keyframes: {
                         blob: {
@@ -76,9 +82,33 @@
         
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* شاشة التحميل الاحترافية */
+        #pageLoader {
+            position: fixed;
+            inset: 0;
+            background-color: #0f172a;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
     </style>
 </head>
 <body class="relative min-h-screen pb-12">
+
+    <div id="pageLoader">
+        <div class="relative flex items-center justify-center">
+            <div class="w-24 h-24 rounded-full border-4 border-t-blue-500 border-r-purple-500 border-b-transparent border-l-transparent animate-spin"></div>
+            <div class="absolute w-16 h-16 bg-slate-900 rounded-full flex items-center justify-center border border-white/10 shadow-xl">
+                <i class="fas fa-tv text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 animate-pulse"></i>
+            </div>
+        </div>
+        <h2 id="loaderText" class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 mt-6 tracking-wide">جاري تشغيل فايبر TV...</h2>
+        <p id="loaderSubText" class="text-xs text-gray-400 mt-2 font-bold opacity-75">يرجى الانتظار قليلاً</p>
+    </div>
 
     <div class="fixed top-[-10%] right-[-10%] w-72 h-72 bg-purple-600 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob z-0"></div>
     <div class="fixed top-[20%] left-[-10%] w-72 h-72 bg-blue-600 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob animation-delay-2000 z-0"></div>
@@ -142,6 +172,10 @@
             <div class="mt-5 flex flex-wrap justify-center gap-2">
                 <button onclick="document.getElementById('qrPopup').classList.remove('hidden')" class="bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2 rounded-full text-xs font-bold backdrop-blur-md transition-all flex items-center gap-1.5">
                     <i class="fas fa-qrcode"></i> مشاركة الصفحة
+                </button>
+
+                <button onclick="forceUpdateApp()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 border border-emerald-400/30 px-4 py-2 rounded-full text-xs font-bold backdrop-blur-md transition-all flex items-center gap-1.5 shadow-md">
+                    <i class="fas fa-sync-alt" id="refreshIcon"></i> تحديث المنصة
                 </button>
 
                 <button id="btnInstall" class="hidden bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 border border-blue-400/30 px-4 py-2 rounded-full text-xs font-black backdrop-blur-md transition-all flex items-center gap-1.5 shadow-lg animate-bounce">
@@ -338,13 +372,23 @@
     </div>
 
     <script>
-        // إعداد وتسجيل الـ Service Worker عبر الـ Blob
+        // الـ Service Worker الذكي والمعدل مع كاش فريد
         if ('serviceWorker' in navigator) {
             const swCode = `
-                const CACHE_NAME = 'fibertv-v3';
-                const ASSETS = ['./', './index.html', './manifest.json', './icon.png'];
+                const CACHE_NAME = 'fibertv-v5';
+                const ASSETS = [
+                    './',
+                    './index.html',
+                    './manifest.json',
+                    './icon.png',
+                    'https://cdn.tailwindcss.com',
+                    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+                ];
                 self.addEventListener('install', (e) => {
-                    e.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(ASSETS)));
+                    e.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+                });
+                self.addEventListener('activate', (e) => {
+                    e.waitUntil(caches.keys().then((keys) => Promise.all(keys.map((k) => k !== CACHE_NAME ? caches.delete(k) : null))).then(() => self.clients.claim()));
                 });
                 self.addEventListener('fetch', (e) => {
                     e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)));
@@ -355,14 +399,60 @@
             
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register(swUrl, { scope: './' })
-                    .then(reg => console.log('Service Worker نشط وجاهز!'))
-                    .catch(err => console.error('خطأ في الـ Service Worker:', err));
+                    .then(reg => console.log('تم تفعيل الكاش السريع!'))
+                    .catch(err => console.error('خطأ:', err));
             });
         }
 
+        // إخفاء شاشة التحميل
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('pageLoader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+            }, 400);
+        });
+
+        // دالة التحديث الإجباري للمنصة وحذف الـ Cache بالكامل
+        async function forceUpdateApp() {
+            // إظهار شاشة التحميل فوراً بكتابة مخصصة للمشترك
+            const loader = document.getElementById('pageLoader');
+            document.getElementById('loaderText').innerText = "جاري تحديث بيانات المنصة...";
+            document.getElementById('loaderSubText').innerText = "يتم الآن جلب النسخة الأحدث من السيرفر";
+            loader.style.opacity = '1';
+            loader.style.visibility = 'visible';
+
+            // تدوير أيقونة التحديث داخل الزر لإعطاء انطباع بصري
+            document.getElementById('refreshIcon').classList.add('animate-spin');
+
+            try {
+                // 1. حذف كل ملفات الـ Cache المخزنة في هاتف المستخدم
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(cacheNames.map(name => caches.delete(name)));
+                }
+
+                // 2. إيقاف وإلغاء تسجيل الـ Service Worker القديم بالكامل
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (let registration of registrations) {
+                        await registration.unregister();
+                    }
+                }
+
+                // 3. عمل إعادة تحميل إجبارية من السيرفر مباشرة لتخطي الكاش الافتراضي للمتصفح
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 1000); // ننتظر ثانية واحدة للتأكد من اكتمال المسح ثم ننعش الصفحة
+                
+            } catch (error) {
+                console.error("فشل التحديث التلقائي:", error);
+                window.location.reload(true); // إعادة محاولة في كل الأحوال
+            }
+        }
+
         function openNoticeManually() {
-            const noticePopup = document.getElementById("noticePopup");
-            noticePopup.classList.remove("hidden");
+            document.getElementById("noticePopup").classList.remove("hidden");
         }
 
         let currentCategory = 'all';
@@ -404,20 +494,18 @@
             }
         }
 
-        // فحص نوع الجهاز لإظهار الأزرار المخصصة
+        // فحص نوع الجهاز
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const btnInstall = document.getElementById('btnInstall');
         const btnIosInstall = document.getElementById('btnIosInstall');
         let deferredPrompt;
 
         if (isIOS) {
-            // إذا كان الجهاز آيفون، نظهر زر التثبيت المخصص له
             btnIosInstall.classList.remove('hidden');
             btnIosInstall.addEventListener('click', () => {
                 document.getElementById('iosPopup').classList.remove('hidden');
             });
         } else {
-            // للأندرويد والأجهزة الأخرى نعتمد الـ PWA القياسي
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
