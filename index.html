@@ -50,7 +50,6 @@
             -webkit-user-select: none;
             user-select: none;
         }
-        /* تأثير الزجاج الاحترافي */
         .glass-panel {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(16px);
@@ -58,7 +57,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
-        /* تأثير الأزرار */
         .glass-btn {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
@@ -73,11 +71,9 @@
         .glass-btn:active {
             transform: scale(0.98);
         }
-        /* تأخير حركة الدوائر الخلفية */
         .animation-delay-2000 { animation-delay: 2s; }
         .animation-delay-4000 { animation-delay: 4s; }
         
-        /* إخفاء شريط التمرير الأفقي للأزرار والتصنيفات مع الحفاظ على عمله باللمس */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -90,23 +86,18 @@
 
     <div id="noticePopup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-xl p-4 transition-all duration-300">
         <div class="glass-panel p-6 rounded-[2.5rem] text-center w-full max-w-sm border border-white/10 shadow-2xl relative">
-            
             <div class="w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-400 text-2xl">
                 <i class="fas fa-info-circle"></i>
             </div>
-
             <h3 class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 font-black text-xl mb-3">تنويه هام للمستخدمين</h3>
-            
             <p class="text-sm text-gray-200 leading-relaxed font-bold px-2 mb-5">
                 برامج المنصة مرفوعة بشكل آمن على <span class="text-blue-400">Google Drive</span>، يرجى التأكد من السماح لـ Google Drive بصلاحية <span class="text-purple-400">"تثبيت التطبيقات من مصادر غير معروفة"</span> من إعدادات هاتفك لضمان عمل التطبيق بنجاح.
             </p>
-
             <div class="mt-4 space-y-3">
                 <div class="flex items-center justify-center gap-2 text-xs text-gray-400 font-bold bg-white/5 py-2 px-4 rounded-xl cursor-pointer select-none">
                     <input type="checkbox" id="dontShowAgain" class="w-4 h-4 rounded border-white/20 bg-slate-900 text-blue-500 focus:ring-0 accent-blue-500 cursor-pointer">
                     <label for="dontShowAgain" class="cursor-pointer">عدم إظهار هذه الرسالة مجدداً</label>
                 </div>
-                
                 <button id="closeNoticeBtn" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-black py-3 rounded-2xl shadow-lg shadow-green-900/30 transition-all flex items-center justify-center gap-2 transform active:scale-95">
                     <i class="fas fa-check-circle text-lg"></i> موافق وفهمت
                 </button>
@@ -120,9 +111,15 @@
             <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 drop-shadow-[0_4px_6px_rgba(0,0,0,0.4)] tracking-wide">فايبر TV</h1>
             <p class="text-base text-gray-200 mt-2 font-bold tracking-normal">تطبيقات وخدمات الانترنت الضوئي</p>
             
-            <button onclick="document.getElementById('qrPopup').classList.remove('hidden')" class="mt-5 bg-white/10 hover:bg-white/20 border border-white/20 px-6 py-2 rounded-full text-sm font-bold backdrop-blur-md transition-all flex items-center justify-center mx-auto gap-2">
-                <i class="fas fa-qrcode"></i> مشاركة الصفحة
-            </button>
+            <div class="mt-5 flex flex-wrap justify-center gap-2">
+                <button onclick="document.getElementById('qrPopup').classList.remove('hidden')" class="bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2 rounded-full text-xs font-bold backdrop-blur-md transition-all flex items-center gap-1.5">
+                    <i class="fas fa-qrcode"></i> مشاركة الصفحة
+                </button>
+
+                <button id="btnInstall" class="hidden bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 border border-blue-400/30 px-4 py-2 rounded-full text-xs font-black backdrop-blur-md transition-all flex items-center gap-1.5 shadow-lg animate-bounce">
+                    <i class="fas fa-download"></i> تثبيت على الشاشة
+                </button>
+            </div>
 
             <button onclick="openNoticeManually()" class="mt-3 text-xs text-gray-400 hover:text-blue-400 font-bold transition-all flex items-center justify-center mx-auto gap-1.5 opacity-80 hover:opacity-100 bg-white/5 hover:bg-white/10 border border-white/5 px-4 py-1.5 rounded-full">
                 <i class="fas fa-info-circle text-blue-400"></i> تنويه هام
@@ -211,13 +208,12 @@
                 </div>
             </a>
 
-
             <a href="https://tv.kooraiq.com" data-type="sports_zone" data-keywords="باقة الرياضة kooraiq tv كورة عراق مباريات دوري تلفزيون" class="app-item glass-btn flex items-center p-3 rounded-2xl group border-yellow-500/30">
                 <div class="w-14 h-14 rounded-xl flex items-center justify-center text-yellow-400 text-2xl shadow-lg bg-yellow-400/10 group-hover:bg-yellow-400/20 transition shrink-0">
                     <i class="fas fa-trophy"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-yellow-100 group-hover:text-white transition">الباقة الرياضة</h3>
+                    <h3 class="font-bold text-lg text-yellow-100 group-hover:text-white transition">الباقة الرياضية</h3>
                     <p class="text-xs text-yellow-300/80">Kooraiq TV</p>
                 </div>
             </a>
@@ -241,7 +237,6 @@
                     <p class="text-xs text-amber-300/80">Oscar TV</p>
                 </div>
             </a>
-
 
             <a href="https://drive.google.com/file/d/1iPSsyL8CCIEFRwmFowW_zXg-tw7S9YY6/view?usp=drive_link" data-type="anime_zone" data-keywords="انمي سلاير anime slayer كرتون اوتاكو مسلسلات افلام" class="app-item glass-btn flex items-center p-3 rounded-2xl group border-orange-500/20">
                 <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-orange-400 to-amber-500 shrink-0">
@@ -273,7 +268,6 @@
                 </div>
             </a>
 
-
             <a href="https://share.vodu.store/#/" data-type="vodu_share" data-keywords="فودو شير vodu share مشاركة ملفات سينما" class="app-item glass-btn flex items-center p-3 rounded-2xl group">
                 <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-cyan-400 to-teal-500 shrink-0">
                     <i class="fas fa-share-nodes"></i>
@@ -284,12 +278,10 @@
                 </div>
             </a>
 
-
             <div id="noResults" class="hidden text-center py-8 text-gray-400 font-bold bg-white/5 rounded-2xl border border-white/5">
                 <i class="fas fa-search-minus text-2xl mb-2 block text-gray-500"></i>
                 لم يتم العثور على نتائج تطابق بحثك!
             </div>
-
         </div>
 
         <div class="mt-8 text-center pt-4 pb-2">
@@ -299,16 +291,13 @@
                 <i class="fab fa-telegram text-blue-500 text-sm group-hover:scale-110 transition"></i>
             </a>
         </div>
-
     </div>
 
     <div id="qrPopup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-xl p-4 transition-all">
         <div class="glass-panel p-8 rounded-[2rem] text-center w-full max-w-sm border border-white/20 shadow-2xl relative">
-            
             <button onclick="document.getElementById('qrPopup').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition">
                 <i class="fas fa-times"></i>
             </button>
-            
             <h3 class="text-white font-bold text-xl mb-6">امسح الباركود</h3>
             <div class="bg-white p-3 rounded-2xl inline-block shadow-lg">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://n911t.github.io/AlRahma/" class="w-56 h-56 rounded-xl">
@@ -318,6 +307,28 @@
     </div>
 
     <script>
+        // دمج وإنشاء ملف Service Worker برمجياً عبر الـ Blob دون الحاجة لملف خارجي منفصل
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                const CACHE_NAME = 'fibertv-v2';
+                const ASSETS = ['./', './index.html', './manifest.json', './icon.png'];
+                self.addEventListener('install', (e) => {
+                    e.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(ASSETS)));
+                });
+                self.addEventListener('fetch', (e) => {
+                    e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)));
+                });
+            `;
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register(swUrl, { scope: './' })
+                    .then(reg => console.log('Service Worker مدمج ونشط بنجاح!'))
+                    .catch(err => console.error('فشل تسجيل الـ Service Worker:', err));
+            });
+        }
+
         function openNoticeManually() {
             const noticePopup = document.getElementById("noticePopup");
             noticePopup.classList.remove("hidden");
@@ -330,14 +341,11 @@
 
         function filterApps(category) {
             currentCategory = category;
-            
             const filterButtons = document.querySelectorAll('.filter-btn');
             filterButtons.forEach(btn => {
                 btn.className = "filter-btn snap-start shrink-0 bg-white/5 text-gray-300 text-xs font-bold px-4 py-2.5 rounded-xl border border-white/5 hover:bg-white/10 transition-all";
             });
-            
             event.currentTarget.className = "filter-btn snap-start shrink-0 bg-blue-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl border border-blue-400/30 transition-all";
-
             performSearch();
         }
 
@@ -349,7 +357,6 @@
             apps.forEach(app => {
                 const appKeywords = app.getAttribute('data-keywords').toLowerCase();
                 const appType = app.getAttribute('data-type');
-                
                 const matchCategory = (currentCategory === 'all' || appType === currentCategory);
                 const matchQuery = (appKeywords.includes(query) || query === '');
 
@@ -369,6 +376,33 @@
             }
         }
 
+        // إعدادات وتفعيل نافذة التثبيت على الهاتف (PWA)
+        let deferredPrompt;
+        const btnInstall = document.getElementById('btnInstall');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            btnInstall.classList.remove('hidden');
+        });
+
+        btnInstall.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                console.log('User accepted the PWA install');
+            }
+            deferredPrompt = null;
+            btnInstall.classList.add('hidden');
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredPrompt = null;
+            btnInstall.classList.add('hidden');
+            alert('تم تثبيت التطبيق بنجاح على الشاشة الرئيسية!');
+        });
+
         document.addEventListener("DOMContentLoaded", () => {
             const noticePopup = document.getElementById("noticePopup");
             const closeNoticeBtn = document.getElementById("closeNoticeBtn");
@@ -378,7 +412,6 @@
             searchInput.addEventListener('input', performSearch);
 
             const isHiddenBefore = localStorage.getItem("hideFiberTvNotice");
-            
             if (isHiddenBefore !== "true") {
                 noticePopup.classList.remove("hidden");
                 noticePopup.classList.remove("opacity-0", "pointer-events-none");
@@ -388,7 +421,6 @@
                 if (dontShowAgain.checked) {
                     localStorage.setItem("hideFiberTvNotice", "true");
                 }
-                
                 noticePopup.classList.add("opacity-0", "pointer-events-none");
                 setTimeout(() => {
                     noticePopup.classList.add("hidden");
@@ -396,6 +428,5 @@
             });
         });
     </script>
-
 </body>
 </html>
