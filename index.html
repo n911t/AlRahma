@@ -105,6 +105,34 @@
         </div>
     </div>
 
+    <div id="iosPopup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-xl p-4 transition-all">
+        <div class="glass-panel p-6 rounded-[2.5rem] text-center w-full max-w-sm border border-white/10 shadow-2xl relative">
+            <button onclick="document.getElementById('iosPopup').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="w-16 h-16 bg-purple-500/10 border border-purple-500/30 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-400 text-2xl">
+                <i class="fab fa-apple"></i>
+            </div>
+            <h3 class="text-white font-black text-xl mb-3">التثبيت على الآيفون</h3>
+            <p class="text-sm text-gray-300 leading-relaxed font-bold mb-5 px-2">
+                لتثبيت التطبيق على جهاز الآيفون الخاص بك، يرجى استخدام متصفح <span class="text-blue-400">Safari</span> ثم اتبع الخطوات التالية:
+            </p>
+            <div class="text-right text-xs text-gray-300 space-y-3 bg-white/5 p-4 rounded-2xl border border-white/5 font-bold mb-5">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-black">1</span>
+                    <span>اضغط على زر **المشاركة** <i class="fas fa-share-square text-blue-400 mx-0.5"></i> أسفل الشاشة.</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-black">2</span>
+                    <span>اختر **"إضافة إلى الشاشة الرئيسية"** <i class="fas fa-plus-square text-purple-400 mx-0.5"></i> من القائمة.</span>
+                </div>
+            </div>
+            <button onclick="document.getElementById('iosPopup').classList.add('hidden')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3 rounded-2xl transition transform active:scale-95">
+                حسناً، فهمت
+            </button>
+        </div>
+    </div>
+
     <div class="relative z-10 max-w-md mx-auto px-4 pt-10">
         
         <div class="glass-panel rounded-3xl p-6 text-center mb-6">
@@ -118,6 +146,10 @@
 
                 <button id="btnInstall" class="hidden bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 border border-blue-400/30 px-4 py-2 rounded-full text-xs font-black backdrop-blur-md transition-all flex items-center gap-1.5 shadow-lg animate-bounce">
                     <i class="fas fa-download"></i> تثبيت على الشاشة
+                </button>
+
+                <button id="btnIosInstall" class="hidden bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 border border-purple-400/30 px-4 py-2 rounded-full text-xs font-black backdrop-blur-md transition-all flex items-center gap-1.5 shadow-lg">
+                    <i class="fab fa-apple"></i> تثبيت على الآيفون
                 </button>
             </div>
 
@@ -147,7 +179,6 @@
         </div>
 
         <div id="appsContainer" class="space-y-4">
-            
             <a href="https://vodu.me" data-type="movies_series" data-keywords="تطبيق فودو vodu app افلام مسلسلات سينما" class="app-item glass-btn flex items-center p-3 rounded-2xl group">
                 <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 shrink-0">
                     <i class="fas fa-film"></i>
@@ -307,10 +338,10 @@
     </div>
 
     <script>
-        // دمج وإنشاء ملف Service Worker برمجياً عبر الـ Blob دون الحاجة لملف خارجي منفصل
+        // إعداد وتسجيل الـ Service Worker عبر الـ Blob
         if ('serviceWorker' in navigator) {
             const swCode = `
-                const CACHE_NAME = 'fibertv-v2';
+                const CACHE_NAME = 'fibertv-v3';
                 const ASSETS = ['./', './index.html', './manifest.json', './icon.png'];
                 self.addEventListener('install', (e) => {
                     e.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(ASSETS)));
@@ -324,17 +355,14 @@
             
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register(swUrl, { scope: './' })
-                    .then(reg => console.log('Service Worker مدمج ونشط بنجاح!'))
-                    .catch(err => console.error('فشل تسجيل الـ Service Worker:', err));
+                    .then(reg => console.log('Service Worker نشط وجاهز!'))
+                    .catch(err => console.error('خطأ في الـ Service Worker:', err));
             });
         }
 
         function openNoticeManually() {
             const noticePopup = document.getElementById("noticePopup");
             noticePopup.classList.remove("hidden");
-            setTimeout(() => {
-                noticePopup.classList.remove("opacity-0", "pointer-events-none");
-            }, 10);
         }
 
         let currentCategory = 'all';
@@ -376,31 +404,33 @@
             }
         }
 
-        // إعدادات وتفعيل نافذة التثبيت على الهاتف (PWA)
-        let deferredPrompt;
+        // فحص نوع الجهاز لإظهار الأزرار المخصصة
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const btnInstall = document.getElementById('btnInstall');
+        const btnIosInstall = document.getElementById('btnIosInstall');
+        let deferredPrompt;
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            btnInstall.classList.remove('hidden');
-        });
+        if (isIOS) {
+            // إذا كان الجهاز آيفون، نظهر زر التثبيت المخصص له
+            btnIosInstall.classList.remove('hidden');
+            btnIosInstall.addEventListener('click', () => {
+                document.getElementById('iosPopup').classList.remove('hidden');
+            });
+        } else {
+            // للأندرويد والأجهزة الأخرى نعتمد الـ PWA القياسي
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                btnInstall.classList.remove('hidden');
+            });
+        }
 
         btnInstall.addEventListener('click', async () => {
             if (!deferredPrompt) return;
             deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                console.log('User accepted the PWA install');
-            }
             deferredPrompt = null;
             btnInstall.classList.add('hidden');
-        });
-
-        window.addEventListener('appinstalled', () => {
-            deferredPrompt = null;
-            btnInstall.classList.add('hidden');
-            alert('تم تثبيت التطبيق بنجاح على الشاشة الرئيسية!');
         });
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -414,17 +444,13 @@
             const isHiddenBefore = localStorage.getItem("hideFiberTvNotice");
             if (isHiddenBefore !== "true") {
                 noticePopup.classList.remove("hidden");
-                noticePopup.classList.remove("opacity-0", "pointer-events-none");
             }
 
             closeNoticeBtn.addEventListener("click", () => {
                 if (dontShowAgain.checked) {
                     localStorage.setItem("hideFiberTvNotice", "true");
                 }
-                noticePopup.classList.add("opacity-0", "pointer-events-none");
-                setTimeout(() => {
-                    noticePopup.classList.add("hidden");
-                }, 300);
+                noticePopup.classList.add("hidden");
             });
         });
     </script>
