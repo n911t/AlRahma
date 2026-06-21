@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>فايبر TV</title>
     
-    <link class="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link class="apple-touch-icon" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
 
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,7 +112,7 @@
             background: rgba(59, 130, 246, 0.1) !important;
         }
 
-        /* جزيئات الخلفية لثيم ريترو */
+        /* جزيئات الخلفية لثيم ريترو ووودي */
         .retro-bg-icons {
             position: fixed;
             inset: 0;
@@ -129,7 +129,6 @@
 </head>
 <body class="relative min-h-screen pb-24">
 
-    <!-- شاشة التحميل الافتتاحية -->
     <div id="pageLoader">
         <div class="relative flex items-center justify-center">
             <div class="w-24 h-24 rounded-full border-4 border-t-blue-500 border-r-purple-500 border-b-transparent border-l-transparent animate-spin"></div>
@@ -141,15 +140,12 @@
         <p id="loaderSubText" class="text-xs text-gray-400 mt-2 font-bold opacity-75">يرجى الانتظار قليلاً</p>
     </div>
 
-    <!-- الهالات الضوئية الخلفية الديناميكية -->
     <div id="blob1" class="fixed top-[-10%] right-[-10%] w-72 h-72 bg-purple-600 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob z-0 theme-transition"></div>
     <div id="blob2" class="fixed top-[20%] left-[-10%] w-72 h-72 bg-blue-600 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob animation-delay-2000 z-0 theme-transition"></div>
     <div id="blob3" class="fixed bottom-[-10%] right-[20%] w-80 h-80 bg-pink-600 rounded-full mix-blend-screen filter blur-[80px] opacity-30 animate-blob animation-delay-4000 z-0 theme-transition"></div>
 
-    <!-- طبقة التأثيرات الخاصة بالثيمات -->
     <div id="specialThemeLayer" class="fixed inset-0 pointer-events-none z-10 overflow-hidden"></div>
 
-    <!-- شريط أدوات الحفظ لإعادة الترتيب -->
     <div id="editControlsBar" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 backdrop-blur-md p-3 rounded-2xl flex items-center gap-3 border border-blue-500/40 max-w-xs w-11/12 shadow-2xl">
         <button onclick="saveNewOrder()" class="flex-1 py-2.5 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 rounded-xl text-xs font-black text-white shadow-md transition transform active:scale-95 flex items-center justify-center gap-1">
             <i class="fas fa-save"></i> حفظ الترتيب
@@ -159,7 +155,6 @@
         </button>
     </div>
 
-    <!-- تنبيه أندرويد -->
     <div id="noticePopup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-xl p-4 transition-all duration-300">
         <div class="bg-slate-900 p-6 rounded-[2.5rem] text-center w-full max-w-sm border border-white/10 shadow-2xl relative">
             <div class="w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-400 text-2xl">
@@ -181,96 +176,72 @@
         </div>
     </div>
 
-    <!-- تنبيه آيفون المطور بالصور الكرتونية -->
     <div id="iosPopup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-xl p-4 transition-all">
-        <div class="bg-slate-900 p-6 rounded-[2.5rem] text-center w-full max-w-sm border border-white/10 shadow-2xl relative overflow-hidden">
-            <button onclick="document.getElementById('iosPopup').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition z-10">
+        <div class="glass-panel p-6 rounded-[2.5rem] text-center w-full max-w-sm border border-white/10 shadow-2xl relative bg-slate-900">
+            <button onclick="document.getElementById('iosPopup').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition">
                 <i class="fas fa-times"></i>
             </button>
-            
-            <div class="w-16 h-16 bg-purple-500/10 border border-purple-500/30 rounded-full flex items-center justify-center mx-auto mb-2 text-purple-400 text-2xl relative z-10">
+            <div class="w-16 h-16 bg-purple-500/10 border border-purple-500/30 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-400 text-2xl">
                 <i class="fab fa-apple"></i>
             </div>
-            
-            <h3 class="text-white font-black text-xl mb-4 relative z-10">تثبيت على الآيفون</h3>
-            
-            <!-- رسوم كرتونية توضيحية -->
-            <div class="bg-white/5 rounded-2xl p-4 mb-5 border border-white/10 relative z-10">
-                <div class="flex flex-col items-center gap-4">
-                    <!-- الخطوة 1 -->
-                    <div class="flex items-center gap-3 w-full bg-slate-800 p-3 rounded-xl border border-slate-700">
-                        <div class="text-3xl animate-bounce">👇</div>
-                        <div class="text-right flex-1">
-                            <p class="text-sm text-white font-bold">1. اضغط على المشاركة</p>
-                            <p class="text-[10px] text-gray-400">تجدها أسفل متصفح سفاري</p>
-                        </div>
-                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-500 text-xl shadow-inner">
-                            <i class="fas fa-arrow-up-from-bracket"></i>
-                        </div>
-                    </div>
-                    
-                    <!-- سهم للأسفل -->
-                    <div class="text-gray-500 text-lg"><i class="fas fa-arrow-down"></i></div>
-                    
-                    <!-- الخطوة 2 -->
-                    <div class="flex items-center gap-3 w-full bg-slate-800 p-3 rounded-xl border border-slate-700">
-                        <div class="text-3xl">📱</div>
-                        <div class="text-right flex-1">
-                            <p class="text-sm text-white font-bold">2. الإضافة للشاشة</p>
-                            <p class="text-[10px] text-gray-400">اختر Add to Home Screen</p>
-                        </div>
-                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 text-xl shadow-inner">
-                            <i class="fas fa-plus-square"></i>
-                        </div>
-                    </div>
+            <h3 class="text-white font-black text-xl mb-3">التثبيت على الآيفون</h3>
+            <p class="text-sm text-gray-300 leading-relaxed font-bold mb-5 px-2">
+                لتثبيت التطبيق على جهاز الآيفون الخاص بك، يرجى استخدام متصفح <span class="text-blue-400">Safari</span> ثم اتبع الخطوات التالية:
+            </p>
+            <div class="text-right text-xs text-gray-300 space-y-3 bg-white/5 p-4 rounded-2xl border border-white/5 font-bold mb-5">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-black">1</span>
+                    <span>اضغط على زر <strong>المشاركة</strong> <i class="fas fa-share-square text-blue-400 mx-0.5"></i> أسفل الشاشة.</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-black">2</span>
+                    <span>اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong> <i class="fas fa-plus-square text-purple-400 mx-0.5"></i> من القائمة.</span>
                 </div>
             </div>
-
-            <button onclick="document.getElementById('iosPopup').classList.add('hidden')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-black py-3 rounded-2xl transition transform active:scale-95 shadow-lg relative z-10">
-                جاهز، فهمت الطريقة!
+            <button onclick="document.getElementById('iosPopup').classList.add('hidden')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3 rounded-2xl transition transform active:scale-95">
+                حسناً، فهمت
             </button>
         </div>
     </div>
 
-    <!-- الواجهة الرئيسية -->
     <div class="relative z-20 max-w-md mx-auto px-4 pt-10">
         
-        <!-- كارت العنوان والشعار الرئيسي -->
-        <div id="mainHeaderCard" class="bg-white/5 border border-white/10 rounded-3xl p-6 text-center mb-6 theme-transition shadow-lg backdrop-blur-md">
+        <div id="mainHeaderCard" class="glass-panel rounded-3xl p-6 text-center mb-6 theme-transition shadow-lg backdrop-blur-md bg-white/5 border border-white/10">
             <div class="flex items-center justify-center gap-3 select-none">
-                <span id="logoPart1" class="font-logo font-black text-4xl tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 drop-shadow-[0_2px_8px_rgba(59,130,246,0.3)] theme-transition">فايبر</span>
+                <span id="logoPart1" class="font-logo font-black text-4xl tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 drop-shadow-[0_4px_6px_rgba(0,0,0,0.4)] theme-transition">فايبر</span>
                 <span class="inline-block min-w-[70px] text-center">
                     <span id="animatedTv" class="flip-animation font-logo font-black text-4xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-rose-400 drop-shadow-[0_2px_8px_rgba(232,121,249,0.3)]">TV</span>
                 </span>
             </div>
             <p id="logoSubtitle" class="text-xs text-gray-400 mt-2.5 font-bold tracking-widest bg-white/5 inline-block px-4 py-1 rounded-full border border-white/5 theme-transition">تطبيقات وخدمات الانترنت الضوئي</p>
             
-            <!-- أزرار التحكم العلوية -->
             <div class="mt-6 flex justify-center items-center gap-3 flex-wrap">
-                <button onclick="sharePlatformLink(this)" class="ctrl-btn w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center text-lg text-blue-400 transition-all active:scale-95 shadow-md" title="مشاركة الرابط">
-                    <i class="fas fa-link"></i>
+                <button onclick="sharePlatformLink(this)" class="ctrl-btn w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center text-lg text-blue-400 transition-all active:scale-95 shadow-md theme-transition" title="مشاركة المنصة">
+                    <i class="fas fa-share-nodes"></i>
                 </button>
-                <button onclick="document.getElementById('qrPopup').classList.remove('hidden')" class="ctrl-btn w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center text-lg text-cyan-400 transition-all active:scale-95 shadow-md" title="مشاركة باركود">
+                
+                <button onclick="document.getElementById('qrPopup').classList.remove('hidden')" class="ctrl-btn w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center text-lg text-cyan-400 transition-all active:scale-95 shadow-md theme-transition" title="مشاركة باركود">
                     <i class="fas fa-qrcode"></i>
                 </button>
-                <button onclick="forceUpdateApp()" class="ctrl-btn w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center text-lg text-emerald-400 transition-all active:scale-95 shadow-md" title="تحديث الصفحة">
+                
+                <button onclick="forceUpdateApp()" class="ctrl-btn w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center text-lg text-emerald-400 transition-all active:scale-95 shadow-md theme-transition" title="تحديث الصفحة">
                     <i class="fas fa-sync-alt" id="refreshIcon"></i>
                 </button>
-                <button onclick="openNoticeManually()" class="ctrl-btn w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center text-lg text-amber-400 transition-all active:scale-95 shadow-md" title="تنويه هام">
+                
+                <button onclick="openNoticeManually()" class="ctrl-btn w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center text-lg text-amber-400 transition-all active:scale-95 shadow-md theme-transition" title="تنويه هام">
                     <i class="fas fa-info-circle"></i>
                 </button>
-                <!-- زر التثبيت -->
-                <button id="btnInstall" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 border border-blue-400/30 flex items-center justify-center text-lg text-white transition-all active:scale-95 shadow-lg animate-bounce" title="تثبيت على الشاشة">
+                
+                <button id="btnInstall" class="hidden ctrl-btn animate-bounce w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 border border-blue-400/30 flex items-center justify-center text-lg text-white transition-all active:scale-95 shadow-lg theme-transition" title="تثبيت على الشاشة">
                     <i class="fas fa-download"></i>
                 </button>
-                <!-- زر التثبيت للآيفون -->
-                <button id="btnIosInstall" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 border border-purple-400/30 flex items-center justify-center text-lg text-white transition-all active:scale-95 shadow-lg" title="تثبيت للآيفون">
+                
+                <button id="btnIosInstall" class="hidden ctrl-btn w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 border border-purple-400/30 flex items-center justify-center text-lg text-white transition-all active:scale-95 shadow-lg theme-transition" title="تثبيت للآيفون">
                     <i class="fab fa-apple"></i>
                 </button>
             </div>
         </div>
 
-        <!-- نظام التبديل الثنائي المطور -->
         <div id="modeTabsContainer" class="grid grid-cols-2 gap-2 mb-6 bg-slate-900/40 p-1.5 rounded-2xl border border-white/5 backdrop-blur-md theme-transition">
             <button onclick="filterMode('watch')" id="btnModeWatch" class="mode-btn text-center py-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5">
                 <i class="fas fa-play-circle text-sm"></i> مشاهدة
@@ -280,10 +251,8 @@
             </button>
         </div>
 
-        <!-- حاوية العناصر والروابط -->
         <div id="appsContainer" class="space-y-4">
 
-            <!-- ================= [قسم المشاهدة المباشرة] ================= -->
             <a href="https://movie.vodu.me/" id="watch-vodu-movie" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
                 <div data-icon-index="0" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-play"></i>
@@ -346,8 +315,6 @@
             </a>
 
 
-            <!-- ================= [قسم تحميل التطبيقات] ================= -->
-            
             <a href="https://vodu.me" id="dl-vodu" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
                 <div data-icon-index="6" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-film"></i>
@@ -438,14 +405,12 @@
                 </div>
             </a>
 
-            <!-- رسالة الخطأ -->
             <div id="noResults" class="hidden text-center py-8 text-gray-400 font-bold bg-white/5 rounded-2xl border border-white/5">
                 <i class="fas fa-search-minus text-2xl mb-2 block text-gray-500"></i>
                 لا توجد عناصر متوفرة حالياً في هذا القسم.
             </div>
         </div>
 
-        <!-- كرت الأدوات السفلي -->
         <div id="mainFooterCard" class="mt-8 bg-slate-900/40 border border-white/10 rounded-2xl p-4 backdrop-blur-sm shadow-md theme-transition">
             <div class="flex items-center justify-between gap-3">
                 <button onclick="document.getElementById('themeModal').classList.remove('hidden')" class="action-btn flex-1 py-3 rounded-xl text-xs font-black bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center gap-1.5 transition text-purple-400 active:scale-95 shadow-sm">
@@ -466,13 +431,11 @@
                 </button>
             </div>
             
-            <!-- نص الفوتر تم اختصاره وجعله يتكيف مع الألوان -->
             <p id="footerHintText" class="text-xs font-bold text-center mt-3 tracking-wide theme-transition">لطلب أو اقتراح تطبيق</p>
         </div>
         
     </div>
 
-    <!-- نافذة باركود المشاركة -->
     <div id="qrPopup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-xl p-4 transition-all">
         <div class="bg-slate-900 p-8 rounded-[2rem] text-center w-full max-w-sm border border-white/20 shadow-2xl relative">
             <button onclick="document.getElementById('qrPopup').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition">
@@ -486,7 +449,6 @@
         </div>
     </div>
 
-    <!-- نافذة تبديل الثيمات الـ 10 المطورة -->
     <div id="themeModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-xl p-4 transition-all">
         <div class="bg-slate-900 p-6 rounded-[2.5rem] w-full max-w-sm border border-white/15 shadow-2xl relative h-[80vh] flex flex-col">
             <button onclick="document.getElementById('themeModal').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition z-10">
@@ -498,6 +460,10 @@
                 <button onclick="applyTheme('glassDark')" class="w-full p-3.5 rounded-xl bg-slate-800/60 border border-white/10 flex items-center justify-between hover:border-blue-500 transition text-right">
                     <span class="font-bold text-sm text-white">GlassDark (الافتراضي)</span>
                     <span class="w-4 h-4 rounded-full bg-blue-600 block"></span>
+                </button>
+                <button onclick="applyTheme('woody')" class="w-full p-3.5 rounded-xl bg-[#fef3c7] border-4 border-[#92400e] flex items-center justify-between hover:bg-[#fde68a] transition text-right shadow-[4px_4px_0px_#78350f]">
+                    <span class="font-black text-sm text-[#7f1d1d]">Woody (Toy Story)</span>
+                    <span class="text-xl drop-shadow-md">🤠</span>
                 </button>
                 <button onclick="applyTheme('retro')" class="w-full p-3.5 rounded-xl bg-purple-950/60 border border-purple-500/30 flex items-center justify-between hover:border-yellow-400 transition text-right">
                     <span class="font-bold text-sm text-yellow-400 font-mono">Retro</span>
@@ -540,13 +506,11 @@
     </div>
 
     <script>
-        // مصفوفة الأيقونات الأصلية للثيم الافتراضي لاستعادتها عند التبديل
         const originalIcons = [
             'fa-play', 'fa-desktop', 'fa-tv', 'fa-ticket', 'fa-trophy', 'fa-mask',
             'fa-film', 'fa-share-nodes', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-hat-wizard', 'fa-cat'
         ];
 
-        // مصفوفة استبدال الأيقونات حسب طبيعة كل ثيم من الـ 10
         const themeIconsMapping = {
             retro: ['fa-gamepad', 'fa-ghost', 'fa-circle-dot', 'fa-puzzle-piece', 'fa-trophy', 'fa-dragon', 'fa-gamepad', 'fa-network-wired', 'fa-film', 'fa-bolt', 'fa-heart', 'fa-circle-user', 'fa-star', 'fa-hat-wizard', 'fa-cat'],
             formal: ['fa-briefcase', 'fa-building', 'fa-folder-open', 'fa-file-invoice', 'fa-award', 'fa-signature', 'fa-calculator', 'fa-share-from-square', 'fa-video', 'fa-chart-line', 'fa-heart', 'fa-shield', 'fa-star', 'fa-user-tie', 'fa-gem'],
@@ -557,10 +521,10 @@
             muscle: ['fa-dumbbell', 'fa-mound', 'fa-bottle-water', 'fa-heart-pulse', 'fa-fire', 'fa-bolt', 'fa-weight-hanging', 'fa-person-walking-lucide', 'fa-video', 'fa-capsules', 'fa-heart', 'fa-child', 'fa-star', 'fa-trophy', 'fa-shield'],
             nemo: ['fa-fish', 'fa-water', 'fa-anchor', 'fa-ship', 'fa-compass', 'fa-life-ring', 'fa-shrimp', 'fa-droplet', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-fish-fins', 'fa-star', 'fa-wand-magic', 'fa-masks-theater'],
             cyberpunk: ['fa-terminal', 'fa-user-ninja', 'fa-eye-dropper', 'fa-qrcode', 'fa-shield-halved', 'fa-flask', 'fa-microchip', 'fa-mask', 'fa-video', 'fa-bolt', 'fa-heart', 'fa-radiation', 'fa-star', 'fa-wand-magic-sparkles', 'fa-spider'],
+            woody: ['fa-hat-cowboy', 'fa-star', 'fa-horse', 'fa-ticket', 'fa-trophy', 'fa-user-astronaut', 'fa-film', 'fa-box-open', 'fa-video', 'fa-rocket', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-hat-wizard', 'fa-cat'],
             glassDark: originalIcons
         };
 
-        // هندسة إعدادات الـ 10 ثيمات بالكامل وتغيير كل العناصر الهيكلية والبصرية وتصحيح التباين للأزرار والنصوص
         const platformThemes = {
             glassDark: {
                 bodyBg: '#0f172a', b1: '#9333ea', b2: '#2563eb', b3: '#db2777', blobs: true,
@@ -578,6 +542,23 @@
                 socialIcon: 'bg-white/5 border-white/10 text-white rounded-xl hover:bg-white/10',
                 footer: 'bg-slate-900/40 border-white/10',
                 footerText: 'text-gray-300'
+            },
+            woody: {
+                bodyBg: '#1e3a8a', b1: '#eab308', b2: '#ef4444', b3: '#ffffff', blobs: true,
+                header: 'bg-[#8b4513] border-4 border-[#5c2e0e] rounded-3xl shadow-[0_6px_0px_#5c2e0e]',
+                logo: 'text-yellow-300 font-black drop-shadow-[2px_2px_0px_#451a03]',
+                subtitle: 'bg-red-600 text-white border-2 border-red-800 rounded-full font-bold',
+                tabs: 'bg-[#1e40af] border-4 border-[#1e3a8a] p-1.5 rounded-2xl',
+                btnWatchActive: 'bg-yellow-400 text-amber-900 border-2 border-amber-600 rounded-xl font-black shadow-[0_4px_0px_#b45309]',
+                btnDlActive: 'bg-red-600 text-white border-2 border-red-800 rounded-xl font-black shadow-[0_4px_0px_#991b1b]',
+                btnInActive: 'bg-[#2563eb] text-blue-200 border-2 border-[#1d4ed8] rounded-xl font-bold',
+                card: 'bg-[#fffbeb] border-4 border-[#8b4513] rounded-2xl hover:bg-[#fef3c7] text-[#451a03] shadow-[4px_4px_0px_#5c2e0e]',
+                icon: 'rounded-full bg-yellow-400 text-amber-900 border-4 border-amber-600 shadow-[2px_2px_0px_#b45309]',
+                ctrlBtn: 'bg-[#fffbeb] border-2 border-[#8b4513] text-[#8b4513] rounded-2xl hover:bg-yellow-400 shadow-[0_4px_0px_#5c2e0e]',
+                actionBtn: 'bg-yellow-400 border-2 border-amber-600 text-amber-900 rounded-xl font-black hover:bg-yellow-500 shadow-[0_4px_0px_#b45309]',
+                socialIcon: 'bg-[#8b4513] border-2 border-[#5c2e0e] text-yellow-300 rounded-xl hover:bg-[#a0522d] shadow-[0_3px_0px_#5c2e0e]',
+                footer: 'bg-[#fffbeb] border-4 border-[#8b4513] rounded-2xl shadow-[4px_4px_0px_#5c2e0e]',
+                footerText: 'text-[#8b4513] font-black'
             },
             retro: {
                 bodyBg: '#2b1055', b1: '#ff007f', b2: '#39ff14', b3: '#00ffff', blobs: false,
@@ -736,7 +717,7 @@
 
         let isEditMode = false;
         let defaultWatchOrder = [];
-        let hiddenAppsList = []; // مصفوفة جديدة لحفظ العناصر المخفية
+        let hiddenAppsList = []; 
         const appsContainer = document.getElementById('appsContainer');
         let currentActiveMode = 'watch';
 
@@ -744,7 +725,6 @@
             const initialWatchItems = appsContainer.querySelectorAll('.app-item[data-mode="watch"]');
             initialWatchItems.forEach(item => defaultWatchOrder.push(item.id));
             
-            // تحميل المنصات المخفية من الذاكرة
             const savedHidden = localStorage.getItem('fibertv_hidden_apps');
             if (savedHidden) hiddenAppsList = JSON.parse(savedHidden);
             
@@ -764,21 +744,41 @@
 
         setInterval(() => {
             currentTvIndex = (currentTvIndex + 1) % tvElements.length;
-            setTimeout(() => { animatedTv.innerHTML = tvElements[currentTvIndex]; }, 600);
+            if(animatedTv) {
+                setTimeout(() => { animatedTv.innerHTML = tvElements[currentTvIndex]; }, 600);
+            }
         }, 3000);
 
         function sharePlatformLink(btn) {
-            const shareUrl = 'https://n911t.github.io/AlRahma/';
-            const icon = btn.querySelector('i');
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(shareUrl).then(() => {
-                    icon.className = 'fas fa-check text-green-400 scale-110';
-                    setTimeout(() => { icon.className = 'fas fa-link'; }, 2000);
-                }).catch(() => { window.prompt("انسخ رابط المنصة:", shareUrl); });
-            } else { window.prompt("انسخ رابط المنصة:", shareUrl); }
+            const shareData = {
+                title: 'فايبر TV',
+                text: 'اكتشف منصة فايبر TV لتطبيقات وخدمات الانترنت الضوئي',
+                url: 'https://n911t.github.io/AlRahma/'
+            };
+            
+            if (navigator.share) {
+                navigator.share(shareData).then(() => {
+                    const icon = btn.querySelector('i');
+                    if (icon) {
+                        const oldClass = icon.className;
+                        icon.className = 'fas fa-check text-green-400 scale-110';
+                        setTimeout(() => { icon.className = oldClass; }, 2000);
+                    }
+                }).catch(console.error);
+            } else if (navigator.clipboard) {
+                navigator.clipboard.writeText(shareData.url).then(() => {
+                    const icon = btn.querySelector('i');
+                    if (icon) {
+                        const oldClass = icon.className;
+                        icon.className = 'fas fa-check text-green-400 scale-110';
+                        setTimeout(() => { icon.className = oldClass; }, 2000);
+                    }
+                }).catch(() => { window.prompt("انسخ رابط المنصة:", shareData.url); });
+            } else {
+                window.prompt("انسخ رابط المنصة:", shareData.url);
+            }
         }
 
-        // تطبيق الثيم الذكي
         function applyTheme(themeKey) {
             const theme = platformThemes[themeKey] || platformThemes.glassDark;
             
@@ -797,14 +797,19 @@
             }
             
             document.getElementById('mainHeaderCard').className = `p-6 text-center mb-6 theme-transition shadow-lg backdrop-blur-md ${theme.header}`;
-            document.getElementById('logoPart1').className = `font-logo font-black text-4xl tracking-wide theme-transition ${theme.logo}`;
-            document.getElementById('logoSubtitle').className = `text-xs mt-2.5 font-bold tracking-widest inline-block px-4 py-1 theme-transition ${theme.subtitle}`;
+            const logoEl = document.getElementById('logoPart1');
+            if(logoEl) logoEl.className = `font-logo font-black text-4xl tracking-wide theme-transition ${theme.logo}`;
+            const subEl = document.getElementById('logoSubtitle');
+            if(subEl) subEl.className = `text-xs mt-2.5 font-bold tracking-widest inline-block px-4 py-1 theme-transition ${theme.subtitle}`;
+            
             document.getElementById('modeTabsContainer').className = `grid grid-cols-2 gap-2 mb-6 p-1.5 backdrop-blur-md theme-transition ${theme.tabs}`;
             document.getElementById('mainFooterCard').className = `mt-8 p-4 backdrop-blur-sm shadow-md theme-transition ${theme.footer}`;
             document.getElementById('footerHintText').className = `text-xs font-bold text-center mt-3 tracking-wide theme-transition ${theme.footerText}`;
             
             document.querySelectorAll('.ctrl-btn').forEach(btn => {
-                btn.className = `ctrl-btn w-12 h-12 flex items-center justify-center text-lg transition-all active:scale-95 shadow-md theme-transition ${theme.ctrlBtn}`;
+                const isHidden = btn.classList.contains('hidden') ? 'hidden ' : '';
+                const extraClass = btn.classList.contains('animate-bounce') ? ' animate-bounce' : '';
+                btn.className = `${isHidden}ctrl-btn w-12 h-12 flex items-center justify-center text-lg transition-all active:scale-95 shadow-md theme-transition ${theme.ctrlBtn}${extraClass}`;
             });
             document.querySelectorAll('.action-btn').forEach(btn => {
                 btn.className = `action-btn flex-1 py-3 text-xs font-black flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm theme-transition ${theme.actionBtn}`;
@@ -828,6 +833,9 @@
                     } else if (themeKey === 'queen') {
                         title.style.color = '#500724';
                         desc.style.color = '#9d174d';
+                    } else if (themeKey === 'woody') {
+                        title.style.color = '#451a03';
+                        desc.style.color = '#92400e';
                     } else {
                         title.style.color = '';
                         desc.style.color = '';
@@ -860,6 +868,13 @@
                         <div>💎</div><div>⭐</div><div>⚡</div><div>🦊</div>
                     </div>
                 `;
+            } else if (themeKey === 'woody') {
+                specialLayer.innerHTML = `
+                    <div class="retro-bg-icons font-mono opacity-20 text-3xl">
+                        <div>🤠</div><div>⭐</div><div>👢</div><div>🐴</div>
+                        <div>☁️</div><div>🐍</div><div>🌵</div><div>🚀</div>
+                    </div>
+                `;
             }
 
             localStorage.setItem('fibertv_theme', themeKey);
@@ -890,10 +905,9 @@
             }
 
             apps.forEach(app => {
-                const isHidden = hiddenAppsList.includes(app.id); // التحقق هل التطبيق مخفي؟
+                const isHidden = hiddenAppsList.includes(app.id); 
                 
                 if (app.getAttribute('data-mode') === mode) {
-                    // إذا كان التطبيق مخفي ولسنا في وضع التعديل، لا تقم بعرضه
                     if (!isHidden || isEditMode) {
                         app.style.display = 'flex';
                         hasResults = true;
@@ -901,7 +915,6 @@
                         app.style.display = 'none';
                     }
                     
-                    // إعطاء تأثير بصري باهت للتطبيقات المخفية أثناء وضع التعديل
                     if (isEditMode && isHidden) {
                         app.classList.add('opacity-40', 'grayscale');
                     } else {
@@ -915,8 +928,8 @@
         }
 
         function enableEditOrderMode() {
-            isEditMode = true; // نفعل وضع التعديل أولاً
-            filterMode('watch'); // نعيد فلترة القائمة لتظهر العناصر المخفية بشكل باهت
+            isEditMode = true;
+            filterMode('watch');
             
             document.getElementById('editControlsBar').classList.remove('hidden');
             
@@ -925,19 +938,16 @@
                 item.setAttribute('draggable', 'true');
                 item.classList.add('border-blue-500/50', 'border-dashed', 'scale-[0.98]', 'cursor-move');
                 
-                // إضافة أدوات التعديل والإخفاء
                 if (!item.querySelector('.edit-controls-container')) {
                     const controls = document.createElement('div');
                     controls.className = 'edit-controls-container ml-3 flex items-center gap-2 shrink-0 z-10';
                     
                     const isHidden = hiddenAppsList.includes(item.id);
                     
-                    // زر الإخفاء / الإظهار (العين)
                     const visBtn = document.createElement('button');
                     visBtn.className = `vis-toggle flex items-center justify-center w-9 h-9 rounded-xl bg-slate-900 border shadow-md transition-all ${isHidden ? 'border-red-500 text-red-500' : 'border-emerald-500 text-emerald-500'}`;
                     visBtn.innerHTML = isHidden ? '<i class="fas fa-eye-slash pointer-events-none"></i>' : '<i class="fas fa-eye pointer-events-none"></i>';
                     
-                    // منع زر العين من التداخل مع السحب
                     visBtn.addEventListener('mousedown', (e) => e.stopPropagation());
                     visBtn.addEventListener('touchstart', (e) => e.stopPropagation());
                     visBtn.onclick = (e) => {
@@ -946,7 +956,6 @@
                         toggleAppVisibility(item.id, visBtn);
                     };
                     
-                    // مقبض السحب
                     const handle = document.createElement('div');
                     handle.className = 'drag-handle text-blue-400 flex items-center justify-center w-6 h-9';
                     handle.innerHTML = '<i class="fas fa-grip-vertical text-xl"></i>';
@@ -967,19 +976,16 @@
             });
         }
 
-        // الدالة المسؤولة عن تبديل حالة الإخفاء/الإظهار
         function toggleAppVisibility(appId, btnElement) {
             const index = hiddenAppsList.indexOf(appId);
             const appElement = document.getElementById(appId);
             
             if (index > -1) {
-                // كان مخفياً ونريد إظهاره
                 hiddenAppsList.splice(index, 1);
                 btnElement.className = 'vis-toggle flex items-center justify-center w-9 h-9 rounded-xl bg-slate-900 border shadow-md transition-all border-emerald-500 text-emerald-500';
                 btnElement.innerHTML = '<i class="fas fa-eye pointer-events-none"></i>';
                 appElement.classList.remove('opacity-40', 'grayscale');
             } else {
-                // كان ظاهراً ونريد إخفاءه
                 hiddenAppsList.push(appId);
                 btnElement.className = 'vis-toggle flex items-center justify-center w-9 h-9 rounded-xl bg-slate-900 border shadow-md transition-all border-red-500 text-red-500';
                 btnElement.innerHTML = '<i class="fas fa-eye-slash pointer-events-none"></i>';
@@ -999,7 +1005,7 @@
                 if (controls) controls.remove();
             });
             
-            filterMode(currentActiveMode); // تحديث الواجهة لإخفاء العناصر فعلياً
+            filterMode(currentActiveMode);
         }
 
         function saveNewOrder() {
@@ -1007,7 +1013,6 @@
             const orderArray = [];
             watchItems.forEach(item => { if(item.id) orderArray.push(item.id); });
             
-            // حفظ الترتيب وحفظ قائمة المنصات المخفية
             localStorage.setItem('fibertv_watch_order', JSON.stringify(orderArray));
             localStorage.setItem('fibertv_hidden_apps', JSON.stringify(hiddenAppsList));
             disableEditMode();
@@ -1015,8 +1020,8 @@
 
         function resetDefaultOrder() {
             localStorage.removeItem('fibertv_watch_order');
-            localStorage.removeItem('fibertv_hidden_apps'); // مسح ذاكرة الإخفاء
-            hiddenAppsList = []; // تصفير المصفوفة
+            localStorage.removeItem('fibertv_hidden_apps');
+            hiddenAppsList = [];
             rebuildDOMOrder(defaultWatchOrder);
             disableEditMode();
         }
@@ -1113,43 +1118,33 @@
             noticePopup.classList.add('hidden');
         });
 
-        // كود أزرار التثبيت المطور
+        // إظهار زر التثبيت برمجياً
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const btnInstall = document.getElementById('btnInstall');
         const btnIosInstall = document.getElementById('btnIosInstall');
         let deferredPrompt;
 
         if (isIOS) {
-            // نحن في نظام آيفون: نخفي زر الأندرويد ونفعل زر الآيفون
-            if(btnInstall) btnInstall.style.display = 'none';
-            if(btnIosInstall) {
-                btnIosInstall.style.display = 'flex';
+            if (btnIosInstall) {
+                btnIosInstall.classList.remove('hidden'); 
                 btnIosInstall.addEventListener('click', () => { 
                     document.getElementById('iosPopup').classList.remove('hidden'); 
                 });
             }
         } else {
-            // نحن في نظام أندرويد/ويندوز: نخفي زر الآيفون ونفعل زر الأندرويد
-            if(btnIosInstall) btnIosInstall.style.display = 'none';
-            if(btnInstall) {
-                btnInstall.style.display = 'flex';
-                
-                // التقاط حدث التثبيت التلقائي من المتصفح (يعمل عند رفع الموقع على سيرفر)
-                window.addEventListener('beforeinstallprompt', (e) => { 
-                    e.preventDefault(); 
-                    deferredPrompt = e; 
-                });
-
+            window.addEventListener('beforeinstallprompt', (e) => { 
+                e.preventDefault(); 
+                deferredPrompt = e; 
+                if (btnInstall) btnInstall.classList.remove('hidden'); 
+            });
+            
+            if (btnInstall) {
                 btnInstall.addEventListener('click', async () => {
                     if (deferredPrompt) {
-                        // تفعيل التثبيت التلقائي
                         deferredPrompt.prompt();
                         const { outcome } = await deferredPrompt.userChoice;
-                        if (outcome === 'accepted') btnInstall.style.display = 'none';
+                        if (outcome === 'accepted') btnInstall.classList.add('hidden');
                         deferredPrompt = null;
-                    } else {
-                        // في حال فتح الملف محلياً أو المتصفح يمنع التثبيت التلقائي
-                        alert("عذراً، المتصفح يمنع التثبيت التلقائي حالياً. لتثبيت المنصة كـ تطبيق، يرجى الضغط على قائمة المتصفح (الثلاث نقاط) واختيار 'الإضافة إلى الشاشة الرئيسية'.");
                     }
                 });
             }
