@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>فايبر TV</title>
     
-    <link rel="manifest" href="manifest.json">
+    <link class="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Reem+Kufi:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Reem+Kufi:wght@700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
@@ -26,12 +26,15 @@
                 extend: {
                     fontFamily: { 
                         sans: ['Cairo', 'sans-serif'],
-                        logo: ['Reem Kufi', 'sans-serif']
+                        logo: ['Reem Kufi', 'sans-serif'],
+                        retro: ['"Press Start 2P"', 'cursive']
                     },
                     animation: {
                         blob: "blob 7s infinite",
                         pulseLive: "pulseLive 2s infinite",
                         spinSlow: "spin 3s linear infinite",
+                        swim: "swim 20s infinite linear",
+                        floatFast: "floatFast 4s infinite ease-in-out"
                     },
                     keyframes: {
                         blob: {
@@ -44,6 +47,17 @@
                             "0%": { boxShadow: "0 0 0 0 rgba(239, 68, 68, 0.7)" },
                             "70%": { boxShadow: "0 0 0 10px rgba(239, 68, 68, 0)" },
                             "100%": { boxShadow: "0 0 0 0 rgba(239, 68, 68, 0)" }
+                        },
+                        swim: {
+                            "0%": { transform: "translateX(120vw) translateY(10vh) scaleX(-1)" },
+                            "45%": { transform: "translateX(-20vw) translateY(30vh) scaleX(-1)" },
+                            "50%": { transform: "translateX(-20vw) translateY(30vh) scaleX(1)" },
+                            "95%": { transform: "translateX(120vw) translateY(50vh) scaleX(1)" },
+                            "100%": { transform: "translateX(120vw) translateY(10vh) scaleX(-1)" }
+                        },
+                        floatFast: {
+                            "0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
+                            "50%": { transform: "translateY(-12px) rotate(3deg)" }
                         }
                     }
                 }
@@ -58,59 +72,11 @@
             overflow-x: hidden;
             -webkit-user-select: none;
             user-select: none;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        .theme-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .glass-btn {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .glass-btn:hover {
-            transform: translateY(-3px) scale(1.02);
-            background: rgba(255, 255, 255, 0.12);
-        }
-        .glass-btn:active {
-            transform: scale(0.98);
-        }
-        
-        .glass-circle-white {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: rgba(255, 255, 255, 0.9);
-            transition: all 0.3s ease;
-        }
-        .glass-circle-white:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-            color: #ffffff;
-        }
-        
-        .glass-circle-black {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.7);
-            transition: all 0.3s ease;
-        }
-        .glass-circle-black:hover {
-            background: rgba(0, 0, 0, 0.5);
-            transform: translateY(-3px);
-            color: #ffffff;
-        }
-
-        .animation-delay-2000 { animation-delay: 2s; }
-        .animation-delay-4000 { animation-delay: 4s; }
         
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -139,9 +105,29 @@
             60%, 75% { transform: rotateX(540deg); }
             80%, 100% { transform: rotateX(720deg); }
         }
+        
+        .sortable-dragging {
+            opacity: 0.5;
+            border: 2px dashed #3b82f6 !important;
+            background: rgba(59, 130, 246, 0.1) !important;
+        }
+
+        /* جزيئات الخلفية لثيم ريترو */
+        .retro-bg-icons {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.06;
+            z-index: 0;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            padding: 20px;
+            font-size: 2rem;
+        }
     </style>
 </head>
-<body class="relative min-h-screen pb-12">
+<body class="relative min-h-screen pb-24">
 
     <!-- شاشة التحميل الافتتاحية -->
     <div id="pageLoader">
@@ -155,20 +141,33 @@
         <p id="loaderSubText" class="text-xs text-gray-400 mt-2 font-bold opacity-75">يرجى الانتظار قليلاً</p>
     </div>
 
-    <!-- Background Blobs -->
-    <div class="fixed top-[-10%] right-[-10%] w-72 h-72 bg-purple-600 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob z-0"></div>
-    <div class="fixed top-[20%] left-[-10%] w-72 h-72 bg-blue-600 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob animation-delay-2000 z-0"></div>
-    <div class="fixed bottom-[-10%] right-[20%] w-80 h-80 bg-pink-600 rounded-full mix-blend-screen filter blur-[80px] opacity-30 animate-blob animation-delay-4000 z-0"></div>
+    <!-- الهالات الضوئية الخلفية الديناميكية -->
+    <div id="blob1" class="fixed top-[-10%] right-[-10%] w-72 h-72 bg-purple-600 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob z-0 theme-transition"></div>
+    <div id="blob2" class="fixed top-[20%] left-[-10%] w-72 h-72 bg-blue-600 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob animation-delay-2000 z-0 theme-transition"></div>
+    <div id="blob3" class="fixed bottom-[-10%] right-[20%] w-80 h-80 bg-pink-600 rounded-full mix-blend-screen filter blur-[80px] opacity-30 animate-blob animation-delay-4000 z-0 theme-transition"></div>
+
+    <!-- طبقة التأثيرات الخاصة بالثيمات -->
+    <div id="specialThemeLayer" class="fixed inset-0 pointer-events-none z-10 overflow-hidden"></div>
+
+    <!-- شريط أدوات الحفظ لإعادة الترتيب -->
+    <div id="editControlsBar" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 backdrop-blur-md p-3 rounded-2xl flex items-center gap-3 border border-blue-500/40 max-w-xs w-11/12 shadow-2xl">
+        <button onclick="saveNewOrder()" class="flex-1 py-2.5 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 rounded-xl text-xs font-black text-white shadow-md transition transform active:scale-95 flex items-center justify-center gap-1">
+            <i class="fas fa-save"></i> حفظ الترتيب
+        </button>
+        <button onclick="resetDefaultOrder()" class="flex-1 py-2.5 bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 rounded-xl text-xs font-black text-white shadow-md transition transform active:scale-95 flex items-center justify-center gap-1">
+            <i class="fas fa-undo"></i> شكلها الأصلي
+        </button>
+    </div>
 
     <!-- تنبيه أندرويد -->
     <div id="noticePopup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-xl p-4 transition-all duration-300">
-        <div class="glass-panel p-6 rounded-[2.5rem] text-center w-full max-w-sm border border-white/10 shadow-2xl relative">
+        <div class="bg-slate-900 p-6 rounded-[2.5rem] text-center w-full max-w-sm border border-white/10 shadow-2xl relative">
             <div class="w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-400 text-2xl">
                 <i class="fas fa-info-circle"></i>
             </div>
             <h3 class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 font-black text-xl mb-3">تنويه هام للمستخدمين</h3>
             <p class="text-sm text-gray-200 leading-relaxed font-bold px-2 mb-5">
-                برامج المنصة مرفوعة بشكل آمن على <span class="text-blue-400">Google Drive</span>، يرجى التأكد من السماح لـ Google Drive بصلاحية <span class="text-purple-400">"تثبيت التطبيقات من مصادر غير معروفة"</span> من إعدادات هاتفك لضمان عمل التطبيق بنجاح.
+                برامج المنصة مرفوعة بشكل آمن على <span class="text-blue-400">Google Drive</span>، لضمان تحميل وتشغيل التطبيقات بنجاح يرجى <span class="text-emerald-400">الضغط مطولاً وفتح رابط التطبيق في المتصفح الخارجي</span>، مع التأكد من السماح لـ Google Drive بصلاحية <span class="text-purple-400">"تثبيت التطبيقات من مصادر غير معروفة"</span> من إعدادات هاتفك.
             </p>
             <div class="mt-4 space-y-3">
                 <div class="flex items-center justify-center gap-2 text-xs text-gray-400 font-bold bg-white/5 py-2 px-4 rounded-xl cursor-pointer select-none">
@@ -182,77 +181,101 @@
         </div>
     </div>
 
-    <!-- تنبيه آيفون -->
+    <!-- تنبيه آيفون المطور بالصور الكرتونية -->
     <div id="iosPopup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-xl p-4 transition-all">
-        <div class="glass-panel p-6 rounded-[2.5rem] text-center w-full max-w-sm border border-white/10 shadow-2xl relative">
-            <button onclick="document.getElementById('iosPopup').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition">
+        <div class="bg-slate-900 p-6 rounded-[2.5rem] text-center w-full max-w-sm border border-white/10 shadow-2xl relative overflow-hidden">
+            <button onclick="document.getElementById('iosPopup').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition z-10">
                 <i class="fas fa-times"></i>
             </button>
-            <div class="w-16 h-16 bg-purple-500/10 border border-purple-500/30 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-400 text-2xl">
+            
+            <div class="w-16 h-16 bg-purple-500/10 border border-purple-500/30 rounded-full flex items-center justify-center mx-auto mb-2 text-purple-400 text-2xl relative z-10">
                 <i class="fab fa-apple"></i>
             </div>
-            <h3 class="text-white font-black text-xl mb-3">التثبيت على الآيفون</h3>
-            <p class="text-sm text-gray-300 leading-relaxed font-bold mb-5 px-2">
-                لتثبيت التطبيق على جهاز الآيفون الخاص بك، يرجى استخدام متصفح <span class="text-blue-400">Safari</span> ثم اتبع الخطوات التالية:
-            </p>
-            <div class="text-right text-xs text-gray-300 space-y-3 bg-white/5 p-4 rounded-2xl border border-white/5 font-bold mb-5">
-                <div class="flex items-center gap-2.5">
-                    <span class="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-black">1</span>
-                    <span>اضغط على زر **المشاركة** <i class="fas fa-share-square text-blue-400 mx-0.5"></i> أسفل الشاشة.</span>
-                </div>
-                <div class="flex items-center gap-2.5">
-                    <span class="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-black">2</span>
-                    <span>اختر **"إضافة إلى الشاشة الرئيسية"** <i class="fas fa-plus-square text-purple-400 mx-0.5"></i> من القائمة.</span>
+            
+            <h3 class="text-white font-black text-xl mb-4 relative z-10">تثبيت على الآيفون</h3>
+            
+            <!-- رسوم كرتونية توضيحية -->
+            <div class="bg-white/5 rounded-2xl p-4 mb-5 border border-white/10 relative z-10">
+                <div class="flex flex-col items-center gap-4">
+                    <!-- الخطوة 1 -->
+                    <div class="flex items-center gap-3 w-full bg-slate-800 p-3 rounded-xl border border-slate-700">
+                        <div class="text-3xl animate-bounce">👇</div>
+                        <div class="text-right flex-1">
+                            <p class="text-sm text-white font-bold">1. اضغط على المشاركة</p>
+                            <p class="text-[10px] text-gray-400">تجدها أسفل متصفح سفاري</p>
+                        </div>
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-500 text-xl shadow-inner">
+                            <i class="fas fa-arrow-up-from-bracket"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- سهم للأسفل -->
+                    <div class="text-gray-500 text-lg"><i class="fas fa-arrow-down"></i></div>
+                    
+                    <!-- الخطوة 2 -->
+                    <div class="flex items-center gap-3 w-full bg-slate-800 p-3 rounded-xl border border-slate-700">
+                        <div class="text-3xl">📱</div>
+                        <div class="text-right flex-1">
+                            <p class="text-sm text-white font-bold">2. الإضافة للشاشة</p>
+                            <p class="text-[10px] text-gray-400">اختر Add to Home Screen</p>
+                        </div>
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 text-xl shadow-inner">
+                            <i class="fas fa-plus-square"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <button onclick="document.getElementById('iosPopup').classList.add('hidden')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3 rounded-2xl transition transform active:scale-95">
-                حسناً، فهمت
+
+            <button onclick="document.getElementById('iosPopup').classList.add('hidden')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-black py-3 rounded-2xl transition transform active:scale-95 shadow-lg relative z-10">
+                جاهز، فهمت الطريقة!
             </button>
         </div>
     </div>
 
     <!-- الواجهة الرئيسية -->
-    <div class="relative z-10 max-w-md mx-auto px-4 pt-10">
+    <div class="relative z-20 max-w-md mx-auto px-4 pt-10">
         
-        <!-- كارت العنوان والتحكم بالشعار المطور والمتحرك -->
-        <div class="glass-panel rounded-3xl p-6 text-center mb-6">
+        <!-- كارت العنوان والشعار الرئيسي -->
+        <div id="mainHeaderCard" class="bg-white/5 border border-white/10 rounded-3xl p-6 text-center mb-6 theme-transition shadow-lg backdrop-blur-md">
             <div class="flex items-center justify-center gap-3 select-none">
-                <span class="font-logo font-black text-4xl tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 drop-shadow-[0_2px_8px_rgba(59,130,246,0.3)]">فايبر</span>
+                <span id="logoPart1" class="font-logo font-black text-4xl tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 drop-shadow-[0_2px_8px_rgba(59,130,246,0.3)] theme-transition">فايبر</span>
                 <span class="inline-block min-w-[70px] text-center">
                     <span id="animatedTv" class="flip-animation font-logo font-black text-4xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-rose-400 drop-shadow-[0_2px_8px_rgba(232,121,249,0.3)]">TV</span>
                 </span>
             </div>
-            <p class="text-xs text-gray-400 mt-2.5 font-bold tracking-widest bg-white/5 inline-block px-4 py-1 rounded-full border border-white/5">تطبيقات وخدمات الانترنت الضوئي</p>
+            <p id="logoSubtitle" class="text-xs text-gray-400 mt-2.5 font-bold tracking-widest bg-white/5 inline-block px-4 py-1 rounded-full border border-white/5 theme-transition">تطبيقات وخدمات الانترنت الضوئي</p>
             
-            <div class="mt-5 flex flex-wrap justify-center gap-2">
-                <button onclick="document.getElementById('qrPopup').classList.remove('hidden')" class="bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2 rounded-full text-xs font-bold backdrop-blur-md transition-all flex items-center gap-1.5">
-                    <i class="fas fa-qrcode"></i> مشاركة الصفحة
+            <!-- أزرار التحكم العلوية -->
+            <div class="mt-6 flex justify-center items-center gap-3 flex-wrap">
+                <button onclick="sharePlatformLink(this)" class="ctrl-btn w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center text-lg text-blue-400 transition-all active:scale-95 shadow-md" title="مشاركة الرابط">
+                    <i class="fas fa-link"></i>
                 </button>
-
-                <button onclick="forceUpdateApp()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 border border-emerald-400/30 px-4 py-2 rounded-full text-xs font-bold backdrop-blur-md transition-all flex items-center gap-1.5 shadow-md">
-                    <i class="fas fa-sync-alt" id="refreshIcon"></i> تحديث المنصة
+                <button onclick="document.getElementById('qrPopup').classList.remove('hidden')" class="ctrl-btn w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center text-lg text-cyan-400 transition-all active:scale-95 shadow-md" title="مشاركة باركود">
+                    <i class="fas fa-qrcode"></i>
                 </button>
-
-                <button id="btnInstall" class="hidden bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 border border-blue-400/30 px-4 py-2 rounded-full text-xs font-black backdrop-blur-md transition-all flex items-center gap-1.5 shadow-lg animate-bounce">
-                    <i class="fas fa-download"></i> تثبيت على الشاشة
+                <button onclick="forceUpdateApp()" class="ctrl-btn w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center text-lg text-emerald-400 transition-all active:scale-95 shadow-md" title="تحديث الصفحة">
+                    <i class="fas fa-sync-alt" id="refreshIcon"></i>
                 </button>
-
-                <button id="btnIosInstall" class="hidden bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 border border-purple-400/30 px-4 py-2 rounded-full text-xs font-black backdrop-blur-md transition-all flex items-center gap-1.5 shadow-lg">
-                    <i class="fab fa-apple"></i> تثبيت على الآيفون
+                <button onclick="openNoticeManually()" class="ctrl-btn w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center text-lg text-amber-400 transition-all active:scale-95 shadow-md" title="تنويه هام">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+                <!-- زر التثبيت -->
+                <button id="btnInstall" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 border border-blue-400/30 flex items-center justify-center text-lg text-white transition-all active:scale-95 shadow-lg animate-bounce" title="تثبيت على الشاشة">
+                    <i class="fas fa-download"></i>
+                </button>
+                <!-- زر التثبيت للآيفون -->
+                <button id="btnIosInstall" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 border border-purple-400/30 flex items-center justify-center text-lg text-white transition-all active:scale-95 shadow-lg" title="تثبيت للآيفون">
+                    <i class="fab fa-apple"></i>
                 </button>
             </div>
-
-            <button onclick="openNoticeManually()" class="mt-3 text-xs text-gray-400 hover:text-blue-400 font-bold transition-all flex items-center justify-center mx-auto gap-1.5 opacity-80 hover:opacity-100 bg-white/5 hover:bg-white/10 border border-white/5 px-4 py-1.5 rounded-full">
-                <i class="fas fa-info-circle text-blue-400"></i> تنويه هام
-            </button>
         </div>
 
         <!-- نظام التبديل الثنائي المطور -->
-        <div class="grid grid-cols-2 gap-2 mb-6 bg-slate-900/40 p-1.5 rounded-2xl border border-white/5 backdrop-blur-md">
-            <button onclick="filterMode('watch')" id="btnModeWatch" class="mode-btn text-center py-3 rounded-xl text-xs font-black transition-all bg-gradient-to-r from-blue-500 to-indigo-600 text-white border border-blue-400/30 shadow-md flex items-center justify-center gap-1.5">
+        <div id="modeTabsContainer" class="grid grid-cols-2 gap-2 mb-6 bg-slate-900/40 p-1.5 rounded-2xl border border-white/5 backdrop-blur-md theme-transition">
+            <button onclick="filterMode('watch')" id="btnModeWatch" class="mode-btn text-center py-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5">
                 <i class="fas fa-play-circle text-sm"></i> مشاهدة
             </button>
-            <button onclick="filterMode('download')" id="btnModeDownload" class="mode-btn text-center py-3 rounded-xl text-xs font-black transition-all bg-white/5 text-gray-400 border border-white/5 hover:bg-white/10 flex items-center justify-center gap-1.5">
+            <button onclick="filterMode('download')" id="btnModeDownload" class="mode-btn text-center py-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5">
                 <i class="fas fa-download text-sm"></i> التطبيقات
             </button>
         </div>
@@ -261,197 +284,197 @@
         <div id="appsContainer" class="space-y-4">
 
             <!-- ================= [قسم المشاهدة المباشرة] ================= -->
-            <a href="https://movie.vodu.me/" data-mode="watch" class="app-item glass-btn flex items-center p-3 rounded-2xl group">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-blue-500 to-indigo-600 shrink-0">
+            <a href="https://movie.vodu.me/" id="watch-vodu-movie" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="0" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-play"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-blue-100 group-hover:text-white transition">مشاهدة منصة فودو</h3>
-                    <p class="text-xs text-blue-300/80">الموقع الرسمي للمشاهدة المباشرة (أفلام ومسلسلات)</p>
+                    <h3 class="app-item-title font-bold text-lg text-blue-100 group-hover:text-white transition">مشاهدة منصة فودو</h3>
+                    <p class="app-item-desc text-xs text-blue-300/80">الموقع الرسمي للمشاهدة المباشرة (أفلام ومسلسلات)</p>
                 </div>
             </a>
 
-            <a href="https://tv.vodu.me/" data-mode="watch" class="app-item glass-btn flex items-center p-3 rounded-2xl group border-cyan-500/20">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-cyan-500 to-blue-600 shrink-0">
+            <a href="https://tv.vodu.me/" id="watch-vodu-tv" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="1" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-desktop"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-cyan-100 group-hover:text-white transition">فودو TV</h3>
-                    <p class="text-xs text-cyan-300/80">الموقع الرسمي لمشاهدة التلفزيون بث مباشر والقنوات</p>
+                    <h3 class="app-item-title font-bold text-lg text-cyan-100 group-hover:text-white transition">فودو TV</h3>
+                    <p class="app-item-desc text-xs text-cyan-300/80">الموقع الرسمي لمشاهدة التلفزيون بث مباشر والقنوات</p>
                 </div>
             </a>
 
-            <a href="https://cee.buzz" data-mode="watch" class="app-item glass-btn flex items-center p-3 rounded-2xl group border-purple-500/30">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-purple-500 to-fuchsia-600 shrink-0 relative">
+            <a href="https://cee.buzz" id="watch-cee" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="2" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 relative theme-transition">
                     <i class="fas fa-tv"></i>
                     <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulseLive"></span>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-purple-100 group-hover:text-white transition">مشاهدة منصة CEE</h3>
-                    <p class="text-xs text-purple-300/80">منصة بث مباشر ويب</p>
+                    <h3 class="app-item-title font-bold text-lg text-purple-100 group-hover:text-white transition">مشاهدة منصة CEE</h3>
+                    <p class="app-item-desc text-xs text-purple-300/80">منصة بث مباشر ويب</p>
                 </div>
             </a>
 
-            <a href="https://cinemana.cc/main/" data-mode="watch" class="app-item glass-btn flex items-center p-3 rounded-2xl group">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-orange-400 to-red-500 shrink-0">
+            <a href="https://cinemana.cc/main/" id="watch-cinemana" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="3" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-ticket"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-orange-100 group-hover:text-white transition">سينمانا</h3>
-                    <p class="text-xs text-orange-300/80">Cinemana (مشاهدة ويب مباشرة)</p>
+                    <h3 class="app-item-title font-bold text-lg text-orange-100 group-hover:text-white transition">سينمانا</h3>
+                    <p class="app-item-desc text-xs text-orange-300/80">Cinemana (مشاهدة ويب مباشرة)</p>
                 </div>
             </a>
 
-            <a href="https://tv.kooraiq.com" data-mode="watch" class="app-item glass-btn flex items-center p-3 rounded-2xl group border-yellow-500/30">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-yellow-400 text-2xl shadow-lg bg-yellow-400/10 group-hover:bg-yellow-400/20 transition shrink-0">
+            <a href="https://tv.kooraiq.com" id="watch-kooraiq" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="4" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-trophy"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-yellow-100 group-hover:text-white transition">الباقة الرياضية</h3>
-                    <p class="text-xs text-yellow-300/80">Kooraiq TV (مشاهدة ويب مباشرة)</p>
+                    <h3 class="app-item-title font-bold text-lg text-yellow-100 group-hover:text-white transition">الباقة الرياضية</h3>
+                    <p class="app-item-desc text-xs text-yellow-300/80">Kooraiq TV (مشاهدة ويب مباشرة)</p>
                 </div>
             </a>
 
-            <a href="https://witanime.pics" data-mode="watch" class="app-item glass-btn flex items-center p-3 rounded-2xl group border-orange-500/20">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-amber-400 to-yellow-500 shrink-0">
+            <a href="https://witanime.pics" id="watch-witanime" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="5" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-mask"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-amber-100 group-hover:text-white transition">Wit Anime</h3>
-                    <p class="text-xs text-amber-300/80">موقع ويت انمي (تصفح مباشر)</p>
+                    <h3 class="app-item-title font-bold text-lg text-amber-100 group-hover:text-white transition">Wit Anime</h3>
+                    <p class="app-item-desc text-xs text-amber-300/80">موقع ويت انمي (تصفح مباشر)</p>
                 </div>
             </a>
 
 
-            <!-- ================= [قسم تحميل التطبيقات - مرتب ومحدث] ================= -->
+            <!-- ================= [قسم تحميل التطبيقات] ================= -->
             
-            <!-- 1. تطبيق فودو -->
-            <a href="https://vodu.me" data-mode="download" class="app-item glass-btn flex items-center p-3 rounded-2xl group">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 shrink-0">
+            <a href="https://vodu.me" id="dl-vodu" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="6" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-film"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-blue-100 group-hover:text-white transition">تطبيق فودو</h3>
-                    <p class="text-xs text-blue-300/80">Vodu App (تحميل ملف APK للأندرويد)</p>
+                    <h3 class="app-item-title font-bold text-lg text-blue-100 group-hover:text-white transition">تطبيق فودو</h3>
+                    <p class="app-item-desc text-xs text-blue-300/80">Vodu App (تحميل ملف APK للأندرويد)</p>
                 </div>
             </a>
 
-            <!-- 2. فودو شير -->
-            <a href="https://share.vodu.store/#/" data-mode="download" class="app-item glass-btn flex items-center p-3 rounded-2xl group border-cyan-500/20">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-cyan-400 to-teal-500 shrink-0">
+            <a href="https://share.vodu.store/#/" id="dl-vodu-share" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="7" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-share-nodes"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-cyan-100 group-hover:text-white transition">فودو شير</h3>
-                    <p class="text-xs text-cyan-300/80">Vodu Share (مشاركة وتصفح ملفات الشير)</p>
+                    <h3 class="app-item-title font-bold text-lg text-cyan-100 group-hover:text-white transition">فودو شير</h3>
+                    <p class="app-item-desc text-xs text-cyan-300/80">Vodu Share (مشاركة وتصفح ملفات الشير)</p>
                 </div>
             </a>
 
-            <!-- 3. دراما لايف -->
-            <a href="https://drive.google.com/file/d/1Jw1UL_zp6ukCHMZyljslPBb-VseOi-CI/view" data-mode="download" class="app-item glass-btn flex items-center p-3 rounded-2xl group">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-red-500 to-rose-700 shrink-0">
+            <a href="https://drive.google.com/file/d/1Jw1UL_zp6ukCHMZyljslPBb-VseOi-CI/view" id="dl-drama-live" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="8" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-video"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-red-100 group-hover:text-white transition">دراما لايف</h3>
-                    <p class="text-xs text-red-300/80">Drama Live (تحميل تطبيق أندرويد)</p>
+                    <h3 class="app-item-title font-bold text-lg text-red-100 group-hover:text-white transition">دراما لايف</h3>
+                    <p class="app-item-desc text-xs text-red-300/80">Drama Live (تحميل تطبيق أندرويد)</p>
                 </div>
             </a>
 
-            <!-- 4. دراما ويف (المضاف حديثاً) -->
-            <a href="https://drive.google.com/file/d/18JG7mEEM2IrBLWg1Vy9RbXmV1h0n9LcH/view?usp=drive_link" data-mode="download" class="app-item glass-btn flex items-center p-3 rounded-2xl group border-blue-500/20">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-blue-500 to-cyan-500 shrink-0">
+            <a href="https://drive.google.com/file/d/18JG7mEEM2IrBLWg1Vy9RbXmV1h0n9LcH/view?usp=drive_link" id="dl-drama-wave" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="9" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-wave-square"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-blue-100 group-hover:text-white transition">دراما ويف</h3>
-                    <p class="text-xs text-blue-300/90 font-bold">Drama Wave (تحميل تطبيق أندرويد)</p>
+                    <h3 class="app-item-title font-bold text-lg text-blue-100 group-hover:text-white transition">دراما ويف</h3>
+                    <p class="app-item-desc text-xs text-blue-300/90 font-bold">Drama Wave (تحميل تطبيق أندرويد)</p>
                 </div>
             </a>
 
-            <!-- 5. دراما سلاير -->
-            <a href="https://drive.google.com/file/d/1i8b6jjSqjtnfVaUO7Ehet-6V6xSXt4Vx/view?usp=drive_link" data-mode="download" class="app-item glass-btn flex items-center p-3 rounded-2xl group border-pink-500/20">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-rose-400 to-pink-600 shrink-0">
+            <a href="https://drive.google.com/file/d/1i8b6jjSqjtnfVaUO7Ehet-6V6xSXt4Vx/view?usp=drive_link" id="dl-drama-slayer" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="10" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-heart"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-rose-100 group-hover:text-white transition">دراما سلاير</h3>
-                    <p class="text-xs text-pink-300/90 font-bold">تطبيق الأندرويد للمسلسلات الكورية والآسيوية</p>
+                    <h3 class="app-item-title font-bold text-lg text-rose-100 group-hover:text-white transition">دراما سلاير</h3>
+                    <p class="app-item-desc text-xs text-pink-300/90 font-bold">تطبيق المسلسلات الكورية والآسيوية</p>
                 </div>
             </a>
 
-            <!-- 6. ياسين تي في -->
-            <a href="https://drive.google.com/file/d/1fF1Yc3l4WbwrjkLV4JW_nZBLMRyY0dSP/view" data-mode="download" class="app-item glass-btn flex items-center p-3 rounded-2xl group">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-green-400 to-emerald-600 shrink-0">
+            <a href="https://drive.google.com/file/d/1fF1Yc3l4WbwrjkLV4JW_nZBLMRyY0dSP/view" id="dl-yacine" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="11" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-futbol"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-green-100 group-hover:text-white transition">ياسين TV</h3>
-                    <p class="text-xs text-green-300/80">Yacine TV (تحميل تطبيق أندرويد)</p>
+                    <h3 class="app-item-title font-bold text-lg text-green-100 group-hover:text-white transition">ياسين TV</h3>
+                    <p class="app-item-desc text-xs text-green-300/80">Yacine TV (تحميل تطبيق أندرويد)</p>
                 </div>
             </a>
 
-            <!-- 7. أوسكار تيفي -->
-            <a href="https://drive.google.com/file/d/1t3XbsPkLg1EK-exC_i8eYy_6AazhqxXB/view?usp=drive_link" data-mode="download" class="app-item glass-btn flex items-center p-3 rounded-2xl group border-amber-500/20">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-amber-500 to-yellow-600 shrink-0">
+            <a href="https://drive.google.com/file/d/1t3XbsPkLg1EK-exC_i8eYy_6AazhqxXB/view?usp=drive_link" id="dl-oscar" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="12" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-star"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-amber-100 group-hover:text-white transition">أوسكار TV</h3>
-                    <p class="text-xs text-amber-300/80">Oscar TV (تحميل تطبيق أندرويد)</p>
+                    <h3 class="app-item-title font-bold text-lg text-amber-100 group-hover:text-white transition">أوسكار TV</h3>
+                    <p class="app-item-desc text-xs text-amber-300/80">Oscar TV (تحميل تطبيق أندرويد)</p>
                 </div>
             </a>
 
-            <!-- 8. تطبيق أنمي ويتشر -->
-            <a href="https://drive.google.com/file/d/1hLyX6cl2FFG2tps95ZG_-tRHdPhwM0Kt/view?usp=drive_link" data-mode="download" class="app-item glass-btn flex items-center p-3 rounded-2xl group border-indigo-500/20">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-indigo-500 to-purple-600 shrink-0">
+            <a href="https://drive.google.com/file/d/1hLyX6cl2FFG2tps95ZG_-tRHdPhwM0Kt/view?usp=drive_link" id="dl-anime-witcher" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="13" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-hat-wizard"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-indigo-100 group-hover:text-white transition">Anime Witcher</h3>
-                    <p class="text-xs text-indigo-300/80">تطبيق أنمي ويتشر (تحميل تطبيق أندرويد)</p>
+                    <h3 class="app-item-title font-bold text-lg text-indigo-100 group-hover:text-white transition">Anime Witcher</h3>
+                    <p class="app-item-desc text-xs text-indigo-300/80">تطبيق أنمي ويتشر (تحميل تطبيق أندرويد)</p>
                 </div>
             </a>
 
-            <!-- 9. تطبيق أنمي سلاير -->
-            <a href="https://drive.google.com/file/d/1iPSsyL8CCIEFRwmFowW_zXg-tw7S9YY6/view?usp=drive_link" data-mode="download" class="app-item glass-btn flex items-center p-3 rounded-2xl group border-orange-500/20">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg bg-gradient-to-br from-orange-400 to-amber-500 shrink-0">
+            <a href="https://drive.google.com/file/d/1iPSsyL8CCIEFRwmFowW_zXg-tw7S9YY6/view?usp=drive_link" id="dl-anime-slayer" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+                <div data-icon-index="14" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-cat"></i>
                 </div>
                 <div class="mr-4 flex-1">
-                    <h3 class="font-bold text-lg text-orange-100 group-hover:text-white transition">انمي سلاير</h3>
-                    <p class="text-xs text-orange-300/80">Anime Slayer (تحميل تطبيق أندرويد)</p>
+                    <h3 class="app-item-title font-bold text-lg text-orange-100 group-hover:text-white transition">انمي سلاير</h3>
+                    <p class="app-item-desc text-xs text-orange-300/80">Anime Slayer (تحميل تطبيق أندرويد)</p>
                 </div>
             </a>
 
-            <!-- رسالة الخطأ في حال عدم وجود روابط -->
+            <!-- رسالة الخطأ -->
             <div id="noResults" class="hidden text-center py-8 text-gray-400 font-bold bg-white/5 rounded-2xl border border-white/5">
                 <i class="fas fa-search-minus text-2xl mb-2 block text-gray-500"></i>
                 لا توجد عناصر متوفرة حالياً في هذا القسم.
             </div>
         </div>
 
-        <!-- قسم التوجيه والاقتراح المطور -->
-        <div class="mt-8 bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-white/10 rounded-2xl p-4 text-center backdrop-blur-sm shadow-md">
-            <p class="text-xs text-gray-300 font-bold mb-3 flex items-center justify-center gap-1.5">
-                <i class="fas fa-plus-circle text-purple-400 animate-pulse"></i>
-                لطلب أو اقتراح تطبيق
-            </p>
-            <div class="flex items-center justify-center gap-4">
-                <a href="https://instagram.com/n911.z" target="_blank" class="w-12 h-12 flex items-center justify-center text-2xl rounded-full glass-circle-white shadow-lg transform duration-300">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://t.me/N911t" target="_blank" class="w-12 h-12 flex items-center justify-center text-2xl rounded-full glass-circle-black shadow-lg transform duration-300">
-                    <i class="fab fa-telegram"></i>
-                </a>
+        <!-- كرت الأدوات السفلي -->
+        <div id="mainFooterCard" class="mt-8 bg-slate-900/40 border border-white/10 rounded-2xl p-4 backdrop-blur-sm shadow-md theme-transition">
+            <div class="flex items-center justify-between gap-3">
+                <button onclick="document.getElementById('themeModal').classList.remove('hidden')" class="action-btn flex-1 py-3 rounded-xl text-xs font-black bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center gap-1.5 transition text-purple-400 active:scale-95 shadow-sm">
+                    <i class="fas fa-palette"></i> تغيير الثيم
+                </button>
+                
+                <div class="flex items-center gap-2 px-1">
+                    <a href="https://instagram.com/n911.z" target="_blank" class="social-icon w-9 h-9 flex items-center justify-center text-base rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white transition transform active:scale-90">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://t.me/N911t" target="_blank" class="social-icon w-9 h-9 flex items-center justify-center text-base rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white transition transform active:scale-90">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                </div>
+
+                <button onclick="enableEditOrderMode()" id="btnEditOrder" class="action-btn flex-1 py-3 rounded-xl text-xs font-black bg-white/5 hover:bg-white/12 border border-white/15 flex items-center justify-center gap-1.5 transition text-blue-400 active:scale-95 shadow-sm">
+                    <i class="fas fa-sliders"></i> تعديل الترتيب
+                </button>
             </div>
+            
+            <!-- نص الفوتر تم اختصاره وجعله يتكيف مع الألوان -->
+            <p id="footerHintText" class="text-xs font-bold text-center mt-3 tracking-wide theme-transition">لطلب أو اقتراح تطبيق</p>
         </div>
         
     </div>
 
     <!-- نافذة باركود المشاركة -->
     <div id="qrPopup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-xl p-4 transition-all">
-        <div class="glass-panel p-8 rounded-[2rem] text-center w-full max-w-sm border border-white/20 shadow-2xl relative">
+        <div class="bg-slate-900 p-8 rounded-[2rem] text-center w-full max-w-sm border border-white/20 shadow-2xl relative">
             <button onclick="document.getElementById('qrPopup').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition">
                 <i class="fas fa-times"></i>
             </button>
@@ -463,7 +486,273 @@
         </div>
     </div>
 
+    <!-- نافذة تبديل الثيمات الـ 10 المطورة -->
+    <div id="themeModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-xl p-4 transition-all">
+        <div class="bg-slate-900 p-6 rounded-[2.5rem] w-full max-w-sm border border-white/15 shadow-2xl relative h-[80vh] flex flex-col">
+            <button onclick="document.getElementById('themeModal').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition z-10">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-center font-black text-xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 shrink-0">اختر مظهر المنصة</h3>
+            
+            <div class="space-y-2.5 overflow-y-auto no-scrollbar pb-4 flex-1">
+                <button onclick="applyTheme('glassDark')" class="w-full p-3.5 rounded-xl bg-slate-800/60 border border-white/10 flex items-center justify-between hover:border-blue-500 transition text-right">
+                    <span class="font-bold text-sm text-white">GlassDark (الافتراضي)</span>
+                    <span class="w-4 h-4 rounded-full bg-blue-600 block"></span>
+                </button>
+                <button onclick="applyTheme('retro')" class="w-full p-3.5 rounded-xl bg-purple-950/60 border border-purple-500/30 flex items-center justify-between hover:border-yellow-400 transition text-right">
+                    <span class="font-bold text-sm text-yellow-400 font-mono">Retro</span>
+                    <span class="w-4 h-4 rounded-full bg-yellow-400 block animate-ping"></span>
+                </button>
+                <button onclick="applyTheme('formal')" class="w-full p-3.5 rounded-xl bg-zinc-900 border border-zinc-700 flex items-center justify-between hover:border-white transition text-right">
+                    <span class="font-bold text-sm text-zinc-300">Formal</span>
+                    <span class="w-4 h-4 rounded border border-white bg-zinc-500 block"></span>
+                </button>
+                <button onclick="applyTheme('queen')" class="w-full p-3.5 rounded-xl bg-pink-900/40 border border-pink-400/30 flex items-center justify-between hover:border-rose-400 transition text-right">
+                    <span class="font-bold text-sm text-pink-300">Queen</span>
+                    <span class="w-4 h-4 rounded-full bg-rose-400 block"></span>
+                </button>
+                <button onclick="applyTheme('sport')" class="w-full p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-500/30 flex items-center justify-between hover:border-green-400 transition text-right">
+                    <span class="font-bold text-sm text-green-400">Sport</span>
+                    <span class="w-4 h-4 rounded-xl bg-green-500 block"></span>
+                </button>
+                <button onclick="applyTheme('garage')" class="w-full p-3.5 rounded-xl bg-stone-900 border border-amber-600/40 flex items-center justify-between hover:border-amber-500 transition text-right">
+                    <span class="font-bold text-sm text-amber-500">Garage</span>
+                    <span class="w-4 h-4 bg-amber-500 block rotate-45"></span>
+                </button>
+                <button onclick="applyTheme('smart')" class="w-full p-3.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 flex items-center justify-between hover:border-cyan-400 transition text-right">
+                    <span class="font-bold text-sm text-cyan-400">Smart</span>
+                    <span class="w-4 h-4 rounded-sm bg-cyan-400 block"></span>
+                </button>
+                <button onclick="applyTheme('muscle')" class="w-full p-3.5 rounded-xl bg-red-950/40 border border-red-500/30 flex items-center justify-between hover:border-red-500 transition text-right">
+                    <span class="font-bold text-sm text-red-500">Muscle</span>
+                    <span class="w-4 h-4 rounded-full bg-red-600 block"></span>
+                </button>
+                <button onclick="applyTheme('nemo')" class="w-full p-3.5 rounded-xl bg-sky-950/60 border border-orange-500/40 flex items-center justify-between hover:border-orange-400 transition text-right">
+                    <span class="font-bold text-sm text-orange-400">Nemo</span>
+                    <span class="text-xs">🐠</span>
+                </button>
+                <button onclick="applyTheme('cyberpunk')" class="w-full p-3.5 rounded-xl bg-black border border-fuchsia-500/40 flex items-center justify-between hover:border-fuchsia-400 transition text-right">
+                    <span class="font-bold text-sm text-fuchsia-400">Cyberpunk</span>
+                    <span class="w-4 h-4 bg-gradient-to-r from-fuchsia-500 to-cyan-400 block"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // مصفوفة الأيقونات الأصلية للثيم الافتراضي لاستعادتها عند التبديل
+        const originalIcons = [
+            'fa-play', 'fa-desktop', 'fa-tv', 'fa-ticket', 'fa-trophy', 'fa-mask',
+            'fa-film', 'fa-share-nodes', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-hat-wizard', 'fa-cat'
+        ];
+
+        // مصفوفة استبدال الأيقونات حسب طبيعة كل ثيم من الـ 10
+        const themeIconsMapping = {
+            retro: ['fa-gamepad', 'fa-ghost', 'fa-circle-dot', 'fa-puzzle-piece', 'fa-trophy', 'fa-dragon', 'fa-gamepad', 'fa-network-wired', 'fa-film', 'fa-bolt', 'fa-heart', 'fa-circle-user', 'fa-star', 'fa-hat-wizard', 'fa-cat'],
+            formal: ['fa-briefcase', 'fa-building', 'fa-folder-open', 'fa-file-invoice', 'fa-award', 'fa-signature', 'fa-calculator', 'fa-share-from-square', 'fa-video', 'fa-chart-line', 'fa-heart', 'fa-shield', 'fa-star', 'fa-user-tie', 'fa-gem'],
+            queen: ['fa-wand-sparkles', 'fa-crown', 'fa-gem', 'fa-heart', 'fa-star', 'fa-gift', 'fa-cake-candles', 'fa-face-smile-wink', 'fa-video', 'fa-music', 'fa-heart', 'fa-champagne-glasses', 'fa-dove', 'fa-spa', 'fa-cat'],
+            sport: ['fa-futbol', 'fa-baseball', 'fa-basketball', 'fa-medal', 'fa-trophy', 'fa-flag-checkered', 'fa-volleyball', 'fa-person-running', 'fa-video', 'fa-stopwatch', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-dumbbell', 'fa-whistle'],
+            garage: ['fa-car', 'fa-wrench', 'fa-gauge-high', 'fa-oil-can', 'fa-screwdriver', 'fa-gears', 'fa-truck-monster', 'fa-道路', 'fa-video', 'fa-bolt', 'fa-heart', 'fa-fire', 'fa-star', 'fa-hammer', 'fa-shield-halved'],
+            smart: ['fa-laptop-code', 'fa-microchip', 'fa-server', 'fa-wifi', 'fa-network-wired', 'fa-satellite', 'fa-mobile-screen', 'fa-cloud', 'fa-video', 'fa-terminal', 'fa-heart', 'fa-database', 'fa-star', 'fa-robot', 'fa-shield-cat'],
+            muscle: ['fa-dumbbell', 'fa-mound', 'fa-bottle-water', 'fa-heart-pulse', 'fa-fire', 'fa-bolt', 'fa-weight-hanging', 'fa-person-walking-lucide', 'fa-video', 'fa-capsules', 'fa-heart', 'fa-child', 'fa-star', 'fa-trophy', 'fa-shield'],
+            nemo: ['fa-fish', 'fa-water', 'fa-anchor', 'fa-ship', 'fa-compass', 'fa-life-ring', 'fa-shrimp', 'fa-droplet', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-fish-fins', 'fa-star', 'fa-wand-magic', 'fa-masks-theater'],
+            cyberpunk: ['fa-terminal', 'fa-user-ninja', 'fa-eye-dropper', 'fa-qrcode', 'fa-shield-halved', 'fa-flask', 'fa-microchip', 'fa-mask', 'fa-video', 'fa-bolt', 'fa-heart', 'fa-radiation', 'fa-star', 'fa-wand-magic-sparkles', 'fa-spider'],
+            glassDark: originalIcons
+        };
+
+        // هندسة إعدادات الـ 10 ثيمات بالكامل وتغيير كل العناصر الهيكلية والبصرية وتصحيح التباين للأزرار والنصوص
+        const platformThemes = {
+            glassDark: {
+                bodyBg: '#0f172a', b1: '#9333ea', b2: '#2563eb', b3: '#db2777', blobs: true,
+                header: 'bg-white/5 border-white/10 rounded-3xl',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400',
+                subtitle: 'bg-white/5 text-gray-400 border-white/5',
+                tabs: 'bg-slate-900/40 border-white/5',
+                btnWatchActive: 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-blue-400/30 shadow-md',
+                btnDlActive: 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-400/30 shadow-md',
+                btnInActive: 'bg-white/5 text-gray-300 border-white/5 hover:bg-white/10',
+                card: 'bg-white/5 backdrop-blur-md border-white/10 hover:bg-white/12 text-blue-100 rounded-2xl',
+                icon: 'rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white',
+                ctrlBtn: 'bg-white/5 border-white/15 text-blue-400 rounded-2xl hover:bg-white/12',
+                actionBtn: 'bg-white/5 border-white/15 text-purple-400 rounded-xl hover:bg-white/12',
+                socialIcon: 'bg-white/5 border-white/10 text-white rounded-xl hover:bg-white/10',
+                footer: 'bg-slate-900/40 border-white/10',
+                footerText: 'text-gray-300'
+            },
+            retro: {
+                bodyBg: '#2b1055', b1: '#ff007f', b2: '#39ff14', b3: '#00ffff', blobs: false,
+                header: 'bg-yellow-400 text-black border-4 border-black rounded-none shadow-[8px_8px_0px_#000]',
+                logo: 'text-black font-black drop-shadow-none',
+                subtitle: 'bg-black text-yellow-400 border-2 border-yellow-400 rounded-none font-mono',
+                tabs: 'bg-black border-4 border-black p-1 rounded-none',
+                btnWatchActive: 'bg-cyan-400 text-black border-2 border-black rounded-none font-black shadow-[4px_4px_0px_#000]',
+                btnDlActive: 'bg-pink-500 text-white border-2 border-black rounded-none font-black shadow-[4px_4px_0px_#000]',
+                btnInActive: 'bg-stone-800 text-stone-300 border-2 border-black rounded-none',
+                card: 'bg-purple-900 border-4 border-black rounded-none shadow-[6px_6px_0px_#000] text-yellow-300 hover:bg-purple-800',
+                icon: 'rounded-none bg-yellow-400 text-black border-2 border-black font-black animate-floatFast',
+                ctrlBtn: 'bg-white text-black border-2 border-black rounded-none hover:bg-yellow-300 shadow-[2px_2px_0px_#000]',
+                actionBtn: 'bg-orange-500 text-white border-2 border-black rounded-none font-bold hover:bg-orange-600 shadow-[3px_3px_0px_#000]',
+                socialIcon: 'bg-cyan-400 text-black border-2 border-black rounded-none hover:bg-cyan-300',
+                footer: 'bg-black border-4 border-black rounded-none',
+                footerText: 'text-yellow-400 font-bold'
+            },
+            formal: {
+                bodyBg: '#0a0a0a', b1: '#111', b2: '#222', b3: '#333', blobs: false,
+                header: 'bg-zinc-950 border border-zinc-800 rounded-none shadow-sm',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-400 font-sans tracking-tight',
+                subtitle: 'bg-zinc-900 text-zinc-400 border-zinc-800 rounded-none uppercase text-[10px]',
+                tabs: 'bg-zinc-950 border border-zinc-800 p-1 rounded-none',
+                btnWatchActive: 'bg-gradient-to-b from-zinc-100 to-zinc-300 text-black border border-zinc-400 rounded-none font-bold shadow-sm',
+                btnDlActive: 'bg-gradient-to-b from-zinc-700 to-zinc-900 text-white border border-zinc-600 rounded-none font-bold shadow-sm',
+                btnInActive: 'bg-transparent text-zinc-400 border border-transparent rounded-none',
+                card: 'bg-zinc-950 border border-zinc-800 rounded-none hover:bg-zinc-900 text-zinc-200',
+                icon: 'rounded-none bg-gradient-to-br from-zinc-400 via-zinc-200 to-zinc-500 border border-zinc-400 text-zinc-950 shadow-inner',
+                ctrlBtn: 'bg-zinc-900 border border-zinc-800 text-white rounded-none hover:bg-zinc-800',
+                actionBtn: 'bg-zinc-900 border border-zinc-700 text-zinc-300 rounded-none hover:bg-zinc-800',
+                socialIcon: 'bg-zinc-900 border border-zinc-800 text-zinc-400 rounded-none hover:text-white',
+                footer: 'bg-zinc-950 border border-zinc-800 rounded-none',
+                footerText: 'text-zinc-400'
+            },
+            queen: {
+                bodyBg: '#831843', b1: '#fbcfe8', b2: '#f9a8d4', b3: '#f472b6', blobs: true,
+                header: 'bg-white border-2 border-pink-200 rounded-[2.5rem] shadow-sm',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-400 font-logo',
+                subtitle: 'bg-pink-50 text-pink-500 border-pink-100 rounded-full',
+                tabs: 'bg-pink-100/50 border-pink-200 rounded-full p-1',
+                btnWatchActive: 'bg-gradient-to-r from-pink-400 to-rose-500 text-white rounded-full shadow-sm border border-pink-300',
+                btnDlActive: 'bg-gradient-to-r from-fuchsia-400 to-pink-500 text-white rounded-full shadow-sm border border-fuchsia-300',
+                btnInActive: 'bg-transparent text-pink-600 border border-transparent',
+                card: 'bg-white border-2 border-pink-100 rounded-[2rem] hover:border-pink-300 text-pink-900 shadow-sm',
+                icon: 'rounded-full bg-gradient-to-br from-rose-300 via-pink-400 to-fuchsia-400 text-white border-2 border-white shadow-md',
+                ctrlBtn: 'bg-pink-50 border border-pink-100 text-pink-500 rounded-full hover:bg-pink-100',
+                actionBtn: 'bg-rose-100 border border-rose-200 text-rose-600 rounded-full font-bold hover:bg-rose-200',
+                socialIcon: 'bg-pink-50 border border-pink-100 text-pink-400 rounded-full hover:bg-pink-100',
+                footer: 'bg-white border-2 border-pink-100 rounded-[2rem]',
+                footerText: 'text-pink-700'
+            },
+            sport: {
+                bodyBg: '#05160e', b1: '#22c55e', b2: '#15803d', b3: '#1e3a1e', blobs: true,
+                header: 'bg-zinc-900/90 border-2 border-green-500/40 rounded-xl skew-x-[-2deg]',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-yellow-300 font-black',
+                subtitle: 'bg-green-950 text-green-400 border-green-800 rounded-none italic',
+                tabs: 'bg-zinc-950 border border-zinc-800 p-1 rounded-xl skew-x-[-2deg]',
+                btnWatchActive: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white border-green-400/30 rounded-lg shadow-lg font-black',
+                btnDlActive: 'bg-gradient-to-r from-yellow-500 to-amber-600 text-slate-950 border-yellow-400/30 rounded-lg shadow-lg font-black',
+                btnInActive: 'bg-zinc-900 text-zinc-300 rounded-lg',
+                card: 'bg-zinc-900 border-r-4 border-green-500 border-y border-l border-zinc-800 rounded-xl hover:bg-zinc-800 text-white skew-x-[-1deg]',
+                icon: 'rounded-lg bg-gradient-to-br from-green-400 to-emerald-700 text-white shadow-md border border-green-400/40',
+                ctrlBtn: 'bg-zinc-800 border border-zinc-700 text-green-400 rounded-xl hover:bg-zinc-700',
+                actionBtn: 'bg-gradient-to-r from-zinc-800 to-zinc-900 border border-zinc-700 text-yellow-400 rounded-lg font-black hover:text-white',
+                socialIcon: 'bg-zinc-800 border border-zinc-700 text-white rounded-lg hover:bg-green-600',
+                footer: 'bg-zinc-900 border-2 border-zinc-800 rounded-xl',
+                footerText: 'text-green-400'
+            },
+            garage: {
+                bodyBg: '#1c1917', b1: '#ea580c', b2: '#78716c', b3: '#292524', blobs: true,
+                header: 'bg-stone-900 border border-amber-600 rounded-2xl shadow-md shadow-amber-900/20',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-orange-500 to-stone-300 font-black',
+                subtitle: 'bg-stone-950 text-amber-500 border-stone-800 rounded-md uppercase font-mono',
+                tabs: 'bg-stone-950 border border-stone-800 p-1 rounded-xl',
+                btnWatchActive: 'bg-gradient-to-r from-amber-500 to-orange-600 text-white font-black rounded-lg border border-amber-400/40 shadow-md',
+                btnDlActive: 'bg-gradient-to-r from-stone-600 to-stone-800 text-amber-500 font-black rounded-lg border border-stone-600 shadow-md',
+                btnInActive: 'bg-stone-900 text-stone-300 border border-stone-800 rounded-lg',
+                card: 'bg-stone-900/95 border border-stone-800 rounded-xl hover:border-amber-500/50 text-stone-200 shadow-lg',
+                icon: 'rounded-xl bg-gradient-to-br from-stone-700 to-stone-950 text-amber-500 border-2 border-stone-600 shadow-inner',
+                ctrlBtn: 'bg-stone-800 border border-stone-700 text-amber-500 rounded-xl hover:bg-stone-700',
+                actionBtn: 'bg-amber-600 border border-amber-500 text-stone-950 rounded-xl font-black hover:bg-amber-500',
+                socialIcon: 'bg-stone-800 border border-stone-700 text-white rounded-xl hover:bg-amber-600',
+                footer: 'bg-stone-900 border border-stone-800 rounded-2xl',
+                footerText: 'text-stone-300'
+            },
+            smart: {
+                bodyBg: '#020617', b1: '#06b6d4', b2: '#3b82f6', b3: '#0f172a', blobs: true,
+                header: 'bg-slate-950 border border-cyan-500/30 rounded-2xl shadow-[0_0_15px_rgba(6,182,212,0.15)]',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-teal-400 font-mono tracking-widest',
+                subtitle: 'bg-cyan-950/80 text-cyan-400 border-cyan-800 rounded-md font-mono text-[10px]',
+                tabs: 'bg-slate-950 border border-slate-800 p-1.5 rounded-xl',
+                btnWatchActive: 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-lg border border-cyan-400/30 shadow-[0_0_10px_rgba(6,182,212,0.3)]',
+                btnDlActive: 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-bold rounded-lg border border-teal-400/30 shadow-[0_0_10px_rgba(20,184,166,0.3)]',
+                btnInActive: 'bg-slate-900 text-slate-300 border border-slate-800 rounded-lg',
+                card: 'bg-slate-950/90 border border-cyan-500/20 rounded-xl hover:border-cyan-400 text-cyan-100 shadow-[0_2px_8px_rgba(6,182,212,0.05)]',
+                icon: 'rounded-lg bg-slate-900 text-cyan-400 border border-cyan-500/50 shadow-[0_0_8px_rgba(6,182,212,0.4)]',
+                ctrlBtn: 'bg-slate-900 border border-slate-800 text-cyan-400 rounded-xl hover:border-cyan-500/40',
+                actionBtn: 'bg-slate-900 border border-cyan-500/40 text-cyan-300 rounded-xl font-bold hover:bg-cyan-950',
+                socialIcon: 'bg-slate-900 border border-slate-800 text-white rounded-xl hover:border-blue-500',
+                footer: 'bg-slate-950 border border-slate-800 rounded-2xl',
+                footerText: 'text-cyan-300'
+            },
+            muscle: {
+                bodyBg: '#111827', b1: '#ef4444', b2: '#dc2626', b3: '#1f2937', blobs: true,
+                header: 'bg-gray-900 border-2 border-red-600 rounded-xl shadow-2xl',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-stone-100 to-red-600 font-black uppercase tracking-wider',
+                subtitle: 'bg-red-600 text-white font-black px-3 rounded-none uppercase',
+                tabs: 'bg-gray-950 border-2 border-gray-800 p-1 rounded-lg',
+                btnWatchActive: 'bg-red-600 text-white font-black rounded-md uppercase border-b-4 border-red-800 shadow-md',
+                btnDlActive: 'bg-gray-700 text-white font-black rounded-md uppercase border-b-4 border-gray-900 shadow-md',
+                btnInActive: 'bg-gray-900 text-gray-300 border border-transparent rounded-md',
+                card: 'bg-gray-900 border border-gray-800 rounded-lg hover:border-red-600 text-gray-100 font-bold shadow-lg',
+                icon: 'rounded-none bg-gradient-to-br from-red-600 via-red-700 to-stone-900 text-white border-2 border-gray-600 shadow-xl',
+                ctrlBtn: 'bg-gray-800 border border-gray-700 text-red-500 rounded-lg hover:bg-gray-700',
+                actionBtn: 'bg-gradient-to-b from-red-600 to-red-700 text-white rounded-md font-black shadow-md border border-red-500',
+                socialIcon: 'bg-gray-800 border border-gray-700 text-white rounded-lg hover:bg-red-600',
+                footer: 'bg-gray-900 border-2 border-gray-800 rounded-xl',
+                footerText: 'text-gray-300'
+            },
+            nemo: {
+                bodyBg: '#0c4a6e', b1: '#f97316', b2: '#0284c7', b3: '#ea580c', blobs: true,
+                header: 'bg-white border-4 border-orange-500 rounded-[2rem] shadow-xl',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-sky-600 to-orange-600 font-logo drop-shadow-sm',
+                subtitle: 'bg-orange-500 text-white border-none rounded-full font-bold px-4',
+                tabs: 'bg-sky-950/50 border-2 border-sky-800 rounded-full p-1',
+                btnWatchActive: 'bg-orange-500 text-white rounded-full border-2 border-white font-black shadow-md',
+                btnDlActive: 'bg-sky-600 text-white rounded-full border-2 border-white font-black shadow-md',
+                btnInActive: 'bg-transparent text-sky-100 rounded-full',
+                card: 'bg-white border-4 border-sky-100 rounded-[2rem] hover:border-orange-400 text-sky-950 shadow-md',
+                icon: 'rounded-full bg-gradient-to-b from-orange-400 to-orange-600 text-white border-4 border-white shadow-lg animate-floatFast',
+                ctrlBtn: 'bg-sky-100 border-2 border-sky-200 text-orange-500 rounded-full hover:bg-orange-100',
+                actionBtn: 'bg-orange-500 border-2 border-white text-white rounded-full font-black hover:bg-orange-600 shadow-md',
+                socialIcon: 'bg-sky-100 border-2 border-sky-200 text-sky-700 rounded-full hover:bg-sky-200',
+                footer: 'bg-white border-4 border-sky-100 rounded-[2rem]',
+                footerText: 'text-sky-800'
+            },
+            cyberpunk: {
+                bodyBg: '#05050a', b1: '#06b6d4', b2: '#ec4899', b3: '#f43f5e', blobs: true,
+                header: 'bg-black border-2 border-fuchsia-500 rounded-none shadow-[0_0_15px_rgba(236,72,153,0.3)]',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 via-purple-500 to-cyan-400 font-black',
+                subtitle: 'bg-fuchsia-950 text-fuchsia-400 border border-fuchsia-500 rounded-none uppercase text-[9px] tracking-widest',
+                tabs: 'bg-black border border-cyan-500 p-1 rounded-none',
+                btnWatchActive: 'bg-fuchsia-500 text-black border border-black rounded-none font-black shadow-[3px_3px_0px_#06b6d4]',
+                btnDlActive: 'bg-cyan-400 text-black border border-black rounded-none font-black shadow-[3px_3px_0px_#ec4899]',
+                btnInActive: 'bg-stone-900 text-stone-300 border border-transparent rounded-none',
+                card: 'bg-black border border-fuchsia-500/60 rounded-none hover:border-cyan-400 text-cyan-400 shadow-[0_0_10px_rgba(236,72,153,0.1)]',
+                icon: 'rounded-none bg-black border-2 border-cyan-400 text-fuchsia-500 shadow-[0_0_12px_rgba(6,182,212,0.7)] font-black',
+                ctrlBtn: 'bg-black border border-fuchsia-500 text-cyan-400 rounded-none hover:bg-fuchsia-950',
+                actionBtn: 'bg-black border-2 border-cyan-400 text-fuchsia-400 rounded-none font-black hover:bg-cyan-900 shadow-[2px_2px_0px_rgba(236,72,153,1)]',
+                socialIcon: 'bg-black border border-cyan-500 text-white rounded-none hover:bg-fuchsia-500',
+                footer: 'bg-black border-2 border-fuchsia-500 rounded-none',
+                footerText: 'text-cyan-400'
+            }
+        };
+
+        let isEditMode = false;
+        let defaultWatchOrder = [];
+        let hiddenAppsList = []; // مصفوفة جديدة لحفظ العناصر المخفية
+        const appsContainer = document.getElementById('appsContainer');
+        let currentActiveMode = 'watch';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const initialWatchItems = appsContainer.querySelectorAll('.app-item[data-mode="watch"]');
+            initialWatchItems.forEach(item => defaultWatchOrder.push(item.id));
+            
+            // تحميل المنصات المخفية من الذاكرة
+            const savedHidden = localStorage.getItem('fibertv_hidden_apps');
+            if (savedHidden) hiddenAppsList = JSON.parse(savedHidden);
+            
+            loadSavedOrder();
+            const savedTheme = localStorage.getItem('fibertv_theme') || 'glassDark';
+            applyTheme(savedTheme);
+        });
+
         const tvElements = [
             'TV', 
             '<i class="fas fa-satellite-dish text-amber-400"></i>', 
@@ -475,49 +764,330 @@
 
         setInterval(() => {
             currentTvIndex = (currentTvIndex + 1) % tvElements.length;
-            setTimeout(() => {
-                animatedTv.innerHTML = tvElements[currentTvIndex];
-            }, 600);
+            setTimeout(() => { animatedTv.innerHTML = tvElements[currentTvIndex]; }, 600);
         }, 3000);
+
+        function sharePlatformLink(btn) {
+            const shareUrl = 'https://n911t.github.io/AlRahma/';
+            const icon = btn.querySelector('i');
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    icon.className = 'fas fa-check text-green-400 scale-110';
+                    setTimeout(() => { icon.className = 'fas fa-link'; }, 2000);
+                }).catch(() => { window.prompt("انسخ رابط المنصة:", shareUrl); });
+            } else { window.prompt("انسخ رابط المنصة:", shareUrl); }
+        }
+
+        // تطبيق الثيم الذكي
+        function applyTheme(themeKey) {
+            const theme = platformThemes[themeKey] || platformThemes.glassDark;
+            
+            document.body.style.backgroundColor = theme.bodyBg;
+            const b1 = document.getElementById('blob1');
+            const b2 = document.getElementById('blob2');
+            const b3 = document.getElementById('blob3');
+            
+            if(theme.blobs) {
+                [b1, b2, b3].forEach(b => b.classList.remove('hidden'));
+                b1.style.backgroundColor = theme.b1;
+                b2.style.backgroundColor = theme.b2;
+                b3.style.backgroundColor = theme.b3;
+            } else {
+                [b1, b2, b3].forEach(b => b.classList.add('hidden'));
+            }
+            
+            document.getElementById('mainHeaderCard').className = `p-6 text-center mb-6 theme-transition shadow-lg backdrop-blur-md ${theme.header}`;
+            document.getElementById('logoPart1').className = `font-logo font-black text-4xl tracking-wide theme-transition ${theme.logo}`;
+            document.getElementById('logoSubtitle').className = `text-xs mt-2.5 font-bold tracking-widest inline-block px-4 py-1 theme-transition ${theme.subtitle}`;
+            document.getElementById('modeTabsContainer').className = `grid grid-cols-2 gap-2 mb-6 p-1.5 backdrop-blur-md theme-transition ${theme.tabs}`;
+            document.getElementById('mainFooterCard').className = `mt-8 p-4 backdrop-blur-sm shadow-md theme-transition ${theme.footer}`;
+            document.getElementById('footerHintText').className = `text-xs font-bold text-center mt-3 tracking-wide theme-transition ${theme.footerText}`;
+            
+            document.querySelectorAll('.ctrl-btn').forEach(btn => {
+                btn.className = `ctrl-btn w-12 h-12 flex items-center justify-center text-lg transition-all active:scale-95 shadow-md theme-transition ${theme.ctrlBtn}`;
+            });
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.className = `action-btn flex-1 py-3 text-xs font-black flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm theme-transition ${theme.actionBtn}`;
+            });
+            document.querySelectorAll('.social-icon').forEach(btn => {
+                btn.className = `social-icon w-9 h-9 flex items-center justify-center text-base transition transform active:scale-90 theme-transition ${theme.socialIcon}`;
+            });
+
+            const items = document.querySelectorAll('.app-item');
+            const targetIcons = themeIconsMapping[themeKey] || originalIcons;
+            
+            items.forEach(item => {
+                item.className = `app-item flex items-center p-3 group theme-transition ${theme.card}`;
+                
+                const title = item.querySelector('.app-item-title');
+                const desc = item.querySelector('.app-item-desc');
+                if (title && desc) {
+                    if (themeKey === 'nemo') {
+                        title.style.color = '#0c4a6e';
+                        desc.style.color = '#0369a1';
+                    } else if (themeKey === 'queen') {
+                        title.style.color = '#500724';
+                        desc.style.color = '#9d174d';
+                    } else {
+                        title.style.color = '';
+                        desc.style.color = '';
+                    }
+                }
+                
+                const iconBox = item.querySelector('.app-icon-box');
+                if (iconBox) {
+                    iconBox.className = `app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition ${theme.icon}`;
+                    
+                    const idx = parseInt(iconBox.getAttribute('data-icon-index'));
+                    const fontIcon = iconBox.querySelector('i');
+                    if(fontIcon && targetIcons[idx]) {
+                        fontIcon.className = `fas ${targetIcons[idx]}`;
+                    }
+                }
+            });
+
+            const specialLayer = document.getElementById('specialThemeLayer');
+            specialLayer.innerHTML = '';
+            
+            if (themeKey === 'nemo') {
+                specialLayer.innerHTML = `
+                    <div class="fixed inset-0 pointer-events-none opacity-20 bg-gradient-to-b from-transparent via-cyan-400/10 to-blue-900/40 z-0"></div>
+                `;
+            } else if (themeKey === 'retro') {
+                specialLayer.innerHTML = `
+                    <div class="retro-bg-icons font-mono">
+                        <div>🎮</div><div>🕹️</div><div>👾</div><div>🍄</div>
+                        <div>💎</div><div>⭐</div><div>⚡</div><div>🦊</div>
+                    </div>
+                `;
+            }
+
+            localStorage.setItem('fibertv_theme', themeKey);
+            document.getElementById('themeModal').classList.add('hidden');
+            
+            filterMode(currentActiveMode);
+        }
+
+        function filterMode(mode) {
+            if(isEditMode && mode !== 'watch') return;
+            currentActiveMode = mode;
+            const btnWatch = document.getElementById('btnModeWatch');
+            const btnDownload = document.getElementById('btnModeDownload');
+            const apps = document.querySelectorAll('.app-item');
+            let hasResults = false;
+
+            const themeKey = localStorage.getItem('fibertv_theme') || 'glassDark';
+            const theme = platformThemes[themeKey] || platformThemes.glassDark;
+
+            [btnWatch, btnDownload].forEach(btn => {
+                if(btn) btn.className = `mode-btn text-center py-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 theme-transition ${theme.btnInActive}`;
+            });
+
+            if (mode === 'watch' && btnWatch) {
+                btnWatch.className = `mode-btn text-center py-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 theme-transition ${theme.btnWatchActive}`;
+            } else if (mode === 'download' && btnDownload) {
+                btnDownload.className = `mode-btn text-center py-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 theme-transition ${theme.btnDlActive}`;
+            }
+
+            apps.forEach(app => {
+                const isHidden = hiddenAppsList.includes(app.id); // التحقق هل التطبيق مخفي؟
+                
+                if (app.getAttribute('data-mode') === mode) {
+                    // إذا كان التطبيق مخفي ولسنا في وضع التعديل، لا تقم بعرضه
+                    if (!isHidden || isEditMode) {
+                        app.style.display = 'flex';
+                        hasResults = true;
+                    } else {
+                        app.style.display = 'none';
+                    }
+                    
+                    // إعطاء تأثير بصري باهت للتطبيقات المخفية أثناء وضع التعديل
+                    if (isEditMode && isHidden) {
+                        app.classList.add('opacity-40', 'grayscale');
+                    } else {
+                        app.classList.remove('opacity-40', 'grayscale');
+                    }
+                } else {
+                    app.style.display = 'none';
+                }
+            });
+            document.getElementById('noResults').className = hasResults ? 'hidden' : 'text-center py-8 text-gray-400 font-bold bg-white/5 rounded-2xl border border-white/5';
+        }
+
+        function enableEditOrderMode() {
+            isEditMode = true; // نفعل وضع التعديل أولاً
+            filterMode('watch'); // نعيد فلترة القائمة لتظهر العناصر المخفية بشكل باهت
+            
+            document.getElementById('editControlsBar').classList.remove('hidden');
+            
+            const watchItems = appsContainer.querySelectorAll('.app-item[data-mode="watch"]');
+            watchItems.forEach(item => {
+                item.setAttribute('draggable', 'true');
+                item.classList.add('border-blue-500/50', 'border-dashed', 'scale-[0.98]', 'cursor-move');
+                
+                // إضافة أدوات التعديل والإخفاء
+                if (!item.querySelector('.edit-controls-container')) {
+                    const controls = document.createElement('div');
+                    controls.className = 'edit-controls-container ml-3 flex items-center gap-2 shrink-0 z-10';
+                    
+                    const isHidden = hiddenAppsList.includes(item.id);
+                    
+                    // زر الإخفاء / الإظهار (العين)
+                    const visBtn = document.createElement('button');
+                    visBtn.className = `vis-toggle flex items-center justify-center w-9 h-9 rounded-xl bg-slate-900 border shadow-md transition-all ${isHidden ? 'border-red-500 text-red-500' : 'border-emerald-500 text-emerald-500'}`;
+                    visBtn.innerHTML = isHidden ? '<i class="fas fa-eye-slash pointer-events-none"></i>' : '<i class="fas fa-eye pointer-events-none"></i>';
+                    
+                    // منع زر العين من التداخل مع السحب
+                    visBtn.addEventListener('mousedown', (e) => e.stopPropagation());
+                    visBtn.addEventListener('touchstart', (e) => e.stopPropagation());
+                    visBtn.onclick = (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleAppVisibility(item.id, visBtn);
+                    };
+                    
+                    // مقبض السحب
+                    const handle = document.createElement('div');
+                    handle.className = 'drag-handle text-blue-400 flex items-center justify-center w-6 h-9';
+                    handle.innerHTML = '<i class="fas fa-grip-vertical text-xl"></i>';
+                    
+                    controls.appendChild(visBtn);
+                    controls.appendChild(handle);
+                    item.insertBefore(controls, item.firstChild);
+                }
+                
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragend', handleDragEnd);
+                
+                item.addEventListener('touchstart', handleTouchStart, {passive: false});
+                item.addEventListener('touchmove', handleTouchMove, {passive: false});
+                item.addEventListener('touchend', handleTouchEnd);
+            });
+        }
+
+        // الدالة المسؤولة عن تبديل حالة الإخفاء/الإظهار
+        function toggleAppVisibility(appId, btnElement) {
+            const index = hiddenAppsList.indexOf(appId);
+            const appElement = document.getElementById(appId);
+            
+            if (index > -1) {
+                // كان مخفياً ونريد إظهاره
+                hiddenAppsList.splice(index, 1);
+                btnElement.className = 'vis-toggle flex items-center justify-center w-9 h-9 rounded-xl bg-slate-900 border shadow-md transition-all border-emerald-500 text-emerald-500';
+                btnElement.innerHTML = '<i class="fas fa-eye pointer-events-none"></i>';
+                appElement.classList.remove('opacity-40', 'grayscale');
+            } else {
+                // كان ظاهراً ونريد إخفاءه
+                hiddenAppsList.push(appId);
+                btnElement.className = 'vis-toggle flex items-center justify-center w-9 h-9 rounded-xl bg-slate-900 border shadow-md transition-all border-red-500 text-red-500';
+                btnElement.innerHTML = '<i class="fas fa-eye-slash pointer-events-none"></i>';
+                appElement.classList.add('opacity-40', 'grayscale');
+            }
+        }
+
+        function disableEditMode() {
+            isEditMode = false;
+            document.getElementById('editControlsBar').classList.add('hidden');
+            
+            const watchItems = appsContainer.querySelectorAll('.app-item[data-mode="watch"]');
+            watchItems.forEach(item => {
+                item.removeAttribute('draggable');
+                item.classList.remove('border-blue-500/50', 'border-dashed', 'scale-[0.98]', 'cursor-move', 'sortable-dragging');
+                const controls = item.querySelector('.edit-controls-container');
+                if (controls) controls.remove();
+            });
+            
+            filterMode(currentActiveMode); // تحديث الواجهة لإخفاء العناصر فعلياً
+        }
+
+        function saveNewOrder() {
+            const watchItems = appsContainer.querySelectorAll('.app-item[data-mode="watch"]');
+            const orderArray = [];
+            watchItems.forEach(item => { if(item.id) orderArray.push(item.id); });
+            
+            // حفظ الترتيب وحفظ قائمة المنصات المخفية
+            localStorage.setItem('fibertv_watch_order', JSON.stringify(orderArray));
+            localStorage.setItem('fibertv_hidden_apps', JSON.stringify(hiddenAppsList));
+            disableEditMode();
+        }
+
+        function resetDefaultOrder() {
+            localStorage.removeItem('fibertv_watch_order');
+            localStorage.removeItem('fibertv_hidden_apps'); // مسح ذاكرة الإخفاء
+            hiddenAppsList = []; // تصفير المصفوفة
+            rebuildDOMOrder(defaultWatchOrder);
+            disableEditMode();
+        }
+
+        function loadSavedOrder() {
+            const savedOrder = localStorage.getItem('fibertv_watch_order');
+            if (savedOrder) rebuildDOMOrder(JSON.parse(savedOrder));
+        }
+
+        function rebuildDOMOrder(orderArray) {
+            orderArray.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) appsContainer.appendChild(el);
+            });
+            const downloadItems = appsContainer.querySelectorAll('.app-item[data-mode="download"]');
+            downloadItems.forEach(item => appsContainer.appendChild(item));
+        }
+
+        let dragSrcEl = null;
+        function handleDragStart(e) {
+            if(!isEditMode) return;
+            dragSrcEl = this;
+            this.classList.add('sortable-dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+        function handleDragOver(e) { if (e.preventDefault) e.preventDefault(); return false; }
+        function handleDrop(e) {
+            if (e.stopPropagation) e.stopPropagation();
+            if (dragSrcEl !== this && isEditMode) {
+                const allItems = Array.from(appsContainer.querySelectorAll('.app-item[data-mode="watch"]'));
+                const srcIdx = allItems.indexOf(dragSrcEl);
+                const targetIdx = allItems.indexOf(this);
+                if (srcIdx < targetIdx) { this.after(dragSrcEl); } else { this.before(dragSrcEl); }
+            }
+            return false;
+        }
+        function handleDragEnd() { this.classList.remove('sortable-dragging'); }
+
+        let activeTouchItem = null;
+        function handleTouchStart(e) { if(!isEditMode) return; activeTouchItem = this; this.classList.add('sortable-dragging'); }
+        function handleTouchMove(e) {
+            if(!isEditMode || !activeTouchItem) return;
+            e.preventDefault();
+            const touch = e.touches[0];
+            const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
+            const containerItem = targetEl ? targetEl.closest('.app-item[data-mode="watch"]') : null;
+            
+            if (containerItem && containerItem !== activeTouchItem) {
+                const rect = containerItem.getBoundingClientRect();
+                const next = (touch.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+                if (next) { containerItem.after(activeTouchItem); } else { containerItem.before(activeTouchItem); }
+            }
+        }
+        function handleTouchEnd() { if(activeTouchItem) { activeTouchItem.classList.remove('sortable-dragging'); activeTouchItem = null; } }
 
         if ('serviceWorker' in navigator) {
             const swCode = `
-                const CACHE_NAME = 'fibertv-v10';
-                const ASSETS = [
-                    './',
-                    './index.html',
-                    './manifest.json',
-                    './icon.png',
-                    'https://cdn.tailwindcss.com',
-                    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
-                ];
-                self.addEventListener('install', (e) => {
-                    e.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
-                });
-                self.addEventListener('activate', (e) => {
-                    e.waitUntil(caches.keys().then((keys) => Promise.all(keys.map((k) => k !== CACHE_NAME ? caches.delete(k) : null))).then(() => self.clients.claim()));
-                });
-                self.addEventListener('fetch', (e) => {
-                    e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)));
-                });
+                const CACHE_NAME = 'fibertv-v12';
+                const ASSETS = ['./', './index.html', './manifest.json', './icon.png', 'https://cdn.tailwindcss.com', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'];
+                self.addEventListener('install', (e) => { e.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting())); });
+                self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then((keys) => Promise.all(keys.map((k) => k !== CACHE_NAME ? caches.delete(k) : null))).then(() => self.clients.claim())); });
+                self.addEventListener('fetch', (e) => { e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request))); });
             `;
             const blob = new Blob([swCode], { type: 'application/javascript' });
             const swUrl = URL.createObjectURL(blob);
-            
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register(swUrl, { scope: './' })
-                    .then(reg => console.log('تم تحديث الكاش بنجاح!'))
-                    .catch(err => console.error('خطأ في السيرفس وركر:', err));
-            });
+            window.addEventListener('load', () => { navigator.serviceWorker.register(swUrl, { scope: './' }).catch(err => console.error(err)); });
         }
 
         window.addEventListener('load', () => {
             const loader = document.getElementById('pageLoader');
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
-            }, 400);
-
+            setTimeout(() => { loader.style.opacity = '0'; loader.style.visibility = 'hidden'; }, 400);
             filterMode('watch');
         });
 
@@ -525,113 +1095,61 @@
             const loader = document.getElementById('pageLoader');
             document.getElementById('loaderText').innerText = "جاري تحديث بيانات المنصة...";
             document.getElementById('loaderSubText').innerText = "يتم الآن جلب النسخة الأحدث من السيرفر";
-            loader.style.opacity = '1';
-            loader.style.visibility = 'visible';
+            loader.style.opacity = '1'; loader.style.visibility = 'visible';
             document.getElementById('refreshIcon').classList.add('animate-spin');
-
             try {
-                if ('caches' in window) {
-                    const cacheNames = await caches.keys();
-                    await Promise.all(cacheNames.map(name => caches.delete(name)));
-                }
-                if ('serviceWorker' in navigator) {
-                    const registrations = await navigator.serviceWorker.getRegistrations();
-                    for (let registration of registrations) {
-                        await registration.unregister();
-                    }
-                }
-                setTimeout(() => {
-                    window.location.reload(true);
-                }, 1000);
-            } catch (error) {
-                console.error("فشل التحديث التلقائي:", error);
-                window.location.reload(true);
-            }
+                if ('caches' in window) { const keys = await caches.keys(); await Promise.all(keys.map(k => caches.delete(k))); }
+                if ('serviceWorker' in navigator) { const regs = await navigator.serviceWorker.getRegistrations(); for (let r of regs) await r.unregister(); }
+                setTimeout(() => { window.location.reload(true); }, 1000);
+            } catch (error) { window.location.reload(true); }
         }
 
-        function openNoticeManually() {
-            document.getElementById("noticePopup").classList.remove("hidden");
-        }
-
-        function filterMode(mode) {
-            const btnWatch = document.getElementById('btnModeWatch');
-            const btnDownload = document.getElementById('btnModeDownload');
-            const apps = document.querySelectorAll('.app-item');
-            let hasResults = false;
-
-            [btnWatch, btnDownload].forEach(btn => {
-                if(btn) btn.className = "mode-btn text-center py-3 rounded-xl text-xs font-black transition-all bg-white/5 text-gray-400 border border-white/5 hover:bg-white/10 flex items-center justify-center gap-1.5";
-            });
-
-            if (mode === 'watch') {
-                btnWatch.className = "mode-btn text-center py-3 rounded-xl text-xs font-black transition-all bg-gradient-to-r from-blue-500 to-indigo-600 text-white border border-blue-400/30 shadow-md flex items-center justify-center gap-1.5";
-            } else if (mode === 'download') {
-                btnDownload.className = "mode-btn text-center py-3 rounded-xl text-xs font-black transition-all bg-gradient-to-r from-purple-600 to-indigo-600 text-white border border-purple-400/30 shadow-md flex items-center justify-center gap-1.5";
-            }
-
-            apps.forEach(app => {
-                const appMode = app.getAttribute('data-mode');
-                if (appMode === mode) {
-                    app.style.display = 'flex'; 
-                    hasResults = true;
-                } else {
-                    app.style.display = 'none';
-                }
-            });
-
-            const noResults = document.getElementById('noResults');
-            if (hasResults) {
-                noResults.classList.add('hidden');
-            } else {
-                noResults.classList.remove('hidden');
-            }
-        }
+        function openNoticeManually() { document.getElementById("noticePopup").classList.remove("hidden"); }
 
         const noticePopup = document.getElementById('noticePopup');
-        const closeNoticeBtn = document.getElementById('closeNoticeBtn');
-        const dontShowAgain = document.getElementById('dontShowAgain');
-
-        if (!localStorage.getItem('hideNotice')) {
-            setTimeout(() => {
-                noticePopup.classList.remove('hidden');
-            }, 1500);
-        }
-
-        closeNoticeBtn.addEventListener('click', () => {
-            if (dontShowAgain.checked) {
-                localStorage.setItem('hideNotice', 'true');
-            }
+        if (!localStorage.getItem('hideNotice')) { setTimeout(() => { noticePopup.classList.remove('hidden'); }, 1500); }
+        document.getElementById('closeNoticeBtn').addEventListener('click', () => {
+            if (document.getElementById('dontShowAgain').checked) { localStorage.setItem('hideNotice', 'true'); }
             noticePopup.classList.add('hidden');
         });
 
+        // كود أزرار التثبيت المطور
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const btnInstall = document.getElementById('btnInstall');
         const btnIosInstall = document.getElementById('btnIosInstall');
         let deferredPrompt;
 
         if (isIOS) {
-            if (btnIosInstall) {
-                btnIosInstall.classList.remove('hidden');
-                btnIosInstall.addEventListener('click', () => {
-                    document.getElementById('iosPopup').classList.remove('hidden');
+            // نحن في نظام آيفون: نخفي زر الأندرويد ونفعل زر الآيفون
+            if(btnInstall) btnInstall.style.display = 'none';
+            if(btnIosInstall) {
+                btnIosInstall.style.display = 'flex';
+                btnIosInstall.addEventListener('click', () => { 
+                    document.getElementById('iosPopup').classList.remove('hidden'); 
                 });
             }
         } else {
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                if (btnInstall) btnInstall.classList.remove('hidden');
-            });
+            // نحن في نظام أندرويد/ويندوز: نخفي زر الآيفون ونفعل زر الأندرويد
+            if(btnIosInstall) btnIosInstall.style.display = 'none';
+            if(btnInstall) {
+                btnInstall.style.display = 'flex';
+                
+                // التقاط حدث التثبيت التلقائي من المتصفح (يعمل عند رفع الموقع على سيرفر)
+                window.addEventListener('beforeinstallprompt', (e) => { 
+                    e.preventDefault(); 
+                    deferredPrompt = e; 
+                });
 
-            if (btnInstall) {
                 btnInstall.addEventListener('click', async () => {
                     if (deferredPrompt) {
+                        // تفعيل التثبيت التلقائي
                         deferredPrompt.prompt();
                         const { outcome } = await deferredPrompt.userChoice;
-                        if (outcome === 'accepted') {
-                            btnInstall.classList.add('hidden');
-                        }
+                        if (outcome === 'accepted') btnInstall.style.display = 'none';
                         deferredPrompt = null;
+                    } else {
+                        // في حال فتح الملف محلياً أو المتصفح يمنع التثبيت التلقائي
+                        alert("عذراً، المتصفح يمنع التثبيت التلقائي حالياً. لتثبيت المنصة كـ تطبيق، يرجى الضغط على قائمة المتصفح (الثلاث نقاط) واختيار 'الإضافة إلى الشاشة الرئيسية'.");
                     }
                 });
             }
