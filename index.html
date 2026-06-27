@@ -19,7 +19,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Reem+Kufi:wght@700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+   
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -1041,31 +1043,123 @@
             });
         }
 
-        // Functions for ordering logic (placeholders completed so the UI buttons work safely)
+        // متغير لحفظ حالة مكتبة السحب والإفلات
+        let sortableInstance = null;
+
+        // 1. دالة اعتراض النقرات في وضع التعديل (للإخفاء والإظهار بدل فتح الرابط)
+        document.getElementById('appsContainer').addEventListener('click', function(e) {
+            if (!isEditMode) return;
+            
+            const item = e.target.closest('.app-item');
+            if (item && item.getAttribute('data-mode') === 'watch') {
+                e.preventDefault(); // منع فتح الرابط
+                e.stopPropagation(); // إيقاف أي أحداث أخرى
+                
+                // تبديل حالة الإخفاء
+                const index = hiddenAppsList.indexOf(item.id);
+                if (index > -1) {
+                    hiddenAppsList.splice(index, 1); // إظهار
+                } else {
+                    hiddenAppsList.push(item.id); // إخفاء
+                }
+                filterMode('watch'); // تحديث الشكل المرئي فوراً
+            }
+        }, true); // استخدام Capture phase لضمان الاعتراض قبل التنفيذ
+
+        // 2. تفعيل وضع التعديل
         function enableEditOrderMode() {
             isEditMode = true;
             document.getElementById('editControlsBar').classList.remove('hidden');
-            filterMode('watch'); // Force to watch mode when editing order
+            
+            // إجبار المنصة على عرض قسم "المشاهدة" فقط أثناء التعديل
+            filterMode('watch'); 
+            
+            const container = document.getElementById('appsContainer');
+            
+            // تفعيل خاصية السحب والإفلات
+            if (!sortableInstance) {
+                sortableInstance = new Sortable(container, {
+                    animation: 250,
+                    ghostClass: 'sortable-dragging',
+                    filter: '.app-item:not([data-mode="watch"])', // منع سحب العناصر غير المرئية
+                    preventOnFilter: false,
+                    delay: 50, // تأخير بسيط لتحسين الاستجابة للمس على الهواتف
+                    delayOnTouchOnly: true
+                });
+            }
         }
 
+        // 3. حفظ الترتيب الجديد والإخفاء
         function saveNewOrder() {
             isEditMode = false;
             document.getElementById('editControlsBar').classList.add('hidden');
-            // Logic for saving to local storage goes here
-            alert("تم حفظ الترتيب بنجاح!");
+            
+            // إيقاف مكتبة السحب
+            if (sortableInstance) {
+                sortableInstance.destroy();
+                sortableInstance = null;
+            }
+            
+            // استخراج الترتيب الجديد من عناصر HTML
+            const newOrder = [];
+            document.querySelectorAll('#appsContainer .app-item[data-mode="watch"]').forEach(item => {
+                newOrder.push(item.id);
+            });
+            
+            // حفظ البيانات في المتصفح
+            localStorage.setItem('fibertv_watch_order', JSON.stringify(newOrder));
+            localStorage.setItem('fibertv_hidden_apps', JSON.stringify(hiddenAppsList));
+            
+            // تنبيه المستخدم وتحديث العرض
+            alert("تم حفظ الترتيب واختياراتك بنجاح!");
             filterMode(currentActiveMode);
         }
 
+        // 4. استعادة الشكل الأصلي
         function resetDefaultOrder() {
             isEditMode = false;
             document.getElementById('editControlsBar').classList.add('hidden');
-            // Logic for resetting goes here
-            alert("تم استعادة الترتيب الأصلي.");
+            
+            if (sortableInstance) {
+                sortableInstance.destroy();
+                sortableInstance = null;
+            }
+            
+            // مسح البيانات المحفوظة
+            localStorage.removeItem('fibertv_watch_order');
+            localStorage.removeItem('fibertv_hidden_apps');
+            hiddenAppsList = [];
+            
+            // إعادة ترتيب العناصر برمجياً للوضع الافتراضي
+            const container = document.getElementById('appsContainer');
+            defaultWatchOrder.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) container.appendChild(el);
+            });
+            
+            alert("تم استعادة الشكل والترتيب الأصلي.");
             filterMode(currentActiveMode);
         }
 
+        // 5. تحميل الترتيب المحفوظ عند فتح الصفحة
         function loadSavedOrder() {
-            // Logic for loading custom order from local storage
+            const savedOrder = JSON.parse(localStorage.getItem('fibertv_watch_order'));
+            if (savedOrder && savedOrder.length > 0) {
+                const container = document.getElementById('appsContainer');
+                const watchItems = Array.from(container.querySelectorAll('.app-item[data-mode="watch"]'));
+                
+                // فرز العناصر بناءً على المصفوفة المحفوظة
+                watchItems.sort((a, b) => {
+                    const indexA = savedOrder.indexOf(a.id);
+                    const indexB = savedOrder.indexOf(b.id);
+                    if (indexA === -1) return 1; // العناصر الجديدة تضاف بالنهاية
+                    if (indexB === -1) return -1;
+                    return indexA - indexB;
+                });
+                
+                // إعادة حقن العناصر بالترتيب الجديد
+                watchItems.forEach(item => container.appendChild(item));
+            }
         }
 
     </script>
