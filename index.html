@@ -351,37 +351,63 @@
 
     <!-- نافذة قنوات الرياضة المنبثقة -->
     <div id="sportsModal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-[#050a14]/95 backdrop-blur-xl p-4 transition-all duration-300">
-        <div class="bg-[#0f172a] p-5 rounded-[2rem] w-full max-w-lg border border-white/[0.08] shadow-2xl shadow-indigo-900/20 relative max-h-[90vh] overflow-y-auto no-scrollbar flex flex-col gap-4">
-            <button onclick="closeSportsModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition z-10">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <h3 class="text-center font-black text-xl mt-2 text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-orange-400 shrink-0">قنوات رياضية (مؤقتة)</h3>
-            
-            <div class="bg-indigo-950/40 border border-indigo-500/20 p-4 rounded-2xl text-center shadow-inner">
-                <p class="text-xs text-indigo-200 font-bold mb-3">إذا لم تعمل الروابط داخل المنصة، يرجى تشغيلها باستخدام مشغل VLC.</p>
-                <div class="flex justify-center gap-2 mb-3">
-                    <a href="https://apps.apple.com/app/vlc-media-player/id650377962" target="_blank" class="flex-1 bg-white/[0.05] hover:bg-white/10 py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-2 border border-white/[0.05] transition"><i class="fab fa-apple text-xl"></i> متجر آبل</a>
-                    <a href="https://play.google.com/store/apps/details?id=org.videolan.vlc" target="_blank" class="flex-1 bg-white/[0.05] hover:bg-white/10 py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-2 border border-white/[0.05] transition"><i class="fab fa-google-play text-xl text-green-400"></i> متجر جوجل</a>
-                </div>
-                <div class="text-[10px] text-indigo-300 bg-black/20 p-2 rounded-lg text-right font-bold leading-relaxed border border-white/[0.03]">
-                    <i class="fas fa-info-circle text-indigo-400 ml-1"></i> <strong>خطوات التشغيل في تطبيق VLC:</strong><br>
-                    1. افتح التطبيق واختر "المزيد" (More) من الأسفل.<br>
-                    2. اضغط على "بث جديد" (New Stream).<br>
-                    3. الصق الرابط واضغط تشغيل.
+        <div class="bg-gradient-to-b from-[#0f172a] to-[#0a0f1e] p-5 rounded-[2.5rem] w-full max-w-lg border border-white/[0.08] shadow-2xl shadow-indigo-900/30 relative max-h-[90vh] overflow-y-auto no-scrollbar flex flex-col gap-4">
+
+            <!-- شريط العنوان مع زر الرجوع -->
+            <div class="flex items-center justify-between shrink-0">
+                <button onclick="closeSportsModal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-white transition border border-white/[0.05] active:scale-90">
+                    <i class="fas fa-arrow-right text-sm"></i>
+                </button>
+                <h3 class="font-black text-lg text-transparent bg-clip-text bg-gradient-to-l from-rose-400 to-orange-400">قنوات رياضية (مؤقتة)</h3>
+                <div class="w-9"></div>
+            </div>
+
+            <!-- مشغل الفيديو المدمج - محسّن للأندرويد -->
+            <div class="relative w-full rounded-2xl overflow-hidden border border-white/[0.06] shadow-lg bg-black/60 video-player-wrapper">
+                <div class="aspect-video relative">
+                    <video id="sportsVideoPlayer" 
+                        class="w-full h-full object-contain outline-none"
+                        poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 225'%3E%3Crect width='400' height='225' fill='%23000'/%3E%3Ctext x='200' y='115' text-anchor='middle' fill='%23333' font-size='14' font-family='sans-serif'%3E%F0%9F%93%BA%3C/text%3E%3Ctext x='200' y='140' text-anchor='middle' fill='%23555' font-size='12' font-family='sans-serif'%3Eاضغط تشغيل%3C/text%3E%3C/svg%3E"
+                        playsinline
+                        preload="metadata"
+                        controlsList="nodownload"
+                        controls
+                    ></video>
+                    <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
                 </div>
             </div>
 
-            <!-- مشغل الفيديو المدمج -->
-            <div class="relative w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/[0.06] shadow-lg">
-                <video id="sportsVideoPlayer" controls class="w-full h-full object-contain" poster="https://i.imgur.com/vH9x4uV.png"></video>
-            </div>
-
-            <div class="space-y-2 mt-2">
-                <h4 class="text-sm font-bold text-white mb-2"><i class="fas fa-list-ul ml-1 text-rose-400"></i> اختر القناة للتشغيل أو للنسخ:</h4>
-                <div class="flex flex-col gap-2" id="channelsListContainer">
+            <!-- قائمة القنوات -->
+            <div class="space-y-1.5">
+                <div class="flex items-center justify-between mb-2">
+                    <h4 class="text-sm font-bold text-white flex items-center gap-1.5">
+                        <i class="fas fa-list-ul text-rose-400 text-xs"></i> اختر القناة
+                    </h4>
+                    <span class="text-[10px] text-slate-500 font-bold bg-white/[0.03] px-2.5 py-1 rounded-full">انسخ أو شغّل</span>
+                </div>
+                <div class="flex flex-col gap-1.5" id="channelsListContainer">
                 </div>
             </div>
+
+            <!-- دليل VLC - مبسط -->
+            <details class="group">
+                <summary class="flex items-center gap-2 text-[11px] text-indigo-300 font-bold cursor-pointer bg-indigo-950/30 border border-indigo-500/15 p-2.5 rounded-xl hover:bg-indigo-950/50 transition active:scale-[0.99] [&::-webkit-details-marker]:hidden">
+                    <i class="fas fa-info-circle text-indigo-400 text-xs"></i>
+                    <span class="flex-1">طريقة التشغيل عبر VLC</span>
+                    <i class="fas fa-chevron-down text-[10px] transition group-open:rotate-180"></i>
+                </summary>
+                <div class="bg-black/30 border border-white/[0.04] p-3 rounded-xl mt-1.5 space-y-1.5">
+                    <div class="flex justify-center gap-2">
+                        <a href="https://apps.apple.com/app/vlc-media-player/id650377962" target="_blank" class="flex-1 bg-white/[0.04] hover:bg-white/10 py-2 rounded-xl text-[10px] font-bold text-white flex items-center justify-center gap-1.5 border border-white/[0.05] transition"><i class="fab fa-apple text-base"></i> آبـل</a>
+                        <a href="https://play.google.com/store/apps/details?id=org.videolan.vlc" target="_blank" class="flex-1 bg-white/[0.04] hover:bg-white/10 py-2 rounded-xl text-[10px] font-bold text-white flex items-center justify-center gap-1.5 border border-white/[0.05] transition"><i class="fab fa-google-play text-base text-green-400"></i> جوجل</a>
+                    </div>
+                    <div class="text-[10px] text-indigo-300 leading-relaxed text-right font-medium space-y-0.5">
+                        <p>1. افتح التطبيق ← <strong>"المزيد"</strong> (More)</p>
+                        <p>2. اختر <strong>"بث جديد"</strong> (New Stream)</p>
+                        <p>3. الصق الرابط ← اضغط تشغيل</p>
+                    </div>
+                </div>
+            </details>
         </div>
     </div>
 
@@ -762,6 +788,46 @@
                     <span class="font-bold text-sm text-fuchsia-400">Cyberpunk</span>
                     <span class="w-4 h-4 bg-gradient-to-r from-fuchsia-500 to-cyan-400 block"></span>
                 </button>
+                <button onclick="applyTheme('apple')" class="w-full p-3.5 rounded-xl bg-white/90 border border-white flex items-center justify-between hover:shadow-lg transition text-right">
+                    <span class="font-bold text-sm text-gray-800">Apple iOS</span>
+                    <span class="w-4 h-4 rounded-full bg-blue-500 shadow-sm"></span>
+                </button>
+                <button onclick="applyTheme('android')" class="w-full p-3.5 rounded-xl bg-[#2b2930] border border-[#4a4458] flex items-center justify-between hover:border-purple-400 transition text-right">
+                    <span class="font-bold text-sm text-[#d0bcff]">Android 14</span>
+                    <span class="w-4 h-4 rounded-full bg-gradient-to-r from-[#d0bcff] to-[#9a82db]"></span>
+                </button>
+                <button onclick="applyTheme('ubuntu')" class="w-full p-3.5 rounded-xl bg-[#2d0a1e] border border-[#e95420]/40 flex items-center justify-between hover:border-[#e95420] transition text-right">
+                    <span class="font-bold text-sm text-[#e95420]">Ubuntu Linux</span>
+                    <span class="text-sm">🐧</span>
+                </button>
+                <button onclick="applyTheme('playstation')" class="w-full p-3.5 rounded-xl bg-[#0b0b0b] border border-[#0070cc]/40 flex items-center justify-between hover:border-[#0070cc] transition text-right">
+                    <span class="font-bold text-sm text-[#5dade2]">PlayStation</span>
+                    <span class="w-4 h-4 rounded-full bg-[#0070cc] shadow-[0_0_8px_rgba(0,112,204,0.5)]"></span>
+                </button>
+                <button onclick="applyTheme('windows')" class="w-full p-3.5 rounded-xl bg-[#2c2c2c] border border-[#ffffff]/15 flex items-center justify-between hover:border-[#60cdff]/50 transition text-right">
+                    <span class="font-bold text-sm text-[#60cdff]">Windows 11</span>
+                    <span class="w-4 h-4 rounded bg-gradient-to-br from-[#60cdff] via-[#9b59b6] to-[#f3a183]"></span>
+                </button>
+                <button onclick="applyTheme('spotify')" class="w-full p-3.5 rounded-xl bg-[#181818] border border-[#282828] flex items-center justify-between hover:border-[#1db954]/60 transition text-right">
+                    <span class="font-bold text-sm text-[#1db954]">Spotify</span>
+                    <span class="w-4 h-4 rounded-full bg-[#1db954] shadow-[0_0_8px_rgba(29,185,84,0.4)]"></span>
+                </button>
+                <button onclick="applyTheme('xbox')" class="w-full p-3.5 rounded-xl bg-[#1a1a1a] border border-[#107c10]/40 flex items-center justify-between hover:border-[#52b043] transition text-right">
+                    <span class="font-bold text-sm text-[#52b043]">Xbox</span>
+                    <span class="w-4 h-4 rounded-full bg-[#107c10]"></span>
+                </button>
+                <button onclick="applyTheme('nintendo')" class="w-full p-3.5 rounded-xl bg-white/95 border-2 border-[#e60012] flex items-center justify-between hover:shadow-[0_4px_0px_#b3000e] transition text-right">
+                    <span class="font-black text-sm text-[#e60012]">Nintendo Switch</span>
+                    <span class="w-4 h-4 rounded-full bg-[#e60012]"></span>
+                </button>
+                <button onclick="applyTheme('tesla')" class="w-full p-3.5 rounded-xl bg-black border border-[#e82127]/30 flex items-center justify-between hover:border-[#e82127] transition text-right">
+                    <span class="font-bold text-sm text-white">Tesla</span>
+                    <span class="w-4 h-4 rounded-full bg-[#e82127] shadow-[0_0_8px_rgba(232,33,39,0.5)]"></span>
+                </button>
+                <button onclick="applyTheme('samsung')" class="w-full p-3.5 rounded-xl bg-[#1a2340] border border-[#1259f3]/30 flex items-center justify-between hover:border-[#1259f3] transition text-right">
+                    <span class="font-bold text-sm text-[#6a9eff]">Samsung One UI</span>
+                    <span class="w-4 h-4 rounded-full bg-[#1259f3]"></span>
+                </button>
             </div>
         </div>
     </div>
@@ -783,6 +849,16 @@
             nemo: ['fa-fish', 'fa-water', 'fa-anchor', 'fa-ship', 'fa-compass', 'fa-life-ring', 'fa-shrimp', 'fa-droplet', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-fish-fins', 'fa-star', 'fa-wand-magic', 'fa-masks-theater', 'fa-shield-halved'],
             cyberpunk: ['fa-terminal', 'fa-user-ninja', 'fa-eye-dropper', 'fa-qrcode', 'fa-shield-halved', 'fa-flask', 'fa-microchip', 'fa-mask', 'fa-video', 'fa-bolt', 'fa-heart', 'fa-radiation', 'fa-star', 'fa-wand-magic-sparkles', 'fa-spider', 'fa-shield-halved'],
             woody: ['fa-hat-cowboy', 'fa-star', 'fa-horse', 'fa-ticket', 'fa-trophy', 'fa-user-astronaut', 'fa-film', 'fa-box-open', 'fa-video', 'fa-rocket', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-hat-wizard', 'fa-cat', 'fa-shield-halved'],
+            apple: ['fa-apple-whole', 'fa-mobile-screen-button', 'fa-music', 'fa-camera', 'fa-message', 'fa-note-sticky', 'fa-film', 'fa-share-from-square', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic-sparkles', 'fa-cat', 'fa-shield-halved'],
+            android: ['fa-robot', 'fa-microchip', 'fa-wifi', 'fa-brain', 'fa-cloud', 'fa-camera', 'fa-film', 'fa-share-nodes', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
+            ubuntu: ['fa-linux', 'fa-terminal', 'fa-server', 'fa-code', 'fa-microchip', 'fa-network-wired', 'fa-film', 'fa-share-from-square', 'fa-video', 'fa-terminal', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
+            playstation: ['fa-gamepad', 'fa-headset', 'fa-trophy', 'fa-joystick', 'fa-users', 'fa-globe', 'fa-film', 'fa-share-nodes', 'fa-video', 'fa-bolt', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
+            windows: ['fa-windows', 'fa-desktop', 'fa-cube', 'fa-layer-group', 'fa-table', 'fa-diagram-project', 'fa-film', 'fa-share-from-square', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
+            spotify: ['fa-music', 'fa-headphones', 'fa-microphone', 'fa-volume-high', 'fa-compact-disc', 'fa-sliders', 'fa-film', 'fa-share-nodes', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
+            xbox: ['fa-gamepad', 'fa-users', 'fa-trophy', 'fa-globe', 'fa-cloud-arrow-down', 'fa-people-group', 'fa-film', 'fa-share-from-square', 'fa-video', 'fa-bolt', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
+            nintendo: ['fa-wand-sparkles', 'fa-star', 'fa-heart', 'fa-gem', 'fa-crown', 'fa-gift', 'fa-film', 'fa-share-nodes', 'fa-video', 'fa-music', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
+            tesla: ['fa-car', 'fa-bolt', 'fa-battery-full', 'fa-gauge-high', 'fa-road', 'fa-gears', 'fa-film', 'fa-share-from-square', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
+            samsung: ['fa-mobile-screen', 'fa-display', 'fa-gear', 'fa-camera', 'fa-wifi', 'fa-bluetooth', 'fa-film', 'fa-share-nodes', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
             glassDark: originalIcons
         };
 
@@ -1028,6 +1104,226 @@
                 sportsTitle: 'text-yellow-400',
                 sportsDesc: 'text-lime-400/80',
                 sportsIcon: 'rounded-none bg-black border-2 border-yellow-400 text-lime-400 shadow-[0_0_12px_rgba(250,204,21,0.7)] font-black'
+            },
+            apple: {
+                bodyBg: '#f2f2f7', b1: '#007aff', b2: '#5856d6', b3: '#ff2d55', blobs: false,
+                header: 'bg-white/70 backdrop-blur-xl border border-white/80 rounded-[3rem] shadow-sm',
+                logo: 'text-gray-900 font-sans tracking-tight font-bold drop-shadow-none',
+                subtitle: 'bg-blue-50 text-blue-600 border-blue-100 rounded-full text-[10px]',
+                tabs: 'bg-white/60 backdrop-blur-lg border border-gray-200/60 rounded-[1.75rem] p-1',
+                btnWatchActive: 'bg-blue-500 text-white rounded-full shadow-sm border border-blue-400 font-semibold',
+                btnDlActive: 'bg-purple-500 text-white rounded-full shadow-sm border border-purple-400 font-semibold',
+                btnAdActive: 'bg-pink-500 text-white rounded-full shadow-sm border border-pink-400 font-semibold',
+                btnInActive: 'bg-transparent text-gray-500 hover:text-gray-800 border border-transparent rounded-full',
+                card: 'bg-white/80 backdrop-blur-2xl border border-white rounded-[1.75rem] hover:shadow-lg hover:shadow-blue-500/5 text-gray-800 shadow-sm',
+                icon: 'rounded-full bg-blue-500 text-white shadow-md shadow-blue-500/20 border border-white/50',
+                ctrlBtn: 'bg-white/60 backdrop-blur-sm border border-gray-200/60 text-blue-500 rounded-full hover:bg-white/80',
+                actionBtn: 'bg-white/60 backdrop-blur-sm border border-gray-200/60 text-gray-700 rounded-full hover:bg-blue-50 hover:text-blue-600',
+                socialIcon: 'bg-white/60 backdrop-blur-sm border border-gray-200/60 text-gray-600 rounded-full hover:bg-blue-500 hover:text-white',
+                footer: 'bg-white/70 backdrop-blur-xl border border-white/80 rounded-[2rem]',
+                footerText: 'text-gray-500',
+                sportsCard: 'bg-white/80 backdrop-blur-2xl border border-orange-200 rounded-[1.75rem] hover:shadow-lg shadow-sm',
+                sportsTitle: 'text-orange-700',
+                sportsDesc: 'text-orange-500/80',
+                sportsIcon: 'rounded-full bg-orange-500 text-white shadow-md border border-white/50'
+            },
+            android: {
+                bodyBg: '#1c1b1f', b1: '#d0bcff', b2: '#e8def8', b3: '#4f378b', blobs: true,
+                header: 'bg-[#2b2930] border border-[#4a4458]/60 rounded-3xl shadow-lg shadow-purple-900/10',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-[#d0bcff] to-[#9a82db] font-sans tracking-normal',
+                subtitle: 'bg-[#4a4458]/50 text-[#cac4d0] border-[#938f99]/30 rounded-full',
+                tabs: 'bg-[#2b2930] border border-[#4a4458]/40 rounded-2xl p-1',
+                btnWatchActive: 'bg-[#d0bcff] text-[#1c1b1f] rounded-2xl font-bold shadow-sm border border-[#e8def8]',
+                btnDlActive: 'bg-[#e8def8] text-[#1c1b1f] rounded-2xl font-bold shadow-sm border border-white/30',
+                btnAdActive: 'bg-[#cac4d0] text-[#1c1b1f] rounded-2xl font-bold shadow-sm border border-white/20',
+                btnInActive: 'bg-transparent text-[#cac4d0] hover:text-white border border-transparent rounded-2xl',
+                card: 'bg-[#2b2930] border border-[#4a4458]/50 rounded-2xl hover:border-[#d0bcff]/40 text-[#e6e1e5] shadow-lg',
+                icon: 'rounded-2xl bg-gradient-to-br from-[#d0bcff] to-[#9a82db] text-white shadow-lg shadow-purple-900/30 border border-white/20',
+                ctrlBtn: 'bg-[#2b2930] border border-[#4a4458]/40 text-[#cac4d0] rounded-2xl hover:bg-[#4a4458]/40',
+                actionBtn: 'bg-[#d0bcff]/10 border border-[#d0bcff]/30 text-[#d0bcff] rounded-xl font-bold hover:bg-[#d0bcff]/20',
+                socialIcon: 'bg-[#2b2930] border border-[#4a4458]/40 text-[#cac4d0] rounded-2xl hover:bg-[#d0bcff]/20 hover:text-[#d0bcff]',
+                footer: 'bg-[#2b2930] border border-[#4a4458]/40 rounded-3xl',
+                footerText: 'text-[#cac4d0]',
+                sportsCard: 'bg-[#2b2930] border border-[#f2b8b5]/40 rounded-2xl hover:border-[#f2b8b5] shadow-lg',
+                sportsTitle: 'text-[#f2b8b5]',
+                sportsDesc: 'text-[#f2b8b5]/70',
+                sportsIcon: 'rounded-2xl bg-gradient-to-br from-[#f2b8b5] to-[#f28b82] text-white shadow-lg border border-white/20'
+            },
+            ubuntu: {
+                bodyBg: '#300a24', b1: '#e95420', b2: '#77216f', b3: '#5e2750', blobs: true,
+                header: 'bg-[#3d0b2b] border-2 border-[#e95420]/50 rounded-xl shadow-[0_0_20px_rgba(233,84,32,0.15)]',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-[#e95420] via-[#77216f] to-white font-mono font-black tracking-tight',
+                subtitle: 'bg-[#e95420]/20 text-[#e95420] border-[#e95420]/30 rounded-md font-mono',
+                tabs: 'bg-[#1a0a14] border border-[#e95420]/20 rounded-lg p-1',
+                btnWatchActive: 'bg-[#e95420] text-white rounded-lg font-bold border border-[#e95420]/60 shadow-[0_0_10px_rgba(233,84,32,0.3)]',
+                btnDlActive: 'bg-[#77216f] text-white rounded-lg font-bold border border-[#77216f]/60 shadow-md',
+                btnAdActive: 'bg-[#5e2750] text-white rounded-lg font-bold border border-[#5e2750]/60 shadow-md',
+                btnInActive: 'bg-transparent text-[#aea79f] hover:text-white border border-transparent rounded-lg',
+                card: 'bg-[#1a0a14]/90 border border-[#e95420]/15 rounded-xl hover:border-[#e95420]/40 text-[#eee] shadow-md',
+                icon: 'rounded-xl bg-gradient-to-br from-[#e95420] to-[#77216f] text-white shadow-lg border border-[#e95420]/30',
+                ctrlBtn: 'bg-[#1a0a14] border border-[#e95420]/20 text-[#e95420] rounded-xl hover:bg-[#e95420]/10',
+                actionBtn: 'bg-[#1a0a14] border border-[#77216f]/40 text-[#aea79f] rounded-lg font-bold hover:border-[#e95420]/60',
+                socialIcon: 'bg-[#1a0a14] border border-[#e95420]/20 text-[#aea79f] rounded-xl hover:bg-[#e95420]/20 hover:text-white',
+                footer: 'bg-[#1a0a14]/90 border border-[#e95420]/15 rounded-xl',
+                footerText: 'text-[#aea79f]',
+                sportsCard: 'bg-[#1a0a14]/90 border border-[#f15b2a]/50 rounded-xl hover:border-[#f15b2a] shadow-[0_0_12px_rgba(241,91,42,0.15)]',
+                sportsTitle: 'text-[#f15b2a]',
+                sportsDesc: 'text-[#f15b2a]/70',
+                sportsIcon: 'rounded-xl bg-gradient-to-br from-[#f15b2a] to-[#c9441a] text-white shadow-lg border border-[#f15b2a]/30'
+            },
+            playstation: {
+                bodyBg: '#003791', b1: '#0070cc', b2: '#004aad', b3: '#0a1930', blobs: true,
+                header: 'bg-[#0b0b0b]/90 border border-[#0070cc]/40 rounded-2xl shadow-[0_0_20px_rgba(0,112,204,0.15)]',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-[#0070cc] to-white font-black tracking-wider drop-shadow-[0_0_10px_rgba(0,112,204,0.3)]',
+                subtitle: 'bg-[#0070cc]/20 text-[#5dade2] border-[#0070cc]/30 rounded-full font-bold',
+                tabs: 'bg-[#0b0b0b] border border-[#0070cc]/30 rounded-[1rem] p-1',
+                btnWatchActive: 'bg-gradient-to-r from-[#0070cc] to-[#004aad] text-white rounded-[0.75rem] font-black border border-[#0070cc]/50 shadow-md',
+                btnDlActive: 'bg-[#2c2c2c] text-white rounded-[0.75rem] font-bold border border-[#444]/50 shadow-md',
+                btnAdActive: 'bg-[#1a1a1a] text-[#5dade2] rounded-[0.75rem] font-bold border border-[#333]/50 shadow-md',
+                btnInActive: 'bg-transparent text-[#888] hover:text-white border border-transparent rounded-[0.75rem]',
+                card: 'bg-[#0b0b0b]/90 border border-[#222] rounded-xl hover:border-[#0070cc]/50 text-[#ddd] shadow-lg',
+                icon: 'rounded-xl bg-gradient-to-br from-[#0070cc] via-[#005aaa] to-[#003791] text-white shadow-lg border border-[#0070cc]/50',
+                ctrlBtn: 'bg-[#1a1a1a] border border-[#333] text-[#5dade2] rounded-xl hover:bg-[#222] hover:border-[#0070cc]/40',
+                actionBtn: 'bg-[#1a1a1a] border border-[#0070cc]/30 text-[#5dade2] rounded-[0.75rem] font-bold hover:bg-[#003791]/30',
+                socialIcon: 'bg-[#1a1a1a] border border-[#333] text-[#aaa] rounded-xl hover:bg-[#0070cc]/20 hover:text-white',
+                footer: 'bg-[#0b0b0b]/90 border border-[#222] rounded-2xl',
+                footerText: 'text-[#888]',
+                sportsCard: 'bg-[#0b0b0b]/90 border border-[#ffb81c]/40 rounded-xl hover:border-[#ffb81c] shadow-[0_0_15px_rgba(255,184,28,0.1)]',
+                sportsTitle: 'text-[#ffb81c]',
+                sportsDesc: 'text-[#ffb81c]/70',
+                sportsIcon: 'rounded-xl bg-gradient-to-br from-[#ffb81c] to-[#e5a000] text-black shadow-lg border border-[#ffb81c]/50'
+            },
+            windows: {
+                bodyBg: '#1c1c1c', b1: '#60cdff', b2: '#9b59b6', b3: '#f3a183', blobs: false,
+                header: 'bg-[#2c2c2c]/80 backdrop-blur-2xl border border-[#ffffff]/10 rounded-2xl shadow-lg',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-[#60cdff] via-[#9b59b6] to-[#f3a183] font-sans font-light tracking-tight',
+                subtitle: 'bg-[#60cdff]/10 text-[#60cdff] border-[#60cdff]/20 rounded-md',
+                tabs: 'bg-[#2c2c2c] border border-[#ffffff]/8 rounded-2xl p-1',
+                btnWatchActive: 'bg-[#60cdff]/20 backdrop-blur-sm text-white rounded-xl font-semibold border border-[#60cdff]/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]',
+                btnDlActive: 'bg-[#9b59b6]/20 backdrop-blur-sm text-white rounded-xl font-semibold border border-[#9b59b6]/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]',
+                btnAdActive: 'bg-[#f3a183]/20 backdrop-blur-sm text-white rounded-xl font-semibold border border-[#f3a183]/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]',
+                btnInActive: 'bg-transparent text-[#888] hover:text-white border border-transparent rounded-xl hover:bg-[#ffffff]/5',
+                card: 'bg-[#2c2c2c]/60 backdrop-blur-2xl border border-[#ffffff]/8 rounded-2xl hover:border-[#60cdff]/30 text-[#ddd] shadow-md hover:shadow-[0_8px_30px_rgba(96,205,255,0.05)]',
+                icon: 'rounded-xl bg-gradient-to-br from-[#60cdff]/30 via-[#9b59b6]/30 to-[#f3a183]/30 text-white border border-[#ffffff]/15 backdrop-blur-sm shadow-lg',
+                ctrlBtn: 'bg-[#ffffff]/5 border border-[#ffffff]/8 text-[#bbb] rounded-xl hover:bg-[#ffffff]/10 hover:text-white',
+                actionBtn: 'bg-[#ffffff]/5 border border-[#ffffff]/8 text-[#bbb] rounded-xl font-semibold hover:bg-[#60cdff]/10 hover:text-[#60cdff]',
+                socialIcon: 'bg-[#ffffff]/5 border border-[#ffffff]/8 text-[#999] rounded-xl hover:bg-[#60cdff]/15 hover:text-white',
+                footer: 'bg-[#2c2c2c]/60 backdrop-blur-sm border border-[#ffffff]/8 rounded-2xl',
+                footerText: 'text-[#888]',
+                sportsCard: 'bg-[#2c2c2c]/60 backdrop-blur-2xl border border-[#f3a183]/30 rounded-2xl hover:border-[#f3a183]/50 shadow-md',
+                sportsTitle: 'text-[#f3a183]',
+                sportsDesc: 'text-[#f3a183]/70',
+                sportsIcon: 'rounded-xl bg-gradient-to-br from-[#f3a183]/40 to-[#e67e22]/40 text-white border border-[#ffffff]/15 backdrop-blur-sm'
+            },
+            spotify: {
+                bodyBg: '#121212', b1: '#1db954', b2: '#1aa34a', b3: '#191414', blobs: true,
+                header: 'bg-[#181818] border border-[#282828] rounded-2xl shadow-lg',
+                logo: 'text-[#1db954] font-black tracking-tight drop-shadow-none',
+                subtitle: 'bg-[#1db954]/10 text-[#1db954] border-[#1db954]/20 rounded-full font-bold',
+                tabs: 'bg-[#181818] border border-[#282828] rounded-[1rem] p-1',
+                btnWatchActive: 'bg-[#1db954] text-black rounded-[2rem] font-black border border-[#1db954]/50 shadow-md',
+                btnDlActive: 'bg-[#282828] text-white rounded-[2rem] font-bold border border-[#333] shadow-md',
+                btnAdActive: 'bg-[#333] text-[#b3b3b3] rounded-[2rem] font-bold border border-[#444] shadow-sm',
+                btnInActive: 'bg-transparent text-[#888] hover:text-white border border-transparent rounded-[2rem]',
+                card: 'bg-[#181818] border border-[#282828] rounded-xl hover:border-[#1db954]/40 text-[#e0e0e0] shadow-md',
+                icon: 'rounded-full bg-[#1db954] text-black shadow-lg shadow-[#1db954]/20 border border-[#1db954]/30',
+                ctrlBtn: 'bg-[#282828] border border-[#333] text-white rounded-full hover:bg-[#333]',
+                actionBtn: 'bg-[#282828] border border-[#333] text-[#b3b3b3] rounded-full font-bold hover:text-white hover:border-[#1db954]/40',
+                socialIcon: 'bg-[#282828] border border-[#333] text-[#b3b3b3] rounded-full hover:bg-[#1db954] hover:text-black',
+                footer: 'bg-[#181818] border border-[#282828] rounded-2xl',
+                footerText: 'text-[#888]',
+                sportsCard: 'bg-[#181818] border border-[#ff6437]/40 rounded-xl hover:border-[#ff6437] shadow-[0_0_15px_rgba(255,100,55,0.08)]',
+                sportsTitle: 'text-[#ff6437]',
+                sportsDesc: 'text-[#ff6437]/70',
+                sportsIcon: 'rounded-full bg-gradient-to-br from-[#ff6437] to-[#ff4500] text-black shadow-lg border border-[#ff6437]/30'
+            },
+            xbox: {
+                bodyBg: '#0e0e0e', b1: '#107c10', b2: '#52b043', b3: '#186818', blobs: true,
+                header: 'bg-[#1a1a1a] border-2 border-[#107c10]/40 rounded-2xl shadow-[0_0_20px_rgba(16,124,16,0.1)]',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-[#52b043] via-[#107c10] to-[#52b043] font-black tracking-wider',
+                subtitle: 'bg-[#107c10]/20 text-[#52b043] border-[#107c10]/30 rounded-full font-bold',
+                tabs: 'bg-[#0e0e0e] border border-[#107c10]/30 rounded-xl p-1',
+                btnWatchActive: 'bg-gradient-to-r from-[#107c10] to-[#52b043] text-white rounded-xl font-black border border-[#52b043]/40 shadow-[0_0_12px_rgba(16,124,16,0.3)]',
+                btnDlActive: 'bg-[#2c2c2c] text-white rounded-xl font-bold border border-[#444] shadow-md',
+                btnAdActive: 'bg-[#1a1a1a] text-[#888] rounded-xl font-bold border border-[#333] shadow-md',
+                btnInActive: 'bg-transparent text-[#666] hover:text-white border border-transparent rounded-xl',
+                card: 'bg-[#1a1a1a]/95 border border-[#222] rounded-2xl hover:border-[#107c10]/50 text-[#ccc] shadow-lg',
+                icon: 'rounded-2xl bg-gradient-to-br from-[#107c10] via-[#186818] to-[#0a4a0a] text-white shadow-lg border border-[#52b043]/40',
+                ctrlBtn: 'bg-[#222] border border-[#333] text-[#52b043] rounded-xl hover:bg-[#2a2a2a] hover:border-[#107c10]/40',
+                actionBtn: 'bg-[#222] border border-[#107c10]/30 text-[#52b043] rounded-xl font-bold hover:bg-[#107c10]/15',
+                socialIcon: 'bg-[#222] border border-[#333] text-[#888] rounded-xl hover:bg-[#107c10]/20 hover:text-white',
+                footer: 'bg-[#1a1a1a]/95 border border-[#222] rounded-2xl',
+                footerText: 'text-[#666]',
+                sportsCard: 'bg-[#1a1a1a]/95 border border-[#e51400]/40 rounded-2xl hover:border-[#e51400] shadow-[0_0_15px_rgba(229,20,0,0.1)]',
+                sportsTitle: 'text-[#e51400]',
+                sportsDesc: 'text-[#e51400]/70',
+                sportsIcon: 'rounded-2xl bg-gradient-to-br from-[#e51400] to-[#b31000] text-white shadow-lg border border-[#e51400]/40'
+            },
+            nintendo: {
+                bodyBg: '#e60012', b1: '#ff6b7a', b2: '#ff2d3b', b3: '#b3000e', blobs: true,
+                header: 'bg-white/95 border-4 border-[#e60012] rounded-[2rem] shadow-[0_8px_0px_#b3000e]',
+                logo: 'text-[#e60012] font-black tracking-tight drop-shadow-[2px_2px_0px_rgba(0,0,0,0.1)]',
+                subtitle: 'bg-[#e60012] text-white border-2 border-[#b3000e] rounded-full font-black',
+                tabs: 'bg-white/95 border-2 border-[#e60012] rounded-[2rem] p-1 shadow-[0_3px_0px_#b3000e]',
+                btnWatchActive: 'bg-[#e60012] text-white rounded-[2rem] font-black border-2 border-[#b3000e] shadow-[0_3px_0px_#b3000e]',
+                btnDlActive: 'bg-[#2e2e2e] text-white rounded-[2rem] font-bold border-2 border-[#1a1a1a] shadow-[0_3px_0px_#1a1a1a]',
+                btnAdActive: 'bg-[#4a4a4a] text-white rounded-[2rem] font-bold border-2 border-[#333] shadow-[0_3px_0px_#333]',
+                btnInActive: 'bg-transparent text-[#e60012] border border-transparent rounded-[2rem]',
+                card: 'bg-white/95 border-2 border-[#ddd] rounded-[1.75rem] hover:border-[#e60012] text-[#333] shadow-md hover:shadow-[0_8px_30px_rgba(230,0,18,0.1)]',
+                icon: 'rounded-full bg-gradient-to-br from-[#e60012] to-[#ff2d3b] text-white border-2 border-white shadow-lg',
+                ctrlBtn: 'bg-white/95 border-2 border-[#ddd] text-[#e60012] rounded-full hover:bg-[#e60012]/5 hover:border-[#e60012]/30',
+                actionBtn: 'bg-[#e60012]/5 border-2 border-[#e60012]/20 text-[#e60012] rounded-full font-bold hover:bg-[#e60012]/10',
+                socialIcon: 'bg-white/95 border-2 border-[#ddd] text-[#666] rounded-full hover:bg-[#e60012] hover:text-white',
+                footer: 'bg-white/95 border-2 border-[#ddd] rounded-[2rem]',
+                footerText: 'text-[#666]',
+                sportsCard: 'bg-white/95 border-2 border-[#00a1e9] rounded-[1.75rem] hover:border-[#00a1e9] shadow-md',
+                sportsTitle: 'text-[#00a1e9]',
+                sportsDesc: 'text-[#00a1e9]/70',
+                sportsIcon: 'rounded-full bg-gradient-to-br from-[#00a1e9] to-[#0079b5] text-white border-2 border-white shadow-lg'
+            },
+            tesla: {
+                bodyBg: '#0a0a0a', b1: '#e82127', b2: '#333333', b3: '#555555', blobs: true,
+                header: 'bg-black/90 border border-[#e82127]/30 rounded-3xl shadow-[0_0_30px_rgba(232,33,39,0.08)]',
+                logo: 'text-white font-sans font-light tracking-[0.2em] uppercase drop-shadow-none',
+                subtitle: 'bg-[#e82127]/10 text-[#e82127] border-[#e82127]/20 rounded-sm uppercase tracking-widest text-[9px]',
+                tabs: 'bg-black border border-[#222] rounded-2xl p-1',
+                btnWatchActive: 'bg-[#e82127] text-white rounded-full font-bold border border-[#e82127]/50 shadow-[0_0_15px_rgba(232,33,39,0.2)]',
+                btnDlActive: 'bg-[#1a1a1a] text-white rounded-full font-bold border border-[#333] shadow-sm',
+                btnAdActive: 'bg-[#222] text-[#999] rounded-full font-bold border border-[#333] shadow-sm',
+                btnInActive: 'bg-transparent text-[#555] hover:text-white border border-transparent rounded-full',
+                card: 'bg-[#111]/90 border border-[#222] rounded-2xl hover:border-[#e82127]/40 text-[#ccc] shadow-md',
+                icon: 'rounded-full bg-gradient-to-br from-[#e82127] to-[#991418] text-white shadow-lg border border-[#e82127]/40',
+                ctrlBtn: 'bg-[#1a1a1a] border border-[#333] text-[#e82127] rounded-full hover:bg-[#222] hover:border-[#e82127]/30',
+                actionBtn: 'bg-[#1a1a1a] border border-[#e82127]/25 text-[#e82127] rounded-full font-bold hover:bg-[#e82127]/10',
+                socialIcon: 'bg-[#1a1a1a] border border-[#333] text-[#777] rounded-full hover:bg-[#e82127] hover:text-white',
+                footer: 'bg-[#111]/90 border border-[#222] rounded-3xl',
+                footerText: 'text-[#555]',
+                sportsCard: 'bg-[#111]/90 border border-[#e82127]/40 rounded-2xl hover:border-[#e82127]/70 shadow-[0_0_15px_rgba(232,33,39,0.08)]',
+                sportsTitle: 'text-[#e82127]',
+                sportsDesc: 'text-[#e82127]/70',
+                sportsIcon: 'rounded-full bg-gradient-to-br from-[#e82127] to-[#991418] text-white shadow-lg border border-[#e82127]/40'
+            },
+            samsung: {
+                bodyBg: '#0f1423', b1: '#1259f3', b2: '#1428a0', b3: '#e8e8e8', blobs: false,
+                header: 'bg-[#1a2340]/90 backdrop-blur-xl border border-[#1259f3]/20 rounded-[2rem] shadow-lg',
+                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-[#1259f3] to-[#6a9eff] font-sans font-bold tracking-tight',
+                subtitle: 'bg-[#1259f3]/10 text-[#6a9eff] border-[#1259f3]/20 rounded-full',
+                tabs: 'bg-[#1a2340]/50 border border-[#ffffff]/8 rounded-[1.5rem] p-1',
+                btnWatchActive: 'bg-[#1259f3] text-white rounded-full font-bold border border-[#1259f3]/60 shadow-[0_0_15px_rgba(18,89,243,0.25)]',
+                btnDlActive: 'bg-[#1428a0] text-white rounded-full font-bold border border-[#1428a0]/60 shadow-md',
+                btnAdActive: 'bg-[#2a3a6a] text-white rounded-full font-bold border border-[#2a3a6a]/60 shadow-sm',
+                btnInActive: 'bg-transparent text-[#6a7a9a] hover:text-white border border-transparent rounded-full',
+                card: 'bg-[#1a2340]/60 backdrop-blur-2xl border border-[#ffffff]/8 rounded-[1.75rem] hover:border-[#1259f3]/30 text-[#d0d8e8] shadow-md',
+                icon: 'rounded-full bg-gradient-to-br from-[#1259f3] via-[#4a7af3] to-[#6a9eff] text-white shadow-lg shadow-[#1259f3]/20 border border-[#ffffff]/20',
+                ctrlBtn: 'bg-[#1a2340]/40 border border-[#ffffff]/8 text-[#6a9eff] rounded-full hover:bg-[#1259f3]/10 hover:border-[#1259f3]/30',
+                actionBtn: 'bg-[#1a2340]/40 border border-[#1259f3]/20 text-[#6a9eff] rounded-full font-bold hover:bg-[#1259f3]/15',
+                socialIcon: 'bg-[#1a2340]/40 border border-[#ffffff]/8 text-[#6a7a9a] rounded-full hover:bg-[#1259f3] hover:text-white',
+                footer: 'bg-[#1a2340]/60 backdrop-blur-sm border border-[#ffffff]/8 rounded-[2rem]',
+                footerText: 'text-[#6a7a9a]',
+                sportsCard: 'bg-[#1a2340]/60 backdrop-blur-2xl border border-[#f2a900]/40 rounded-[1.75rem] hover:border-[#f2a900]/60 shadow-md',
+                sportsTitle: 'text-[#f2a900]',
+                sportsDesc: 'text-[#f2a900]/70',
+                sportsIcon: 'rounded-full bg-gradient-to-br from-[#f2a900] to-[#d49500] text-white shadow-lg border border-[#ffffff]/20'
             }
         };
 
@@ -1039,9 +1335,9 @@
 
         let hlsPlayerInstance = null;
         const sportsChannelsData = [
-            { id: 1, name: 'قناة 1', url: 'https://cdn.soft31.com/erthlik/22', type: 'web' },
-            { id: 2, name: 'قناة 2', url: 'https://s3.us-east-2.amazonaws.com/cdnw102/live/stream/720p/tracks-v1a1/mono.m3u8', type: 'stream' },
-            { id: 3, name: 'قناة 3', url: 'https://mc.rootsee.shop/citroo3_720/index.m3u8', type: 'stream' }
+            { id: 1, name: 'رابط القنوات', url: 'https://cdn.soft31.com/erthlik/22', type: 'web' },
+            { id: 2, name: 'قناة 1', url: 'https://s3.us-east-2.amazonaws.com/cdnw102/live/stream/720p/tracks-v1a1/mono.m3u8', type: 'stream' },
+            { id: 3, name: 'قناة 2', url: 'https://mc.rootsee.shop/citroo3_720/index.m3u8', type: 'stream' }
         ];
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -1539,6 +1835,8 @@
             document.getElementById('sportsModal').classList.add('hidden');
             const videoElement = document.getElementById('sportsVideoPlayer');
             videoElement.pause();
+            videoElement.removeAttribute('src');
+            videoElement.load();
             videoElement.currentTime = 0;
             if (hlsPlayerInstance) {
                 hlsPlayerInstance.destroy();
@@ -1553,23 +1851,46 @@
                 hlsPlayerInstance.destroy();
                 hlsPlayerInstance = null;
             }
+            videoElement.src = '';
+            videoElement.load();
 
-            if (Hls.isSupported()) {
-                hlsPlayerInstance = new Hls();
-                hlsPlayerInstance.loadSource(url);
-                hlsPlayerInstance.attachMedia(videoElement);
-                hlsPlayerInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-                    videoElement.play();
-                });
-            } 
-            else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-                videoElement.src = url;
-                videoElement.addEventListener('loadedmetadata', function() {
-                    videoElement.play();
-                });
+            // إزالة أخطاء الأندرويد: نستخدم hls.js فقط إن كان متاحًا وباقي الأجهزة نستخدم src مباشرة
+            if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+                try {
+                    hlsPlayerInstance = new Hls();
+                    hlsPlayerInstance.loadSource(url);
+                    hlsPlayerInstance.attachMedia(videoElement);
+                    hlsPlayerInstance.on(Hls.Events.MANIFEST_PARSED, function() {
+                        videoElement.play().catch(function(e) {
+                            // بعض أجهزة الأندرويد تحتاج تفاعل المستخدم
+                            console.warn('لم يتم التشغيل التلقائي، انتظر تفاعل المستخدم', e);
+                        });
+                    });
+                    hlsPlayerInstance.on(Hls.Events.ERROR, function(event, data) {
+                        if (data.fatal) {
+                            console.error('خطأ في hls.js:', data);
+                            hlsPlayerInstance.destroy();
+                            hlsPlayerInstance = null;
+                            // الرجوع للطريقة البديلة
+                            fallbackPlay(url);
+                        }
+                    });
+                } catch (e) {
+                    console.warn('تعذر تشغيل hls.js، استخدام الطريقة البديلة', e);
+                    fallbackPlay(url);
+                }
             } else {
-                alert("متصفحك لا يدعم تشغيل هذا الصيغة، يرجى استخدام متصفح آخر أو تطبيق VLC.");
+                fallbackPlay(url);
             }
+        }
+
+        function fallbackPlay(url) {
+            const videoElement = document.getElementById('sportsVideoPlayer');
+            videoElement.src = url;
+            videoElement.load();
+            videoElement.play().catch(function(e) {
+                console.warn('التشغيل التلقائي لم يعمل، انتظر المستخدم', e);
+            });
         }
 
         function copySportsLink(url) {
@@ -1600,29 +1921,30 @@
             
             sportsChannelsData.forEach((channel) => {
                 const channelEl = document.createElement('div');
-                channelEl.className = 'flex items-center gap-2 bg-white/[0.04] p-2 rounded-xl border border-white/[0.06] hover:bg-white/[0.08] transition';
+                channelEl.className = 'flex items-center gap-2 bg-white/[0.03] hover:bg-white/[0.06] p-2 rounded-xl border border-white/[0.05] hover:border-white/10 transition-all active:scale-[0.99]';
                 
                 let actionButton = '';
+                const isWeb = channel.type === 'web';
                 
-                if (channel.type === 'web') {
+                if (isWeb) {
                     actionButton = `
-                        <a href="${channel.url}" target="_blank" class="flex-1 bg-gradient-to-l from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs font-black py-2.5 px-3 rounded-lg transition text-right flex justify-between items-center shadow-md border border-blue-500/50">
+                        <a href="${channel.url}" target="_blank" class="flex-1 bg-gradient-to-l from-sky-600 to-blue-500 hover:from-sky-500 hover:to-blue-400 text-white text-xs font-black py-2.5 px-3 rounded-xl transition text-right flex justify-between items-center shadow-md shadow-sky-900/30 border border-sky-500/40 active:scale-[0.98]">
                             <span><i class="fas fa-external-link-alt ml-1.5 text-sm"></i> ${channel.name}</span>
-                            <span class="text-[10px] bg-black/40 px-2.5 py-1 rounded-md">فتح كصفحة</span>
+                            <span class="text-[10px] bg-black/30 px-2.5 py-1 rounded-lg backdrop-blur-sm">فتح الرابط</span>
                         </a>
                     `;
                 } else {
                     actionButton = `
-                        <button onclick="playSportsChannel('${channel.url}')" class="flex-1 bg-gradient-to-l from-rose-600 to-orange-500 hover:from-rose-500 hover:to-orange-400 text-white text-xs font-black py-2.5 px-3 rounded-lg transition text-right flex justify-between items-center shadow-md border border-rose-500/50">
+                        <button onclick="playSportsChannel('${channel.url}')" class="flex-1 bg-gradient-to-l from-rose-600 to-orange-500 hover:from-rose-500 hover:to-orange-400 text-white text-xs font-black py-2.5 px-3 rounded-xl transition text-right flex justify-between items-center shadow-md shadow-rose-900/30 border border-rose-500/40 active:scale-[0.98]">
                             <span><i class="fas fa-play-circle ml-1.5 text-sm"></i> ${channel.name}</span>
-                            <span class="text-[10px] bg-black/40 px-2.5 py-1 rounded-md">شغّل الآن</span>
+                            <span class="text-[10px] bg-black/30 px-2.5 py-1 rounded-lg backdrop-blur-sm">شغّل الآن</span>
                         </button>
                     `;
                 }
 
                 channelEl.innerHTML = `
                     ${actionButton}
-                    <button onclick="copySportsLink('${channel.url}')" class="w-11 h-11 bg-white/[0.06] hover:bg-white/10 text-blue-400 rounded-lg flex items-center justify-center transition border border-white/[0.05] shrink-0" title="نسخ الرابط للمشغل الخارجي">
+                    <button onclick="copySportsLink('${channel.url}')" class="w-11 h-11 bg-white/[0.05] hover:bg-white/10 text-sky-400 rounded-xl flex items-center justify-center transition border border-white/[0.05] shrink-0 active:scale-90" title="نسخ الرابط">
                         <i class="fas fa-copy text-lg"></i>
                     </button>
                 `;
