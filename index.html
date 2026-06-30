@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <!-- مكتبة تشغيل m3u8 -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
     <script>
         tailwind.config = {
@@ -205,6 +207,46 @@
         </div>
     </div>
 
+    <!-- نافذة قنوات الرياضة المنبثقة -->
+    <div id="sportsModal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/95 backdrop-blur-xl p-4 transition-all duration-300">
+        <div class="bg-slate-900 p-5 rounded-[2rem] w-full max-w-lg border border-white/15 shadow-2xl relative max-h-[90vh] overflow-y-auto no-scrollbar flex flex-col gap-4">
+            <button onclick="closeSportsModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition z-10">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h3 class="text-center font-black text-xl mt-2 text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-orange-400 shrink-0">قنوات رياضية (مؤقتة)</h3>
+            
+            <!-- إشعار الـ VLC -->
+            <div class="bg-blue-950/50 border border-blue-500/30 p-4 rounded-2xl text-center shadow-inner">
+                <p class="text-xs text-blue-200 font-bold mb-3">إذا لم تعمل الروابط داخل المنصة، يرجى تشغيلها باستخدام مشغل VLC.</p>
+                <div class="flex justify-center gap-2 mb-3">
+                    <a href="https://apps.apple.com/app/vlc-media-player/id650377962" target="_blank" class="flex-1 bg-white/10 hover:bg-white/20 py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-2 border border-white/5 transition"><i class="fab fa-apple text-xl"></i> متجر آبل</a>
+                    <a href="https://play.google.com/store/apps/details?id=org.videolan.vlc" target="_blank" class="flex-1 bg-white/10 hover:bg-white/20 py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-2 border border-white/5 transition"><i class="fab fa-google-play text-xl text-green-400"></i> متجر جوجل</a>
+                </div>
+                <div class="text-[10px] text-blue-300 bg-black/20 p-2 rounded-lg text-right font-bold leading-relaxed border border-white/5">
+                    <i class="fas fa-info-circle text-blue-400 ml-1"></i> <strong>خطوات التشغيل في تطبيق VLC:</strong><br>
+                    1. افتح التطبيق واختر "المزيد" (More) من الأسفل.<br>
+                    2. اضغط على "بث جديد" (New Stream).<br>
+                    3. الصق الرابط واضغط تشغيل.
+                </div>
+            </div>
+
+            <!-- مشغل الفيديو المدمج -->
+            <div class="relative w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 shadow-lg">
+                <video id="sportsVideoPlayer" controls class="w-full h-full object-contain" poster="https://i.imgur.com/vH9x4uV.png"></video>
+            </div>
+
+            <!-- قائمة القنوات -->
+            <div class="space-y-2 mt-2">
+                <h4 class="text-sm font-bold text-white mb-2"><i class="fas fa-list-ul ml-1 text-rose-400"></i> اختر القناة للتشغيل أو للنسخ:</h4>
+                <div class="flex flex-col gap-2" id="channelsListContainer">
+                    <!-- سيتم إضافة الأزرار من خلال الجافاسكربت -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- نهاية نافذة الرياضة -->
+
     <div class="relative z-20 max-w-md mx-auto px-4 pt-10">
         
         <div id="mainHeaderCard" class="glass-panel rounded-3xl p-6 text-center mb-6 theme-transition shadow-lg backdrop-blur-md bg-white/5 border border-white/10">
@@ -257,6 +299,18 @@
 
         <div id="appsContainer" class="space-y-4">
 
+            <!-- الإضافة الجديدة: تم نقل زر القنوات الرياضية المؤقتة ليكون في الأعلى -->
+            <div id="watch-temp-sports" data-mode="watch" onclick="openSportsModal()" class="app-item flex items-center p-3 rounded-2xl group theme-transition cursor-pointer">
+                <div data-icon-index="4" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition relative">
+                    <i class="fas fa-futbol"></i>
+                    <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulseLive"></span>
+                </div>
+                <div class="mr-4 flex-1">
+                    <h3 class="app-item-title font-bold text-lg text-rose-100 group-hover:text-white transition">قنوات رياضية (مؤقتة)</h3>
+                    <p class="app-item-desc text-xs text-rose-300/80">بث مباشر للمباريات</p>
+                </div>
+            </div>
+
             <a href="https://movie.vodu.me/" id="watch-vodu-movie" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
                 <div data-icon-index="0" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-play"></i>
@@ -276,6 +330,7 @@
                     <p class="app-item-desc text-xs text-cyan-300/80">الموقع الرسمي لمشاهدة التلفزيون بث مباشر والقنوات</p>
                 </div>
             </a>
+            
             <a href="https://tv9.egydead.live/" target="_blank" id="watch-egydead" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
                 <div data-icon-index="16" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-film"></i>
@@ -285,6 +340,7 @@
                     <p class="app-item-desc text-xs text-purple-300/80">متابعة أحدث الأفلام والمسلسلات</p>
                 </div>
             </a>
+            
             <a href="https://cee.buzz" target="_blank" id="watch-cee" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
                 <div data-icon-index="2" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 relative theme-transition">
                     <i class="fas fa-tv"></i>
@@ -417,9 +473,7 @@
                 </div>
             </a>
 
-            <!-- تم دمج الكود الجديد هنا وإضافة الحدث onclick -->
             <div id="adguard-block" data-mode="block-ads" onclick="openAdGuardLink()" class="app-item flex flex-col p-5 rounded-2xl group theme-transition cursor-pointer hover:bg-white/5">
-                <!-- عنوان القسم -->
                 <div class="flex items-center mb-4 w-full">
                     <div data-icon-index="15" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                         <i class="fas fa-shield-halved"></i>
@@ -430,16 +484,13 @@
                     </div>
                 </div>
                 
-                <!-- محتوى القسم والتعليمات -->
                 <div class="w-full border-t border-white/10 pt-4 font-sans leading-relaxed">
                     <p class="text-sm font-bold app-item-desc mb-5 text-right">
                         <i class="fas fa-user-shield text-emerald-400 ml-1"></i>
                         <strong>حول الأمان:</strong> هذه الخدمة آمنة تماماً ومقدمة من شركة <strong>AdGuard</strong> الرائدة عالمياً. تعمل التقنية على تصفية الاتصال وحظر الإعلانات والروابط الضارة تلقائياً دون الحاجة لتثبيت برامج خارجية مستهلكة للبطارية.
                     </p>
                     
-                    <!-- المستطيلات العرضية لعزل الأنظمة -->
                     <div class="flex flex-col gap-3">
-                        <!-- مستطيل الآيفون (iOS) -->
                         <div class="bg-white/5 p-4 rounded-xl border border-white/5 flex items-center gap-4 text-right">
                             <div class="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center shrink-0 border border-purple-500/20">
                                 <i class="fab fa-apple text-2xl text-purple-400"></i>
@@ -450,7 +501,6 @@
                             </div>
                         </div>
                         
-                        <!-- مستطيل الأندرويد (Android) -->
                         <div class="bg-white/5 p-4 rounded-xl border border-white/5 flex items-center gap-4 text-right">
                             <div class="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center shrink-0 border border-green-500/20">
                                 <i class="fab fa-android text-2xl text-green-400"></i>
@@ -462,7 +512,7 @@
                         </div>
                     </div>
                 </div>
-            </div> <!-- نهاية حاوية adguard-block -->
+            </div>
 
             <div id="noResults" class="hidden text-center py-8 text-gray-400 font-bold bg-white/5 rounded-2xl border border-white/5">
                 <i class="fas fa-search-minus text-2xl mb-2 block text-gray-500"></i>
@@ -584,7 +634,7 @@
             glassDark: originalIcons
         };
 
-        const platformThemes = {
+      const platformThemes = {
             glassDark: {
                 bodyBg: '#0f172a', b1: '#9333ea', b2: '#2563eb', b3: '#db2777', blobs: true,
                 header: 'bg-white/5 border-white/10 rounded-3xl',
@@ -601,7 +651,12 @@
                 actionBtn: 'bg-white/5 border-white/15 text-purple-400 rounded-xl hover:bg-white/12',
                 socialIcon: 'bg-white/5 border-white/10 text-white rounded-xl hover:bg-white/10',
                 footer: 'bg-slate-900/40 border-white/10',
-                footerText: 'text-gray-300'
+                footerText: 'text-gray-300',
+                // ألوان معاكسة لبطاقة الرياضة (برتقالي بدل الأزرق/البنفسجي)
+                sportsCard: 'bg-orange-900/30 border border-orange-500/50 hover:bg-orange-900/50 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.15)]',
+                sportsTitle: 'text-orange-400 group-hover:text-orange-300',
+                sportsDesc: 'text-orange-300/80',
+                sportsIcon: 'rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 text-white'
             },
             woody: {
                 bodyBg: '#1e3a8a', b1: '#eab308', b2: '#ef4444', b3: '#ffffff', blobs: true,
@@ -619,7 +674,12 @@
                 actionBtn: 'bg-yellow-400 border-2 border-amber-600 text-amber-900 rounded-xl font-black hover:bg-yellow-500 shadow-[0_4px_0px_#b45309]',
                 socialIcon: 'bg-[#8b4513] border-2 border-[#5c2e0e] text-yellow-300 rounded-xl hover:bg-[#a0522d] shadow-[0_3px_0px_#5c2e0e]',
                 footer: 'bg-[#fffbeb] border-4 border-[#8b4513] rounded-2xl shadow-[4px_4px_0px_#5c2e0e]',
-                footerText: 'text-[#8b4513] font-black'
+                footerText: 'text-[#8b4513] font-black',
+                // ألوان معاكسة لبطاقة الرياضة (سماوي وأزرق بدل الخشبي والأصفر)
+                sportsCard: 'bg-[#e0f2fe] border-4 border-[#0284c7] rounded-2xl hover:bg-[#bae6fd] shadow-[4px_4px_0px_#0369a1]',
+                sportsTitle: 'text-[#075985]',
+                sportsDesc: 'text-[#0ea5e9]',
+                sportsIcon: 'rounded-full bg-[#38bdf8] text-[#082f49] border-4 border-[#0284c7] shadow-[2px_2px_0px_#0369a1]'
             },
             retro: {
                 bodyBg: '#2b1055', b1: '#ff007f', b2: '#39ff14', b3: '#00ffff', blobs: false,
@@ -637,7 +697,12 @@
                 actionBtn: 'bg-orange-500 text-white border-2 border-black rounded-none font-bold hover:bg-orange-600 shadow-[3px_3px_0px_#000]',
                 socialIcon: 'bg-cyan-400 text-black border-2 border-black rounded-none hover:bg-cyan-300',
                 footer: 'bg-black border-4 border-black rounded-none',
-                footerText: 'text-yellow-400 font-bold'
+                footerText: 'text-yellow-400 font-bold',
+                // ألوان معاكسة لبطاقة الرياضة (أخضر فاقع بدل البنفسجي)
+                sportsCard: 'bg-green-400 border-4 border-black rounded-none shadow-[6px_6px_0px_#000] hover:bg-green-300',
+                sportsTitle: 'text-black font-black',
+                sportsDesc: 'text-black/80 font-bold',
+                sportsIcon: 'rounded-none bg-black text-green-400 border-2 border-black'
             },
             formal: {
                 bodyBg: '#0a0a0a', b1: '#111', b2: '#222', b3: '#333', blobs: false,
@@ -655,7 +720,12 @@
                 actionBtn: 'bg-zinc-900 border border-zinc-700 text-zinc-300 rounded-none hover:bg-zinc-800',
                 socialIcon: 'bg-zinc-900 border border-zinc-800 text-zinc-400 rounded-none hover:text-white',
                 footer: 'bg-zinc-950 border border-zinc-800 rounded-none',
-                footerText: 'text-zinc-400'
+                footerText: 'text-zinc-400',
+                // ألوان معاكسة لبطاقة الرياضة (أبيض بدل الأسود)
+                sportsCard: 'bg-zinc-200 border border-zinc-400 rounded-none hover:bg-white',
+                sportsTitle: 'text-black',
+                sportsDesc: 'text-zinc-600',
+                sportsIcon: 'rounded-none bg-zinc-800 text-zinc-100 border border-zinc-900'
             },
             queen: {
                 bodyBg: '#831843', b1: '#fbcfe8', b2: '#f9a8d4', b3: '#f472b6', blobs: true,
@@ -673,7 +743,12 @@
                 actionBtn: 'bg-rose-100 border border-rose-200 text-rose-600 rounded-full font-bold hover:bg-rose-200',
                 socialIcon: 'bg-pink-50 border border-pink-100 text-pink-400 rounded-full hover:bg-pink-100',
                 footer: 'bg-white border-2 border-pink-100 rounded-[2rem]',
-                footerText: 'text-pink-700'
+                footerText: 'text-pink-700',
+                // ألوان معاكسة لبطاقة الرياضة (أخضر تيل بدل الوردي)
+                sportsCard: 'bg-teal-50 border-2 border-teal-200 rounded-[2rem] hover:border-teal-300 shadow-sm',
+                sportsTitle: 'text-teal-800',
+                sportsDesc: 'text-teal-600',
+                sportsIcon: 'rounded-full bg-gradient-to-br from-teal-300 to-emerald-400 text-white border-2 border-white shadow-md'
             },
             sport: {
                 bodyBg: '#05160e', b1: '#22c55e', b2: '#15803d', b3: '#1e3a1e', blobs: true,
@@ -691,7 +766,12 @@
                 actionBtn: 'bg-gradient-to-r from-zinc-800 to-zinc-900 border border-zinc-700 text-yellow-400 rounded-lg font-black hover:text-white',
                 socialIcon: 'bg-zinc-800 border border-zinc-700 text-white rounded-lg hover:bg-green-600',
                 footer: 'bg-zinc-900 border-2 border-zinc-800 rounded-xl',
-                footerText: 'text-green-400'
+                footerText: 'text-green-400',
+                // ألوان معاكسة لبطاقة الرياضة (أحمر بدل الأخضر)
+                sportsCard: 'bg-zinc-900 border-r-4 border-red-500 border-y border-l border-zinc-800 rounded-xl hover:bg-zinc-800 skew-x-[-1deg] shadow-[0_0_10px_rgba(239,68,68,0.15)]',
+                sportsTitle: 'text-red-400',
+                sportsDesc: 'text-red-500/80',
+                sportsIcon: 'rounded-lg bg-gradient-to-br from-red-500 to-rose-700 text-white shadow-md border border-red-400/40'
             },
             garage: {
                 bodyBg: '#1c1917', b1: '#ea580c', b2: '#78716c', b3: '#292524', blobs: true,
@@ -709,7 +789,12 @@
                 actionBtn: 'bg-amber-600 border border-amber-500 text-stone-955 rounded-xl font-black hover:bg-amber-500',
                 socialIcon: 'bg-stone-800 border border-stone-700 text-white rounded-xl hover:bg-amber-600',
                 footer: 'bg-stone-900 border border-stone-800 rounded-2xl',
-                footerText: 'text-stone-300'
+                footerText: 'text-stone-300',
+                // ألوان معاكسة لبطاقة الرياضة (أزرق سماوي بدل الخردلي)
+                sportsCard: 'bg-stone-900 border border-sky-500/60 rounded-xl hover:border-sky-400 shadow-[0_0_12px_rgba(14,165,233,0.2)]',
+                sportsTitle: 'text-sky-400',
+                sportsDesc: 'text-sky-500/80',
+                sportsIcon: 'rounded-xl bg-gradient-to-br from-sky-600 to-blue-800 text-white border-2 border-sky-500 shadow-inner'
             },
             smart: {
                 bodyBg: '#020617', b1: '#06b6d4', b2: '#3b82f6', b3: '#0f172a', blobs: true,
@@ -727,7 +812,12 @@
                 actionBtn: 'bg-slate-900 border border-cyan-500/40 text-cyan-300 rounded-xl font-bold hover:bg-cyan-950',
                 socialIcon: 'bg-slate-900 border border-slate-800 text-white rounded-xl hover:border-blue-500',
                 footer: 'bg-slate-950 border border-slate-800 rounded-2xl',
-                footerText: 'text-cyan-300'
+                footerText: 'text-cyan-300',
+                // ألوان معاكسة لبطاقة الرياضة (وردي/فوشيا بدل الأزرق)
+                sportsCard: 'bg-slate-950/90 border border-fuchsia-500/40 rounded-xl hover:border-fuchsia-400 shadow-[0_2px_12px_rgba(217,70,239,0.15)]',
+                sportsTitle: 'text-fuchsia-400',
+                sportsDesc: 'text-fuchsia-500/80',
+                sportsIcon: 'rounded-lg bg-slate-900 text-fuchsia-400 border border-fuchsia-500/50 shadow-[0_0_8px_rgba(217,70,239,0.4)]'
             },
             muscle: {
                 bodyBg: '#111827', b1: '#ef4444', b2: '#dc2626', b3: '#1f2937', blobs: true,
@@ -745,7 +835,12 @@
                 actionBtn: 'bg-gradient-to-b from-red-600 to-red-700 text-white rounded-md font-black shadow-md border border-red-500',
                 socialIcon: 'bg-gray-800 border border-gray-700 text-white rounded-lg hover:bg-red-600',
                 footer: 'bg-gray-900 border-2 border-gray-800 rounded-xl',
-                footerText: 'text-gray-300'
+                footerText: 'text-gray-300',
+                // ألوان معاكسة لبطاقة الرياضة (أصفر بدل الأحمر)
+                sportsCard: 'bg-gray-900 border border-yellow-500 rounded-lg hover:border-yellow-400 shadow-[0_0_15px_rgba(234,179,8,0.2)]',
+                sportsTitle: 'text-yellow-400 uppercase',
+                sportsDesc: 'text-yellow-500/80',
+                sportsIcon: 'rounded-none bg-gradient-to-br from-yellow-500 to-amber-700 text-black border-2 border-gray-600 shadow-xl'
             },
             nemo: {
                 bodyBg: '#0c4a6e', b1: '#f97316', b2: '#0284c7', b3: '#ea580c', blobs: true,
@@ -763,7 +858,12 @@
                 actionBtn: 'bg-orange-500 border-2 border-white text-white rounded-full font-black hover:bg-orange-600 shadow-md',
                 socialIcon: 'bg-sky-100 border-2 border-sky-200 text-sky-700 rounded-full hover:bg-sky-200',
                 footer: 'bg-white border-4 border-sky-100 rounded-[2rem]',
-                footerText: 'text-sky-800'
+                footerText: 'text-sky-800',
+                // ألوان معاكسة لبطاقة الرياضة (بنفسجي بدل البرتقالي/الأزرق)
+                sportsCard: 'bg-white border-4 border-purple-300 rounded-[2rem] hover:border-purple-400 shadow-md',
+                sportsTitle: 'text-purple-700',
+                sportsDesc: 'text-purple-500',
+                sportsIcon: 'rounded-full bg-gradient-to-b from-purple-400 to-fuchsia-600 text-white border-4 border-white shadow-lg animate-floatFast'
             },
             cyberpunk: {
                 bodyBg: '#05050a', b1: '#06b6d4', b2: '#ec4899', b3: '#f43f5e', blobs: true,
@@ -781,7 +881,12 @@
                 actionBtn: 'bg-black border-2 border-cyan-400 text-fuchsia-400 rounded-none font-black hover:bg-cyan-900 shadow-[2px_2px_0px_rgba(236,72,153,1)]',
                 socialIcon: 'bg-black border border-cyan-500 text-white rounded-none hover:bg-fuchsia-500',
                 footer: 'bg-black border-2 border-fuchsia-500 rounded-none',
-                footerText: 'text-cyan-400'
+                footerText: 'text-cyan-400',
+                // ألوان معاكسة لبطاقة الرياضة (أصفر فاقع بدل الوردي/الأزرق)
+                sportsCard: 'bg-black border border-yellow-400 rounded-none hover:border-lime-400 shadow-[0_0_10px_rgba(250,204,21,0.2)]',
+                sportsTitle: 'text-yellow-400',
+                sportsDesc: 'text-lime-400/80',
+                sportsIcon: 'rounded-none bg-black border-2 border-yellow-400 text-lime-400 shadow-[0_0_12px_rgba(250,204,21,0.7)] font-black'
             }
         };
 
@@ -790,6 +895,14 @@
         let hiddenAppsList = []; 
         const appsContainer = document.getElementById('appsContainer');
         let currentActiveMode = 'watch';
+
+        // --- التعديل هنا: تم إضافة خاصية type لتحديد نوع كل قناة ---
+        let hlsPlayerInstance = null;
+        const sportsChannelsData = [
+            { id: 1, name: 'قناة 1', url: 'https://cdn.soft31.com/erthlik/22', type: 'web' }, // تفتح كصفحة ويب
+            { id: 2, name: 'قناة 2', url: 'https://s3.us-east-2.amazonaws.com/cdnw102/live/stream/720p/tracks-v1a1/mono.m3u8', type: 'stream' },
+            { id: 3, name: 'قناة 3', url: 'https://mc.rootsee.shop/citroo3_720/index.m3u8', type: 'stream' }
+        ];
 
         document.addEventListener("DOMContentLoaded", () => {
             const initialWatchItems = appsContainer.querySelectorAll('.app-item[data-mode="watch"]');
@@ -903,6 +1016,8 @@
             items.forEach(item => {
                 if (item.id === 'adguard-block') {
                     item.className = `app-item flex flex-col p-5 group theme-transition cursor-pointer hover:bg-white/5 ${theme.card}`;
+                } else if (item.id === 'watch-temp-sports') {
+                    item.className = `app-item flex items-center p-3 group theme-transition cursor-pointer ${theme.sportsCard}`;
                 } else {
                     item.className = `app-item flex items-center p-3 group theme-transition ${theme.card}`;
                 }
@@ -910,24 +1025,35 @@
                 const title = item.querySelector('.app-item-title');
                 const desc = item.querySelector('.app-item-desc');
                 if (title && desc) {
-                    if (themeKey === 'nemo') {
-                        title.style.color = '#0c4a6e';
-                        desc.style.color = '#0369a1';
-                    } else if (themeKey === 'queen') {
-                        title.style.color = '#500724';
-                        desc.style.color = '#9d174d';
-                    } else if (themeKey === 'woody') {
-                        title.style.color = '#451a03';
-                        desc.style.color = '#92400e';
-                    } else {
+                    if (item.id === 'watch-temp-sports') {
                         title.style.color = '';
                         desc.style.color = '';
+                        title.className = `app-item-title font-bold text-lg transition ${theme.sportsTitle}`;
+                        desc.className = `app-item-desc text-xs ${theme.sportsDesc}`;
+                    } else {
+                        if (themeKey === 'nemo') {
+                            title.style.color = '#0c4a6e';
+                            desc.style.color = '#0369a1';
+                        } else if (themeKey === 'queen') {
+                            title.style.color = '#500724';
+                            desc.style.color = '#9d174d';
+                        } else if (themeKey === 'woody') {
+                            title.style.color = '#451a03';
+                            desc.style.color = '#92400e';
+                        } else {
+                            title.style.color = '';
+                            desc.style.color = '';
+                        }
                     }
                 }
                 
                 const iconBox = item.querySelector('.app-icon-box');
                 if (iconBox) {
-                    iconBox.className = `app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition ${theme.icon}`;
+                    if (item.id === 'watch-temp-sports') {
+                        iconBox.className = `app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition relative ${theme.sportsIcon}`;
+                    } else {
+                        iconBox.className = `app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition ${theme.icon}`;
+                    }
                     
                     const idx = parseInt(iconBox.getAttribute('data-icon-index'));
                     const fontIcon = iconBox.querySelector('i');
@@ -1015,14 +1141,10 @@
 
         function openAdGuardLink() {
             const targetUrl = "https://adguard-dns.io/en/public-dns.html#public-dns-instructions";
-            
-            // إنشاء عنصر رابط (a) بشكل برمجي لتخطي حظر النوافذ المنبثقة في الأندرويد
             const link = document.createElement('a');
             link.href = targetUrl;
-            link.target = '_blank'; // لضمان فتحه في صفحة/متصفح جديد
-            link.rel = 'noopener noreferrer'; // لأسباب أمنية ولتحسين الأداء
-            
-            // إضافة الرابط للصفحة، الضغط عليه برمجياً، ثم إزالته فوراً
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -1043,79 +1165,67 @@
             });
         }
 
-        // متغير لحفظ حالة مكتبة السحب والإفلات
         let sortableInstance = null;
 
-        // 1. دالة اعتراض النقرات في وضع التعديل (للإخفاء والإظهار بدل فتح الرابط)
         document.getElementById('appsContainer').addEventListener('click', function(e) {
             if (!isEditMode) return;
             
             const item = e.target.closest('.app-item');
             if (item && item.getAttribute('data-mode') === 'watch') {
-                e.preventDefault(); // منع فتح الرابط
-                e.stopPropagation(); // إيقاف أي أحداث أخرى
+                e.preventDefault();
+                e.stopPropagation(); 
                 
-                // تبديل حالة الإخفاء
                 const index = hiddenAppsList.indexOf(item.id);
                 if (index > -1) {
-                    hiddenAppsList.splice(index, 1); // إظهار
+                    hiddenAppsList.splice(index, 1);
                 } else {
-                    hiddenAppsList.push(item.id); // إخفاء
+                    hiddenAppsList.push(item.id);
                 }
-                filterMode('watch'); // تحديث الشكل المرئي فوراً
+                filterMode('watch');
             }
-        }, true); // استخدام Capture phase لضمان الاعتراض قبل التنفيذ
+        }, true); 
 
-        // 2. تفعيل وضع التعديل
         function enableEditOrderMode() {
             isEditMode = true;
             document.getElementById('editControlsBar').classList.remove('hidden');
             
-            // إجبار المنصة على عرض قسم "المشاهدة" فقط أثناء التعديل
             filterMode('watch'); 
             
             const container = document.getElementById('appsContainer');
             
-            // تفعيل خاصية السحب والإفلات
             if (!sortableInstance) {
                 sortableInstance = new Sortable(container, {
                     animation: 250,
                     ghostClass: 'sortable-dragging',
-                    filter: '.app-item:not([data-mode="watch"])', // منع سحب العناصر غير المرئية
+                    filter: '.app-item:not([data-mode="watch"])',
                     preventOnFilter: false,
-                    delay: 50, // تأخير بسيط لتحسين الاستجابة للمس على الهواتف
+                    delay: 50,
                     delayOnTouchOnly: true
                 });
             }
         }
 
-        // 3. حفظ الترتيب الجديد والإخفاء
         function saveNewOrder() {
             isEditMode = false;
             document.getElementById('editControlsBar').classList.add('hidden');
             
-            // إيقاف مكتبة السحب
             if (sortableInstance) {
                 sortableInstance.destroy();
                 sortableInstance = null;
             }
             
-            // استخراج الترتيب الجديد من عناصر HTML
             const newOrder = [];
             document.querySelectorAll('#appsContainer .app-item[data-mode="watch"]').forEach(item => {
                 newOrder.push(item.id);
             });
             
-            // حفظ البيانات في المتصفح
             localStorage.setItem('fibertv_watch_order', JSON.stringify(newOrder));
             localStorage.setItem('fibertv_hidden_apps', JSON.stringify(hiddenAppsList));
             
-            // تنبيه المستخدم وتحديث العرض
             alert("تم حفظ الترتيب واختياراتك بنجاح!");
             filterMode(currentActiveMode);
         }
 
-        // 4. استعادة الشكل الأصلي
         function resetDefaultOrder() {
             isEditMode = false;
             document.getElementById('editControlsBar').classList.add('hidden');
@@ -1125,12 +1235,10 @@
                 sortableInstance = null;
             }
             
-            // مسح البيانات المحفوظة
             localStorage.removeItem('fibertv_watch_order');
             localStorage.removeItem('fibertv_hidden_apps');
             hiddenAppsList = [];
             
-            // إعادة ترتيب العناصر برمجياً للوضع الافتراضي
             const container = document.getElementById('appsContainer');
             defaultWatchOrder.forEach(id => {
                 const el = document.getElementById(id);
@@ -1141,27 +1249,132 @@
             filterMode(currentActiveMode);
         }
 
-        // 5. تحميل الترتيب المحفوظ عند فتح الصفحة
         function loadSavedOrder() {
             const savedOrder = JSON.parse(localStorage.getItem('fibertv_watch_order'));
             if (savedOrder && savedOrder.length > 0) {
                 const container = document.getElementById('appsContainer');
                 const watchItems = Array.from(container.querySelectorAll('.app-item[data-mode="watch"]'));
                 
-                // فرز العناصر بناءً على المصفوفة المحفوظة
                 watchItems.sort((a, b) => {
                     const indexA = savedOrder.indexOf(a.id);
                     const indexB = savedOrder.indexOf(b.id);
-                    if (indexA === -1) return 1; // العناصر الجديدة تضاف بالنهاية
+                    if (indexA === -1) return 1;
                     if (indexB === -1) return -1;
                     return indexA - indexB;
                 });
                 
-                // إعادة حقن العناصر بالترتيب الجديد
                 watchItems.forEach(item => container.appendChild(item));
             }
         }
 
+        // --- دوال القنوات الرياضية ---
+        function openSportsModal() {
+            if(isEditMode) return; // منع الفتح أثناء التعديل
+            document.getElementById('sportsModal').classList.remove('hidden');
+            renderSportsChannels();
+        }
+
+        function closeSportsModal() {
+            document.getElementById('sportsModal').classList.add('hidden');
+            const videoElement = document.getElementById('sportsVideoPlayer');
+            videoElement.pause();
+            videoElement.currentTime = 0;
+            if (hlsPlayerInstance) {
+                hlsPlayerInstance.destroy();
+                hlsPlayerInstance = null;
+            }
+        }
+
+        function playSportsChannel(url) {
+            const videoElement = document.getElementById('sportsVideoPlayer');
+            
+            if (hlsPlayerInstance) {
+                hlsPlayerInstance.destroy();
+                hlsPlayerInstance = null;
+            }
+
+            // تشغيل باستخدام مكتبة Hls.js
+            if (Hls.isSupported()) {
+                hlsPlayerInstance = new Hls();
+                hlsPlayerInstance.loadSource(url);
+                hlsPlayerInstance.attachMedia(videoElement);
+                hlsPlayerInstance.on(Hls.Events.MANIFEST_PARSED, function() {
+                    videoElement.play();
+                });
+            } 
+            // دعم متصفحات ابل و سفاري التي تدعم m3u8 بشكل أصلي
+            else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+                videoElement.src = url;
+                videoElement.addEventListener('loadedmetadata', function() {
+                    videoElement.play();
+                });
+            } else {
+                alert("متصفحك لا يدعم تشغيل هذا الصيغة، يرجى استخدام متصفح آخر أو تطبيق VLC.");
+            }
+        }
+
+        function copySportsLink(url) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('تم نسخ الرابط! يمكنك الآن لصقه في مشغل VLC.');
+                }).catch(err => {
+                    console.error('فشل النسخ', err);
+                });
+            } else {
+                // طريقة بديلة للمتصفحات القديمة
+                const textArea = document.createElement("textarea");
+                textArea.value = url;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    alert('تم نسخ الرابط! يمكنك الآن لصقه في مشغل VLC.');
+                } catch (err) {
+                    console.error('فشل النسخ', err);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        // --- التعديل هنا: دالة الريندر أصبحت تميز نوع القناة وتفتح صفحة ويب اذا كانت من نوع web ---
+        function renderSportsChannels() {
+            const container = document.getElementById('channelsListContainer');
+            container.innerHTML = '';
+            
+            sportsChannelsData.forEach((channel) => {
+                const channelEl = document.createElement('div');
+                channelEl.className = 'flex items-center gap-2 bg-white/5 p-2 rounded-xl border border-white/10 hover:bg-white/10 transition';
+                
+                let actionButton = '';
+                
+                if (channel.type === 'web') {
+                    // زر لفتح رابط ويب في متصفح خارجي
+                    actionButton = `
+                        <a href="${channel.url}" target="_blank" class="flex-1 bg-gradient-to-l from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs font-black py-2.5 px-3 rounded-lg transition text-right flex justify-between items-center shadow-md border border-blue-500/50">
+                            <span><i class="fas fa-external-link-alt ml-1.5 text-sm"></i> ${channel.name}</span>
+                            <span class="text-[10px] bg-black/40 px-2.5 py-1 rounded-md">فتح كصفحة</span>
+                        </a>
+                    `;
+                } else {
+                    // زر التشغيل الافتراضي داخل المشغل المدمج
+                    actionButton = `
+                        <button onclick="playSportsChannel('${channel.url}')" class="flex-1 bg-gradient-to-l from-rose-600 to-orange-500 hover:from-rose-500 hover:to-orange-400 text-white text-xs font-black py-2.5 px-3 rounded-lg transition text-right flex justify-between items-center shadow-md border border-rose-500/50">
+                            <span><i class="fas fa-play-circle ml-1.5 text-sm"></i> ${channel.name}</span>
+                            <span class="text-[10px] bg-black/40 px-2.5 py-1 rounded-md">شغّل الآن</span>
+                        </button>
+                    `;
+                }
+
+                channelEl.innerHTML = `
+                    ${actionButton}
+                    <button onclick="copySportsLink('${channel.url}')" class="w-11 h-11 bg-white/10 hover:bg-white/20 text-blue-400 rounded-lg flex items-center justify-center transition border border-white/5 shrink-0" title="نسخ الرابط للمشغل الخارجي">
+                        <i class="fas fa-copy text-lg"></i>
+                    </button>
+                `;
+                
+                container.appendChild(channelEl);
+            });
+        }
     </script>
 </body>
 </html>
