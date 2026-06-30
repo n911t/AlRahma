@@ -279,7 +279,7 @@
                     <i class="fas fa-download"></i>
                 </button>
                 
-                <button id="btnIosInstall" class="hidden ctrl-btn w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 border border-purple-400/30 flex items-center justify-center text-lg text-white transition-all active:scale-95 shadow-lg theme-transition" title="تثبيت للآيفون">
+                <button id="btnIosInstall" onclick="document.getElementById('iosPopup').classList.remove('hidden')" class="hidden ctrl-btn animate-bounce w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 border border-purple-400/30 flex items-center justify-center text-lg text-white transition-all active:scale-95 shadow-lg theme-transition" title="تثبيت للآيفون">
                     <i class="fab fa-apple"></i>
                 </button>
             </div>
@@ -297,10 +297,10 @@
             </button>
         </div>
 
-        <div id="appsContainer" class="space-y-4">
+        <div id="appsContainer" class="grid grid-cols-2 gap-3">
 
             <!-- الإضافة الجديدة: تم نقل زر القنوات الرياضية المؤقتة ليكون في الأعلى -->
-            <div id="watch-temp-sports" data-mode="watch" onclick="openSportsModal()" class="app-item flex items-center p-3 rounded-2xl group theme-transition cursor-pointer">
+            <div id="watch-temp-sports" data-mode="watch" onclick="openSportsModal()" class="app-item col-span-2 flex items-center p-3 rounded-2xl group theme-transition cursor-pointer">
                 <div data-icon-index="4" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition relative">
                     <i class="fas fa-futbol"></i>
                     <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulseLive"></span>
@@ -311,169 +311,169 @@
                 </div>
             </div>
 
-            <a href="https://movie.vodu.me/" id="watch-vodu-movie" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://movie.vodu.me/" id="watch-vodu-movie" data-mode="watch" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="0" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-play"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-blue-100 group-hover:text-white transition">مشاهدة منصة فودو</h3>
-                    <p class="app-item-desc text-xs text-blue-300/80">الموقع الرسمي للمشاهدة المباشرة (أفلام ومسلسلات)</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-blue-100 group-hover:text-white transition">مشاهدة منصة فودو</h3>
+                    <p class="app-item-desc text-[11px] text-blue-300/80 mt-1">الموقع الرسمي للمشاهدة المباشرة (أفلام ومسلسلات)</p>
                 </div>
             </a>
 
-            <a href="https://tv.vodu.me/" id="watch-vodu-tv" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://tv.vodu.me/" id="watch-vodu-tv" data-mode="watch" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="1" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-desktop"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-cyan-100 group-hover:text-white transition">فودو TV</h3>
-                    <p class="app-item-desc text-xs text-cyan-300/80">الموقع الرسمي لمشاهدة التلفزيون بث مباشر والقنوات</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-cyan-100 group-hover:text-white transition">فودو TV</h3>
+                    <p class="app-item-desc text-[11px] text-cyan-300/80 mt-1">الموقع الرسمي لمشاهدة التلفزيون بث مباشر والقنوات</p>
                 </div>
             </a>
             
-            <a href="https://tv9.egydead.live/" target="_blank" id="watch-egydead" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://tv9.egydead.live/" target="_blank" id="watch-egydead" data-mode="watch" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="16" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-film"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-purple-100 group-hover:text-white transition">مشاهدة ايجي ديد</h3>
-                    <p class="app-item-desc text-xs text-purple-300/80">متابعة أحدث الأفلام والمسلسلات</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-purple-100 group-hover:text-white transition">مشاهدة ايجي ديد</h3>
+                    <p class="app-item-desc text-[11px] text-purple-300/80 mt-1">متابعة أحدث الأفلام والمسلسلات</p>
                 </div>
             </a>
             
-            <a href="https://cee.buzz" target="_blank" id="watch-cee" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://cee.buzz" target="_blank" id="watch-cee" data-mode="watch" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="2" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 relative theme-transition">
                     <i class="fas fa-tv"></i>
                     <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulseLive"></span>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-purple-100 group-hover:text-white transition">مشاهدة منصة CEE</h3>
-                    <p class="app-item-desc text-xs text-purple-300/80">منصة بث مباشر ويب</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-purple-100 group-hover:text-white transition">مشاهدة منصة CEE</h3>
+                    <p class="app-item-desc text-[11px] text-purple-300/80 mt-1">منصة بث مباشر ويب</p>
                 </div>
             </a>
 
-            <a href="https://cinemana.cc/main/" id="watch-cinemana" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://cinemana.cc/main/" id="watch-cinemana" data-mode="watch" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="3" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-ticket"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-orange-100 group-hover:text-white transition">سينمانا</h3>
-                    <p class="app-item-desc text-xs text-orange-300/80">Cinemana (مشاهدة ويب مباشرة)</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-orange-100 group-hover:text-white transition">سينمانا</h3>
+                    <p class="app-item-desc text-[11px] text-orange-300/80 mt-1">Cinemana (مشاهدة ويب مباشرة)</p>
                 </div>
             </a>
 
-            <a href="https://tv.kooraiq.com" id="watch-kooraiq" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://tv.kooraiq.com" id="watch-kooraiq" data-mode="watch" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="4" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-trophy"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-yellow-100 group-hover:text-white transition">الباقة الرياضية</h3>
-                    <p class="app-item-desc text-xs text-yellow-300/80">Kooraiq TV (مشاهدة ويب مباشرة)</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-yellow-100 group-hover:text-white transition">الباقة الرياضية</h3>
+                    <p class="app-item-desc text-[11px] text-yellow-300/80 mt-1">Kooraiq TV (مشاهدة ويب مباشرة)</p>
                 </div>
             </a>
 
-            <a href="https://witanime.pics" id="watch-witanime" data-mode="watch" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://witanime.pics" id="watch-witanime" data-mode="watch" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="5" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-mask"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-amber-100 group-hover:text-white transition">Wit Anime</h3>
-                    <p class="app-item-desc text-xs text-amber-300/80">موقع ويت انمي (تصفح مباشر)</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-amber-100 group-hover:text-white transition">Wit Anime</h3>
+                    <p class="app-item-desc text-[11px] text-amber-300/80 mt-1">موقع ويت انمي (تصفح مباشر)</p>
                 </div>
             </a>
 
 
-            <a href="https://vodu.me" id="dl-vodu" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://vodu.me" id="dl-vodu" data-mode="download" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="6" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-film"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-blue-100 group-hover:text-white transition">تطبيق فودو</h3>
-                    <p class="app-item-desc text-xs text-blue-300/80">Vodu App (تحميل ملف APK للأندرويد)</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-blue-100 group-hover:text-white transition">تطبيق فودو</h3>
+                    <p class="app-item-desc text-[11px] text-blue-300/80 mt-1">Vodu App (تحميل ملف APK للأندرويد)</p>
                 </div>
             </a>
 
-            <a href="https://share.vodu.store/#/" id="dl-vodu-share" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://share.vodu.store/#/" id="dl-vodu-share" data-mode="download" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="7" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-share-nodes"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-cyan-100 group-hover:text-white transition">فودو شير</h3>
-                    <p class="app-item-desc text-xs text-cyan-300/80">Vodu Share (مشاركة وتصفح ملفات الشير)</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-cyan-100 group-hover:text-white transition">فودو شير</h3>
+                    <p class="app-item-desc text-[11px] text-cyan-300/80 mt-1">Vodu Share (مشاركة وتصفح ملفات الشير)</p>
                 </div>
             </a>
 
-            <a href="https://drive.google.com/file/d/1Jw1UL_zp6ukCHMZyljslPBb-VseOi-CI/view" id="dl-drama-live" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://drive.google.com/file/d/1Jw1UL_zp6ukCHMZyljslPBb-VseOi-CI/view" id="dl-drama-live" data-mode="download" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="8" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-video"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-red-100 group-hover:text-white transition">دراما لايف</h3>
-                    <p class="app-item-desc text-xs text-red-300/80">Drama Live (تحميل تطبيق أندرويد)</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-red-100 group-hover:text-white transition">دراما لايف</h3>
+                    <p class="app-item-desc text-[11px] text-red-300/80 mt-1">Drama Live (تحميل تطبيق أندرويد)</p>
                 </div>
             </a>
 
-            <a href="https://drive.google.com/file/d/18JG7mEEM2IrBLWg1Vy9RbXmV1h0n9LcH/view?usp=drive_link" id="dl-drama-wave" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://drive.google.com/file/d/18JG7mEEM2IrBLWg1Vy9RbXmV1h0n9LcH/view?usp=drive_link" id="dl-drama-wave" data-mode="download" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="9" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-wave-square"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-blue-100 group-hover:text-white transition">دراما ويف</h3>
-                    <p class="app-item-desc text-xs text-blue-300/90 font-bold">Drama Wave (تحميل تطبيق أندرويد)</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-blue-100 group-hover:text-white transition">دراما ويف</h3>
+                    <p class="app-item-desc text-[11px] text-blue-300/90 font-bold mt-1">Drama Wave (تحميل تطبيق أندرويد)</p>
                 </div>
             </a>
 
-            <a href="https://drive.google.com/file/d/1i8b6jjSqjtnfVaUO7Ehet-6V6xSXt4Vx/view?usp=drive_link" id="dl-drama-slayer" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://drive.google.com/file/d/1i8b6jjSqjtnfVaUO7Ehet-6V6xSXt4Vx/view?usp=drive_link" id="dl-drama-slayer" data-mode="download" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="10" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-heart"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-rose-100 group-hover:text-white transition">دراما سلاير</h3>
-                    <p class="app-item-desc text-xs text-pink-300/90 font-bold">تطبيق المسلسلات الكورية والآسيوية</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-rose-100 group-hover:text-white transition">دراما سلاير</h3>
+                    <p class="app-item-desc text-[11px] text-pink-300/90 font-bold mt-1">تطبيق المسلسلات الكورية والآسيوية</p>
                 </div>
             </a>
 
-            <a href="https://drive.google.com/file/d/1fF1Yc3l4WbwrjkLV4JW_nZBLMRyY0dSP/view" id="dl-yacine" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://drive.google.com/file/d/1fF1Yc3l4WbwrjkLV4JW_nZBLMRyY0dSP/view" id="dl-yacine" data-mode="download" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="11" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-futbol"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-green-100 group-hover:text-white transition">ياسين TV</h3>
-                    <p class="app-item-desc text-xs text-green-300/80">Yacine TV (تحميل تطبيق أندرويد)</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-green-100 group-hover:text-white transition">ياسين TV</h3>
+                    <p class="app-item-desc text-[11px] text-green-300/80 mt-1">Yacine TV (تحميل تطبيق أندرويد)</p>
                 </div>
             </a>
 
-            <a href="https://drive.google.com/file/d/1t3XbsPkLg1EK-exC_i8eYy_6AazhqxXB/view?usp=drive_link" id="dl-oscar" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://drive.google.com/file/d/1t3XbsPkLg1EK-exC_i8eYy_6AazhqxXB/view?usp=drive_link" id="dl-oscar" data-mode="download" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="12" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-star"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-amber-100 group-hover:text-white transition">أوسكار TV</h3>
-                    <p class="app-item-desc text-xs text-amber-300/80">Oscar TV (تحميل تطبيق أندرويد)</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-amber-100 group-hover:text-white transition">أوسكار TV</h3>
+                    <p class="app-item-desc text-[11px] text-amber-300/80 mt-1">Oscar TV (تحميل تطبيق أندرويد)</p>
                 </div>
             </a>
 
-            <a href="https://drive.google.com/file/d/1hLyX6cl2FFG2tps95ZG_-tRHdPhwM0Kt/view?usp=drive_link" id="dl-anime-witcher" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://drive.google.com/file/d/1hLyX6cl2FFG2tps95ZG_-tRHdPhwM0Kt/view?usp=drive_link" id="dl-anime-witcher" data-mode="download" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="13" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-hat-wizard"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-indigo-100 group-hover:text-white transition">Anime Witcher</h3>
-                    <p class="app-item-desc text-xs text-indigo-300/80">تطبيق أنمي ويتشر (تحميل تطبيق أندرويد)</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-indigo-100 group-hover:text-white transition">Anime Witcher</h3>
+                    <p class="app-item-desc text-[11px] text-indigo-300/80 mt-1">تطبيق أنمي ويتشر (تحميل تطبيق أندرويد)</p>
                 </div>
             </a>
 
-            <a href="https://drive.google.com/file/d/1iPSsyL8CCIEFRwmFowW_zXg-tw7S9YY6/view?usp=drive_link" id="dl-anime-slayer" data-mode="download" class="app-item flex items-center p-3 rounded-2xl group theme-transition">
+            <a href="https://drive.google.com/file/d/1iPSsyL8CCIEFRwmFowW_zXg-tw7S9YY6/view?usp=drive_link" id="dl-anime-slayer" data-mode="download" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition">
                 <div data-icon-index="14" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                     <i class="fas fa-cat"></i>
                 </div>
-                <div class="mr-4 flex-1">
-                    <h3 class="app-item-title font-bold text-lg text-orange-100 group-hover:text-white transition">انمي سلاير</h3>
-                    <p class="app-item-desc text-xs text-orange-300/80">Anime Slayer (تحميل تطبيق أندرويد)</p>
+                <div class="mt-3">
+                    <h3 class="app-item-title font-bold text-sm text-orange-100 group-hover:text-white transition">انمي سلاير</h3>
+                    <p class="app-item-desc text-[11px] text-orange-300/80 mt-1">Anime Slayer (تحميل تطبيق أندرويد)</p>
                 </div>
             </a>
 
-            <div id="adguard-block" data-mode="block-ads" onclick="openAdGuardLink()" class="app-item flex flex-col p-5 rounded-2xl group theme-transition cursor-pointer hover:bg-white/5">
+            <div id="adguard-block" data-mode="block-ads" onclick="openAdGuardLink()" class="app-item col-span-2 flex flex-col p-5 rounded-2xl group theme-transition cursor-pointer hover:bg-white/5">
                 <div class="flex items-center mb-4 w-full">
                     <div data-icon-index="15" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shadow-lg shrink-0 theme-transition">
                         <i class="fas fa-shield-halved"></i>
@@ -514,7 +514,7 @@
                 </div>
             </div>
 
-            <div id="noResults" class="hidden text-center py-8 text-gray-400 font-bold bg-white/5 rounded-2xl border border-white/5">
+            <div id="noResults" class="hidden col-span-2 text-center py-8 text-gray-400 font-bold bg-white/5 rounded-2xl border border-white/5">
                 <i class="fas fa-search-minus text-2xl mb-2 block text-gray-500"></i>
                 لا توجد عناصر متوفرة حالياً في هذا القسم.
             </div>
@@ -923,7 +923,60 @@
                     setTimeout(() => loader.style.display = 'none', 500);
                 }
             }, 1200);
+
+            initInstallPrompts();
         });
+
+        // ===================== تثبيت التطبيق (PWA) على أندرويد وآيفون =====================
+        let deferredInstallPrompt = null;
+
+        function isAppAlreadyInstalled() {
+            const isStandaloneDisplay = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+            const isIosStandalone = window.navigator.standalone === true;
+            return isStandaloneDisplay || isIosStandalone;
+        }
+
+        function initInstallPrompts() {
+            if (isAppAlreadyInstalled()) return;
+
+            const btnInstall = document.getElementById('btnInstall');
+            const btnIosInstall = document.getElementById('btnIosInstall');
+
+            // اندرويد / متصفحات تدعم beforeinstallprompt (Chrome, Edge, Samsung Internet...)
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredInstallPrompt = e;
+                if (btnInstall) btnInstall.classList.remove('hidden');
+            });
+
+            if (btnInstall) {
+                btnInstall.addEventListener('click', async () => {
+                    if (!deferredInstallPrompt) return;
+                    deferredInstallPrompt.prompt();
+                    try {
+                        await deferredInstallPrompt.userChoice;
+                    } catch (e) {}
+                    deferredInstallPrompt = null;
+                    btnInstall.classList.add('hidden');
+                });
+            }
+
+            window.addEventListener('appinstalled', () => {
+                if (btnInstall) btnInstall.classList.add('hidden');
+                if (btnIosInstall) btnIosInstall.classList.add('hidden');
+                deferredInstallPrompt = null;
+            });
+
+            // آيفون / آيباد (سفاري لا يدعم beforeinstallprompt، نعرض زر يفتح شرح التثبيت اليدوي)
+            const ua = window.navigator.userAgent;
+            const isIosDevice = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+            const isIPadOS13Up = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+
+            if ((isIosDevice || isIPadOS13Up) && !isAppAlreadyInstalled()) {
+                if (btnIosInstall) btnIosInstall.classList.remove('hidden');
+            }
+        }
+        // ===================================================================================
 
         const tvElements = [
             'TV', 
@@ -1014,12 +1067,15 @@
             const targetIcons = themeIconsMapping[themeKey] || originalIcons;
             
             items.forEach(item => {
+                const isWide = (item.id === 'adguard-block' || item.id === 'watch-temp-sports');
+                const spanClass = isWide ? 'col-span-2 ' : '';
+
                 if (item.id === 'adguard-block') {
-                    item.className = `app-item flex flex-col p-5 group theme-transition cursor-pointer hover:bg-white/5 ${theme.card}`;
+                    item.className = `app-item ${spanClass}flex flex-col p-5 group theme-transition cursor-pointer hover:bg-white/5 ${theme.card}`;
                 } else if (item.id === 'watch-temp-sports') {
-                    item.className = `app-item flex items-center p-3 group theme-transition cursor-pointer ${theme.sportsCard}`;
+                    item.className = `app-item ${spanClass}flex items-center p-3 group theme-transition cursor-pointer ${theme.sportsCard}`;
                 } else {
-                    item.className = `app-item flex items-center p-3 group theme-transition ${theme.card}`;
+                    item.className = `app-item flex flex-col items-center text-center p-4 group theme-transition ${theme.card}`;
                 }
                 
                 const title = item.querySelector('.app-item-title');
@@ -1136,7 +1192,7 @@
                     app.style.display = 'none';
                 }
             });
-            document.getElementById('noResults').className = hasResults ? 'hidden' : 'text-center py-8 text-gray-400 font-bold bg-white/5 rounded-2xl border border-white/5';
+            document.getElementById('noResults').className = hasResults ? 'hidden' : 'col-span-2 text-center py-8 text-gray-400 font-bold bg-white/5 rounded-2xl border border-white/5';
         }
 
         function openAdGuardLink() {
