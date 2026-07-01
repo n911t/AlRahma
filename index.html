@@ -253,6 +253,76 @@
         html[dir="ltr"] .sports-modal .text-right { text-align: left; }
         html[dir="ltr"] .channels-container .text-right { text-align: left; }
         html[dir="ltr"] [data-mode="block-ads"] .text-right { text-align: left; }
+
+        .notif-overlay {
+            position: fixed; inset: 0; z-index: 9999;
+            display: flex; align-items: flex-end; justify-content: center;
+            background: rgba(5,10,20,0.85); backdrop-filter: blur(12px);
+            padding: 1.5rem;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .notif-card {
+            max-width: 400px; width: 100%;
+            background: linear-gradient(145deg, rgba(20,30,55,0.95), rgba(10,18,35,0.95));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.75rem; padding: 2rem 1.5rem 1.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+            text-align: center;
+            animation: slideUp 0.4s cubic-bezier(0.16,1,0.3,1);
+            transform-origin: bottom;
+        }
+        .notif-icon {
+            width: 64px; height: 64px;
+            background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(99,102,241,0.2));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.75rem;
+            border: 1px solid rgba(139,92,246,0.3);
+        }
+        .notif-btn {
+            width: 100%; padding: 0.9rem;
+            border-radius: 1rem; border: none;
+            font-size: 0.85rem; font-weight: 900;
+            cursor: pointer; transition: all 0.2s;
+            background: linear-gradient(135deg, #7c3aed, #6366f1);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(124,58,237,0.35);
+        }
+        .notif-btn:hover { transform: scale(1.02); filter: brightness(1.15); }
+        .notif-btn:active { transform: scale(0.97); }
+        .notif-skip {
+            background: transparent; color: rgba(255,255,255,0.4);
+            border: none; font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; padding: 0.7rem; margin-top: 0.5rem;
+            transition: color 0.2s; width: 100%; border-radius: 0.75rem;
+        }
+        .notif-skip:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.03); }
+
+        .msg-overlay {
+            position: fixed; inset: 0; z-index: 9998;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(5,10,20,0.85); backdrop-filter: blur(12px);
+            padding: 1.5rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .msg-card {
+            max-width: 400px; width: 100%;
+            background: linear-gradient(145deg, rgba(20,30,55,0.98), rgba(10,18,35,0.98));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.75rem; padding: 1.75rem 1.5rem 1.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            animation: slideUp 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .msg-new-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff; font-size: 0.6rem; font-weight: 900;
+            padding: 0.2rem 0.6rem; border-radius: 0.5rem;
+            margin-left: 0.5rem; vertical-align: middle;
+            animation: pulse 1.5s infinite;
+        }
+        html[dir="ltr"] .msg-new-badge { margin-left: 0; margin-right: 0.5rem; }
     </style>
 </head>
 <body class="relative min-h-screen pb-24">
@@ -872,6 +942,8 @@
                 dl_oscar: 'أوسكار TV', dl_oscar_d: 'Oscar TV (تحميل تطبيق أندرويد)',
                 dl_anime_w: 'Anime Witcher', dl_anime_w_d: 'تطبيق أنمي ويتشر (تحميل تطبيق أندرويد)',
                 dl_anime_s: 'انمي سلاير', dl_anime_s_d: 'Anime Slayer (تحميل تطبيق أندرويد)',
+                notif_title: 'تفعيل الإشعارات', notif_desc: 'احصل على إشعارات فورية عند إضافة قنوات رياضية جديدة وتحديثات المنصة', notif_btn: 'تفعيل الإشعارات', notif_skip: 'تخطي', notif_granted: 'تم تفعيل الإشعارات بنجاح!',
+                msg_title: 'رسالة من المنصة', msg_btn: 'حسناً', msg_new: 'جديد',
                 ch_name1: 'رابط القنوات', ch_name2: 'قناة 1', ch_name3: 'قناة 2',
                 t_glassDark: 'Neo Dark (الافتراضي)', t_woody: 'Woody (Toy Story)', t_retro: 'Retro', t_formal: 'Formal',
                 t_queen: 'Queen', t_sport: 'Sport', t_garage: 'Garage', t_smart: 'Smart', t_muscle: 'Muscle', t_nemo: 'Nemo',
@@ -924,6 +996,8 @@
                 dl_oscar: 'Oscar TV', dl_oscar_d: 'Oscar TV (Android app download)',
                 dl_anime_w: 'Anime Witcher', dl_anime_w_d: 'Anime Witcher app (Android app download)',
                 dl_anime_s: 'Anime Slayer', dl_anime_s_d: 'Anime Slayer (Android app download)',
+                notif_title: 'Enable Notifications', notif_desc: 'Get instant notifications when new sports channels and platform updates are added', notif_btn: 'Enable Notifications', notif_skip: 'Skip', notif_granted: 'Notifications enabled successfully!',
+                msg_title: 'Message from Platform', msg_btn: 'OK', msg_new: 'NEW',
                 ch_name1: 'Channels Link', ch_name2: 'Channel 1', ch_name3: 'Channel 2',
                 t_glassDark: 'Neo Dark (Default)', t_woody: 'Woody (Toy Story)', t_retro: 'Retro', t_formal: 'Formal',
                 t_queen: 'Queen', t_sport: 'Sport', t_garage: 'Garage', t_smart: 'Smart', t_muscle: 'Muscle', t_nemo: 'Nemo',
@@ -958,6 +1032,8 @@
                 'themeModalTitle': 'theme_title',
                 'noticeTitle': 'notice_title', 'noticeLabel': 'notice_label',
                 'iosPopupTitle': 'ios_title', 'iosOkBtn': 'ios_btn',
+                'notifTitle': 'notif_title', 'notifDesc': 'notif_desc', 'notifBtn': 'notif_btn', 'notifSkip': 'notif_skip',
+                'msgPopupTitle': 'msg_title', 'msgOkBtn': 'msg_btn',
             };
 
             // Set text content by ID
@@ -1031,9 +1107,14 @@
             // Toggle button text - just ع or En
             const langLabel = document.querySelector('#langToggle .lang-label');
             if (langLabel) langLabel.textContent = currentLang === 'ar' ? 'En' : 'ع';
-        }
 
-        const originalIcons = [
+            // Re-translate message popup if open
+            if (currentMsgData && !document.getElementById('msgPopup').classList.contains('hidden')) {
+                const isAr = currentLang === 'ar';
+                document.getElementById('msgPopupBodyTitle').textContent = isAr ? currentMsgData.title_ar : currentMsgData.title_en;
+                document.getElementById('msgPopupBody').textContent = isAr ? currentMsgData.body_ar : currentMsgData.body_en;
+            }
+        }
             'fa-play', 'fa-desktop', 'fa-tv', 'fa-ticket', 'fa-trophy', 'fa-mask',
             'fa-film', 'fa-share-nodes', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-hat-wizard', 'fa-cat', 'fa-shield-halved'
         ];
@@ -1534,6 +1615,7 @@
         let currentActiveMode = 'watch';
 
         let hlsPlayerInstance = null;
+        let currentMsgData = null;
         let sportsChannelsData = [
             { id: 1, name: 'رابط القنوات', url: 'https://cdn.soft31.com/erthlik/22', type: 'web' },
             { id: 2, name: 'قناة 1', url: 'https://s3.us-east-2.amazonaws.com/cdnw102/live/stream/720p/tracks-v1a1/mono.m3u8', type: 'stream' },
@@ -1562,6 +1644,73 @@
                 // use hardcoded fallback
             }
             sportsDataLoaded = true;
+        }
+
+        function showNotificationPrompt() {
+            if (!('Notification' in window)) return;
+            if (Notification.permission === 'granted') return;
+            if (localStorage.getItem('fibertv_notif') === 'dismissed') return;
+            setTimeout(() => {
+                const el = document.getElementById('notifPrompt');
+                if (el) el.classList.remove('hidden');
+            }, 2000);
+        }
+
+        function enableNotifications() {
+            Notification.requestPermission().then(function(perm) {
+                if (perm === 'granted') {
+                    localStorage.setItem('fibertv_notif', 'granted');
+                    dismissNotificationPrompt();
+                    new Notification(tr('notif_title'), {
+                        body: tr('notif_granted'),
+                        icon: 'icon.png'
+                    });
+                } else {
+                    localStorage.setItem('fibertv_notif', 'dismissed');
+                }
+            });
+        }
+
+        function dismissNotificationPrompt() {
+            localStorage.setItem('fibertv_notif', 'dismissed');
+            document.getElementById('notifPrompt').classList.add('hidden');
+        }
+
+        async function fetchAndShowMessages() {
+            try {
+                const seenIds = JSON.parse(localStorage.getItem('fibertv_msg_seen') || '[]');
+                const res = await fetch('notifications.json?' + Date.now());
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!data || !Array.isArray(data.messages)) return;
+                const activeMsgs = data.messages.filter(m => m.active && m.id && seenIds.indexOf(m.id) === -1);
+                if (activeMsgs.length === 0) return;
+                showMessagePopup(activeMsgs[0]);
+            } catch (e) {
+                // silent
+            }
+        }
+
+        function showMessagePopup(msg) {
+            currentMsgData = msg;
+            const popup = document.getElementById('msgPopup');
+            const titleEl = document.getElementById('msgPopupBodyTitle');
+            const bodyEl = document.getElementById('msgPopupBody');
+            const dateEl = document.getElementById('msgPopupDate');
+            const badge = document.getElementById('msgNewBadge');
+            const isAr = currentLang === 'ar';
+            titleEl.textContent = isAr ? msg.title_ar : msg.title_en;
+            bodyEl.textContent = isAr ? msg.body_ar : msg.body_en;
+            dateEl.textContent = msg.date || '';
+            badge.classList.toggle('hidden', false);
+            popup.classList.remove('hidden');
+            const seenIds = JSON.parse(localStorage.getItem('fibertv_msg_seen') || '[]');
+            if (seenIds.indexOf(msg.id) === -1) seenIds.push(msg.id);
+            localStorage.setItem('fibertv_msg_seen', JSON.stringify(seenIds));
+        }
+
+        function dismissMessagePopup() {
+            document.getElementById('msgPopup').classList.add('hidden');
         }
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -1593,6 +1742,8 @@
             initInstallPrompts();
             initStarsCanvas();
             initBackToTop();
+            showNotificationPrompt();
+            setTimeout(fetchAndShowMessages, 500);
         });
 
         // ===================== Stars Canvas =====================
@@ -2213,5 +2364,28 @@
             });
         }
     </script>
+
+    <div id="notifPrompt" class="hidden notif-overlay">
+        <div class="notif-card">
+            <div class="notif-icon"><i class="fas fa-bell text-indigo-400"></i></div>
+            <h3 id="notifTitle" class="text-lg font-black text-white mb-2">تفعيل الإشعارات</h3>
+            <p id="notifDesc" class="text-sm text-gray-300 font-bold mb-6 leading-relaxed">احصل على إشعارات فورية عند إضافة قنوات رياضية جديدة وتحديثات المنصة</p>
+            <button id="notifBtn" onclick="enableNotifications()" class="notif-btn">تفعيل الإشعارات</button>
+            <button id="notifSkip" onclick="dismissNotificationPrompt()" class="notif-skip">تخطي</button>
+        </div>
+    </div>
+
+    <div id="msgPopup" class="hidden msg-overlay">
+        <div class="msg-card">
+            <div class="flex items-center justify-between mb-4">
+                <h3 id="msgPopupTitle" class="text-base font-black text-white">رسالة من المنصة</h3>
+                <span id="msgNewBadge" class="msg-new-badge hidden">جديد</span>
+            </div>
+            <h4 id="msgPopupBodyTitle" class="text-sm font-black text-indigo-400 mb-3 leading-relaxed"></h4>
+            <p id="msgPopupBody" class="text-sm text-gray-300 font-bold leading-relaxed"></p>
+            <p id="msgPopupDate" class="text-[10px] text-gray-500 mt-4 font-bold"></p>
+            <button id="msgOkBtn" onclick="dismissMessagePopup()" class="notif-btn mt-5 !bg-gradient-to-r from-indigo-600 to-purple-600 !shadow-indigo-900/30">حسناً</button>
+        </div>
+    </div>
 </body>
 </html>

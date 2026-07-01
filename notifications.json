@@ -1,0 +1,13 @@
+{
+  "messages": [
+    {
+      "id": 1,
+      "title_ar": "مرحباً بك في فايبر TV",
+      "title_en": "Welcome to Fiber TV",
+      "body_ar": "نرحب بكم في منصة فايبر TV. يمكنكم الاستمتاع بجميع الخدمات والتطبيقات المتاحة.",
+      "body_en": "Welcome to Fiber TV platform. Enjoy all available services and apps.",
+      "date": "2026-07-01",
+      "active": true
+    }
+  ]
+}
