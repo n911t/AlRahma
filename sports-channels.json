@@ -52,5 +52,11 @@
     "name": "قناة 18",
     "url": "https://strm01.app/?m=30692&lang=ar",
     "type": "web"
+  },
+  {
+    "id": 19,
+    "name": "قناة 19",
+    "url": "https://m1.kora-sami.com/bmax1/",
+    "type": "web"
   }
 ]
