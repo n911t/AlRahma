@@ -34,5 +34,11 @@
     "name": "قناة 9",
     "url": "",
     "type": "stream"
+  },
+  {
+    "id": 11,
+    "name": "قناة 11",
+    "url": "https://a.kora-sia.com/bein-1/",
+    "type": "web"
   }
 ]
