@@ -36,12 +36,6 @@
     "type": "stream"
   },
   {
-    "id": 11,
-    "name": "قناة 11",
-    "url": "https://a10.kora-plus.app/live/max1.m3u8?token=KTH4RG0kIw_IifGqiBv6d5FSW_M&exp=1782922138",
-    "type": "web"
-  },
-  {
     "id": 12,
     "name": "قناة 12",
     "url": "https://a8.kora-plus.app/live/max11.m3u8?token=TsWE53DUEYOEQhHnQLmGM3kcYXI&exp=1782922362",
