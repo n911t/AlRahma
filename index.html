@@ -2423,12 +2423,11 @@
                 const isWeb = channel.type === 'web';
                 
                 if (isWeb) {
-                    const safeUrl = channel.url.replace(/'/g, "\\'");
                     actionButton = `
-                        <button onclick="openInAppBrowser('${safeUrl}')" class="flex-1 bg-gradient-to-l from-sky-600 to-blue-500 hover:from-sky-500 hover:to-blue-400 text-white text-xs font-black py-2.5 px-3 rounded-xl transition text-right flex justify-between items-center shadow-md shadow-sky-900/30 border border-sky-500/40 active:scale-[0.98]">
+                        <a href="${channel.url}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-gradient-to-l from-sky-600 to-blue-500 hover:from-sky-500 hover:to-blue-400 text-white text-xs font-black py-2.5 px-3 rounded-xl transition text-right flex justify-between items-center shadow-md shadow-sky-900/30 border border-sky-500/40 active:scale-[0.98]">
                             <span><i class="fas fa-external-link-alt ml-1.5 text-sm"></i> ${displayName}</span>
                             <span class="text-[10px] bg-black/30 px-2.5 py-1 rounded-lg backdrop-blur-sm">${tr('ch_web')}</span>
-                        </button>
+                        </a>
                     `;
                 } else {
                     actionButton = `
@@ -2450,34 +2449,6 @@
             });
         }
 
-        let browserCurrentUrl = '';
-
-        function openInAppBrowser(url) {
-            browserCurrentUrl = url;
-            document.getElementById('browserUrlDisplay').textContent = url;
-            document.getElementById('inAppBrowser').classList.remove('hidden');
-            document.getElementById('browserLoading').classList.remove('hidden');
-            const iframe = document.getElementById('browserIframe');
-            iframe.src = url;
-            var loadTimeout = setTimeout(function() {
-                document.getElementById('browserLoading').querySelector('p').textContent = 'الموقع لا يدعم التصفح الداخلي، استخدم زر المتصفح الخارجي';
-            }, 8000);
-            iframe.onload = function() {
-                clearTimeout(loadTimeout);
-                document.getElementById('browserLoading').classList.add('hidden');
-            };
-        }
-
-        function closeInAppBrowser() {
-            document.getElementById('inAppBrowser').classList.add('hidden');
-            document.getElementById('browserIframe').src = 'about:blank';
-            document.getElementById('browserLoading').querySelector('p').textContent = 'جاري التحميل...';
-            browserCurrentUrl = '';
-        }
-
-        function openInAppBrowserExternal() {
-            if (browserCurrentUrl) window.open(browserCurrentUrl, '_blank');
-        }
     </script>
 
     <!-- لوحة الإشعارات الجانبية -->
@@ -2497,28 +2468,6 @@
             </div>
         </div>
     </div>
-    <!-- المتصفح الداخلي للقنوات -->
-    <div id="inAppBrowser" class="hidden fixed inset-0 z-[80] flex flex-col bg-[#0a1022]">
-        <div class="flex items-center gap-2 p-3 bg-[#0a1022]/95 backdrop-blur-md border-b border-white/[0.06] shrink-0">
-            <button onclick="closeInAppBrowser()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-white transition border border-white/[0.05] active:scale-90 shrink-0">
-                <i class="fas fa-arrow-right text-sm"></i>
-            </button>
-            <div class="flex-1 bg-white/[0.04] border border-white/[0.06] rounded-xl px-3 py-2 text-xs text-gray-300 font-bold truncate" id="browserUrlDisplay">https://...</div>
-            <button onclick="openInAppBrowserExternal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-sky-400 transition border border-white/[0.05] active:scale-90 shrink-0" title="فتح في المتصفح الخارجي">
-                <i class="fas fa-external-link-alt text-sm"></i>
-            </button>
-        </div>
-        <div class="flex-1 relative bg-white">
-            <iframe id="browserIframe" class="w-full h-full border-none"></iframe>
-            <div id="browserLoading" class="absolute inset-0 flex items-center justify-center bg-[#0a1022] z-10">
-                <div class="text-center">
-                    <div class="w-10 h-10 border-2 border-t-indigo-500 border-r-indigo-500 border-b-transparent border-l-transparent rounded-full animate-spin mx-auto mb-3"></div>
-                    <p class="text-xs text-gray-400 font-bold">جاري التحميل مع حجب الإعلانات...</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div id="notifPrompt" class="hidden notif-overlay">
         <div class="notif-card">
             <div class="notif-icon"><i class="fas fa-bell text-indigo-400"></i></div>
