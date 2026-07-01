@@ -2458,9 +2458,12 @@
             document.getElementById('inAppBrowser').classList.remove('hidden');
             document.getElementById('browserLoading').classList.remove('hidden');
             const iframe = document.getElementById('browserIframe');
-            const proxyUrl = 'https://fibertv-bot.cazanova1991.workers.dev/proxy?url=' + encodeURIComponent(url);
-            iframe.src = proxyUrl;
+            iframe.src = url;
+            var loadTimeout = setTimeout(function() {
+                document.getElementById('browserLoading').querySelector('p').textContent = 'الموقع لا يدعم التصفح الداخلي، استخدم زر المتصفح الخارجي';
+            }, 8000);
             iframe.onload = function() {
+                clearTimeout(loadTimeout);
                 document.getElementById('browserLoading').classList.add('hidden');
             };
         }
@@ -2468,6 +2471,7 @@
         function closeInAppBrowser() {
             document.getElementById('inAppBrowser').classList.add('hidden');
             document.getElementById('browserIframe').src = 'about:blank';
+            document.getElementById('browserLoading').querySelector('p').textContent = 'جاري التحميل...';
             browserCurrentUrl = '';
         }
 
@@ -2505,7 +2509,7 @@
             </button>
         </div>
         <div class="flex-1 relative bg-white">
-            <iframe id="browserIframe" class="w-full h-full border-none" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+            <iframe id="browserIframe" class="w-full h-full border-none"></iframe>
             <div id="browserLoading" class="absolute inset-0 flex items-center justify-center bg-[#0a1022] z-10">
                 <div class="text-center">
                     <div class="w-10 h-10 border-2 border-t-indigo-500 border-r-indigo-500 border-b-transparent border-l-transparent rounded-full animate-spin mx-auto mb-3"></div>
