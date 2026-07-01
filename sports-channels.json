@@ -58,5 +58,11 @@
     "name": "قناة 14",
     "url": "https://a11.kora-plus.app/live/bbc1.m3u8?token=hT8yfvONMNvomXVxivSVGYPLt84&exp=1782922472",
     "type": "web"
+  },
+  {
+    "id": 15,
+    "name": "قناة 15",
+    "url": "https://k.a-koraa.com/p-3/",
+    "type": "web"
   }
 ]
