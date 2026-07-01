@@ -1534,11 +1534,28 @@
         let currentActiveMode = 'watch';
 
         let hlsPlayerInstance = null;
-        const sportsChannelsData = [
+        let sportsChannelsData = [
             { id: 1, name: 'رابط القنوات', url: 'https://cdn.soft31.com/erthlik/22', type: 'web' },
             { id: 2, name: 'قناة 1', url: 'https://s3.us-east-2.amazonaws.com/cdnw102/live/stream/720p/tracks-v1a1/mono.m3u8', type: 'stream' },
             { id: 3, name: 'قناة 2', url: 'https://mc.rootsee.shop/citroo3_720/index.m3u8', type: 'stream' }
         ];
+        let sportsDataLoaded = false;
+
+        async function loadSportsData() {
+            if (sportsDataLoaded) return;
+            try {
+                const res = await fetch('sports-channels.json?' + Date.now());
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        sportsChannelsData = data;
+                    }
+                }
+            } catch (e) {
+                // use hardcoded fallback
+            }
+            sportsDataLoaded = true;
+        }
 
         document.addEventListener("DOMContentLoaded", () => {
             const initialWatchItems = appsContainer.querySelectorAll('.app-item[data-mode="watch"]');
@@ -2055,9 +2072,10 @@
             }
         }
 
-        function openSportsModal() {
+        async function openSportsModal() {
             if(isEditMode) return;
             document.getElementById('sportsModal').classList.remove('hidden');
+            await loadSportsData();
             renderSportsChannels();
             const videoEl = document.getElementById('sportsVideoPlayer');
             const playText = currentLang === 'ar' ? 'اضغط تشغيل' : 'Tap to play';
