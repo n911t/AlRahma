@@ -52,5 +52,11 @@
     "name": "قناة 13",
     "url": "https://a10.kora-plus.app/live/tv5.m3u8?token=uejJEV_792PPaIIGJJ4bekOx7XI&exp=1782922426",
     "type": "web"
+  },
+  {
+    "id": 14,
+    "name": "قناة 14",
+    "url": "https://a11.kora-plus.app/live/bbc1.m3u8?token=hT8yfvONMNvomXVxivSVGYPLt84&exp=1782922472",
+    "type": "web"
   }
 ]
