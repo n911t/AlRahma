@@ -42,12 +42,6 @@
     "type": "web"
   },
   {
-    "id": 17,
-    "name": "قناة 17",
-    "url": "https://am.kooran60.cfd/poole1_720/index.m3u8",
-    "type": "stream"
-  },
-  {
     "id": 18,
     "name": "قناة 18",
     "url": "https://strm01.app/?m=30692&lang=ar",
