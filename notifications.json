@@ -53,6 +53,15 @@
       "body_en": "رسالة اختبار فقط. تم التعديل .",
       "date": "2026-07-01",
       "active": true
+    },
+    {
+      "id": 7,
+      "title_ar": "رسالة من المنصة",
+      "title_en": "Message from Platform",
+      "body_ar": "رسالة اختبار . 123",
+      "body_en": "رسالة اختبار . 123",
+      "date": "2026-07-01",
+      "active": true
     }
   ]
 }
