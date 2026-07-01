@@ -1,5 +1,12 @@
 [
   { "id": 1, "name": "رابط القنوات", "url": "https://cdn.soft31.com/erthlik/22", "type": "web" },
   { "id": 2, "name": "قناة 1", "url": "https://s3.us-east-2.amazonaws.com/cdnw102/live/stream/720p/tracks-v1a1/mono.m3u8", "type": "stream" },
-  { "id": 3, "name": "قناة 2", "url": "https://mc.rootsee.shop/citroo3_720/index.m3u8", "type": "stream" }
+  { "id": 3, "name": "قناة 2", "url": "https://mc.rootsee.shop/citroo3_720/index.m3u8", "type": "stream" },
+  { "id": 4, "name": "قناة 3", "url": "", "type": "stream" },
+  { "id": 5, "name": "قناة 4", "url": "", "type": "stream" },
+  { "id": 6, "name": "قناة 5", "url": "", "type": "stream" },
+  { "id": 7, "name": "قناة 6", "url": "", "type": "stream" },
+  { "id": 8, "name": "قناة 7", "url": "", "type": "stream" },
+  { "id": 9, "name": "قناة 8", "url": "", "type": "stream" },
+  { "id": 10, "name": "قناة 9", "url": "", "type": "stream" }
 ]
