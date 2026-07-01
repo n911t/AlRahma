@@ -26,6 +26,15 @@
       "body_en": "test 123",
       "date": "2026-07-01",
       "active": true
+    },
+    {
+      "id": 4,
+      "title_ar": "رسالة من المنصة",
+      "title_en": "Message from Platform",
+      "body_ar": "ستظهر للمستخدمين عند فتح المنصة.",
+      "body_en": "ستظهر للمستخدمين عند فتح المنصة.",
+      "date": "2026-07-01",
+      "active": true
     }
   ]
 }
