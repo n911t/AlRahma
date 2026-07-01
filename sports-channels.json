@@ -70,5 +70,11 @@
     "name": "قناة 16",
     "url": "https://am.kooran60.cfd/poole1_720/index.m3u8",
     "type": "stream"
+  },
+  {
+    "id": 17,
+    "name": "قناة 17",
+    "url": "https://am.kooran60.cfd/poole1_720/index.m3u8",
+    "type": "stream"
   }
 ]
