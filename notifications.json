@@ -8,6 +8,15 @@
       "body_en": "Welcome to Fiber TV platform. Enjoy all available services and apps.",
       "date": "2026-07-01",
       "active": true
+    },
+    {
+      "id": 2,
+      "title_ar": "رسالة من المنصة",
+      "title_en": "Message from Platform",
+      "body_ar": "123",
+      "body_en": "123",
+      "date": "2026-07-01",
+      "active": true
     }
   ]
 }
