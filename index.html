@@ -323,6 +323,15 @@
             animation: pulse 1.5s infinite;
         }
         html[dir="ltr"] .msg-new-badge { margin-left: 0; margin-right: 0.5rem; }
+
+        @keyframes slideLeft { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes slideRight { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+        .animate-slideLeft { animation: slideLeft 0.3s cubic-bezier(0.16,1,0.3,1); }
+        html[dir="ltr"] .animate-slideLeft { animation: slideRight 0.3s cubic-bezier(0.16,1,0.3,1); }
+
+        #notifBadge:not(.hidden) { animation: pulse 1.5s infinite; }
+        html[dir="ltr"] #notifBadge { right: auto; left: -0.25rem; }
+        html[dir="ltr"] #notifPanel > div:first-child + div { border-left: none; border-right: 1px solid rgba(255,255,255,0.06); }
     </style>
 </head>
 <body class="relative min-h-screen pb-24">
@@ -504,6 +513,11 @@
                     
                     <button id="btnInfo" onclick="openNoticeManually()" class="ctrl-btn w-11 h-11 flex items-center justify-center text-lg transition-all active:scale-90 shadow-md theme-transition" title="تنويه هام">
                         <i class="fas fa-info-circle"></i>
+                    </button>
+                    
+                    <button id="btnNotifications" onclick="toggleNotifPanel()" class="ctrl-btn w-11 h-11 flex items-center justify-center text-lg transition-all active:scale-90 shadow-md theme-transition relative" title="الإشعارات">
+                        <i class="fas fa-bell"></i>
+                        <span id="notifBadge" class="hidden absolute -top-1 -right-1 min-w-[18px] h-[18px] text-[9px] font-black flex items-center justify-center rounded-full bg-gradient-to-br from-rose-500 to-pink-600 text-white shadow-lg shadow-rose-900/50 leading-none px-1">0</span>
                     </button>
                     
                     <button id="btnInstall" class="hidden ctrl-btn w-11 h-11 flex items-center justify-center text-lg transition-all active:scale-90 shadow-md theme-transition" title="تثبيت على الشاشة">
@@ -944,6 +958,7 @@
                 dl_anime_s: 'انمي سلاير', dl_anime_s_d: 'Anime Slayer (تحميل تطبيق أندرويد)',
                 notif_title: 'تفعيل الإشعارات', notif_desc: 'احصل على إشعارات فورية عند إضافة قنوات رياضية جديدة وتحديثات المنصة', notif_btn: 'تفعيل الإشعارات', notif_skip: 'تخطي', notif_granted: 'تم تفعيل الإشعارات بنجاح!',
                 msg_title: 'رسالة من المنصة', msg_btn: 'حسناً', msg_new: 'جديد',
+                notif_btn_title: 'الإشعارات', notif_panel_title: 'الإشعارات', notif_empty: 'لا توجد إشعارات',
                 ch_name1: 'رابط القنوات', ch_name2: 'قناة 1', ch_name3: 'قناة 2',
                 t_glassDark: 'Neo Dark (الافتراضي)', t_woody: 'Woody (Toy Story)', t_retro: 'Retro', t_formal: 'Formal',
                 t_queen: 'Queen', t_sport: 'Sport', t_garage: 'Garage', t_smart: 'Smart', t_muscle: 'Muscle', t_nemo: 'Nemo',
@@ -998,6 +1013,7 @@
                 dl_anime_s: 'Anime Slayer', dl_anime_s_d: 'Anime Slayer (Android app download)',
                 notif_title: 'Enable Notifications', notif_desc: 'Get instant notifications when new sports channels and platform updates are added', notif_btn: 'Enable Notifications', notif_skip: 'Skip', notif_granted: 'Notifications enabled successfully!',
                 msg_title: 'Message from Platform', msg_btn: 'OK', msg_new: 'NEW',
+                notif_btn_title: 'Notifications', notif_panel_title: 'Notifications', notif_empty: 'No notifications',
                 ch_name1: 'Channels Link', ch_name2: 'Channel 1', ch_name3: 'Channel 2',
                 t_glassDark: 'Neo Dark (Default)', t_woody: 'Woody (Toy Story)', t_retro: 'Retro', t_formal: 'Formal',
                 t_queen: 'Queen', t_sport: 'Sport', t_garage: 'Garage', t_smart: 'Smart', t_muscle: 'Muscle', t_nemo: 'Nemo',
@@ -1034,6 +1050,7 @@
                 'iosPopupTitle': 'ios_title', 'iosOkBtn': 'ios_btn',
                 'notifTitle': 'notif_title', 'notifDesc': 'notif_desc', 'notifBtn': 'notif_btn', 'notifSkip': 'notif_skip',
                 'msgPopupTitle': 'msg_title', 'msgOkBtn': 'msg_btn',
+                'notifPanelTitle': 'notif_panel_title', 'notifEmptyMsg': 'notif_empty',
             };
 
             // Set text content by ID
@@ -1060,6 +1077,7 @@
             const titleMap = {
                 'btnShare': 'hdr_share', 'btnQr': 'hdr_qr', 'btnRefresh': 'hdr_refresh',
                 'btnInfo': 'hdr_info', 'btnInstall': 'hdr_install', 'btnIosInstall': 'hdr_ios',
+                'btnNotifications': 'notif_btn_title',
                 'backToTopBtn': 'back_top'
             };
             Object.entries(titleMap).forEach(([id, key]) => {
@@ -1686,11 +1704,68 @@
                 const data = await res.json();
                 if (!data || !Array.isArray(data.messages)) return;
                 const activeMsgs = data.messages.filter(m => m.active && m.id && seenIds.indexOf(m.id) === -1);
-                if (activeMsgs.length === 0) return;
-                showMessagePopup(activeMsgs[0]);
+                if (activeMsgs.length > 0) { showMessagePopup(activeMsgs[0]); renderNotifBadge(); }
             } catch (e) {
                 // silent
             }
+        }
+
+        async function renderNotifBadge() {
+            try {
+                const seenIds = JSON.parse(localStorage.getItem('fibertv_msg_seen') || '[]');
+                const res = await fetch('notifications.json?' + Date.now());
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!data || !Array.isArray(data.messages)) return;
+                const active = data.messages.filter(m => m.active);
+                const unread = active.filter(m => seenIds.indexOf(m.id) === -1);
+                const badge = document.getElementById('notifBadge');
+                if (unread.length > 0) {
+                    badge.textContent = unread.length;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            } catch (e) {
+                // silent
+            }
+        }
+
+        function toggleNotifPanel() {
+            const panel = document.getElementById('notifPanel');
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                renderNotifPanel();
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function renderNotifPanel() {
+            const body = document.getElementById('notifPanelBody');
+            body.innerHTML = '';
+            fetch('notifications.json?' + Date.now()).then(r => r.json()).then(data => {
+                if (!data || !Array.isArray(data.messages)) {
+                    body.innerHTML = '<div class="text-center text-gray-500 text-sm font-bold py-10">' + tr('notif_empty') + '</div>';
+                    return;
+                }
+                const msgs = data.messages.filter(m => m.active).reverse();
+                if (msgs.length === 0) {
+                    body.innerHTML = '<div class="text-center text-gray-500 text-sm font-bold py-10">' + tr('notif_empty') + '</div>';
+                    return;
+                }
+                const seenIds = JSON.parse(localStorage.getItem('fibertv_msg_seen') || '[]');
+                const isAr = currentLang === 'ar';
+                msgs.forEach(m => {
+                    const isNew = seenIds.indexOf(m.id) === -1;
+                    const div = document.createElement('div');
+                    div.className = 'bg-white/[0.03] border border-white/[0.05] rounded-2xl p-4 transition hover:bg-white/[0.05]';
+                    div.innerHTML = '<div class="flex items-start gap-3"><div class="w-9 h-9 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0"><i class="fas fa-bell text-sm"></i></div><div class="flex-1 min-w-0"><div class="flex items-center gap-2 mb-1"><h4 class="text-sm font-black text-white">' + (isAr ? m.title_ar : m.title_en) + '</h4>' + (isNew ? '<span class="text-[9px] font-black text-rose-400 bg-rose-500/10 px-1.5 py-0.5 rounded-full">' + tr('msg_new') + '</span>' : '') + '</div><p class="text-xs text-gray-400 font-bold leading-relaxed">' + (isAr ? m.body_ar : m.body_en) + '</p>' + (m.date ? '<p class="text-[10px] text-gray-600 font-bold mt-2">' + m.date + '</p>' : '') + '</div></div>';
+                    body.appendChild(div);
+                });
+            }).catch(() => {
+                body.innerHTML = '<div class="text-center text-gray-500 text-sm font-bold py-10">' + tr('notif_empty') + '</div>';
+            });
         }
 
         function showMessagePopup(msg) {
@@ -1746,6 +1821,7 @@
             initBackToTop();
             showNotificationPrompt();
             setTimeout(fetchAndShowMessages, 500);
+            setTimeout(renderNotifBadge, 700);
         });
 
         // ===================== Stars Canvas =====================
@@ -2366,6 +2442,24 @@
             });
         }
     </script>
+
+    <!-- لوحة الإشعارات الجانبية -->
+    <div id="notifPanel" class="hidden fixed inset-0 z-[70] flex justify-end">
+        <div onclick="toggleNotifPanel()" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-sm bg-[#0a1022] border-l border-white/[0.06] h-full overflow-y-auto shadow-2xl shadow-black/60 animate-slideLeft">
+            <div class="sticky top-0 bg-[#0a1022]/95 backdrop-blur-md z-10 p-4 border-b border-white/[0.06] flex items-center justify-between">
+                <h3 class="text-sm font-black text-white flex items-center gap-2">
+                    <i class="fas fa-bell text-indigo-400"></i> <span id="notifPanelTitle">الإشعارات</span>
+                </h3>
+                <button onclick="toggleNotifPanel()" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-white transition border border-white/[0.05] active:scale-90">
+                    <i class="fas fa-times text-xs"></i>
+                </button>
+            </div>
+            <div id="notifPanelBody" class="p-4 space-y-3">
+                <div class="text-center text-gray-500 text-sm font-bold py-10" id="notifEmptyMsg">لا توجد إشعارات</div>
+            </div>
+        </div>
+    </div>
 
     <div id="notifPrompt" class="hidden notif-overlay">
         <div class="notif-card">
