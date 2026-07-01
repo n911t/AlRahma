@@ -419,31 +419,37 @@
 
     <!-- نافذة قنوات الرياضة المنبثقة -->
     <div id="sportsModal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-[#050a14]/95 backdrop-blur-xl p-4 transition-all duration-300">
-        <div class="bg-gradient-to-b from-[#0f172a] to-[#0a0f1e] p-5 rounded-[2.5rem] w-full max-w-lg border border-white/[0.08] shadow-2xl shadow-indigo-900/30 relative max-h-[90vh] overflow-y-auto no-scrollbar flex flex-col gap-4">
+        <div class="bg-gradient-to-b from-[#0f172a] to-[#0a0f1e] rounded-[2.5rem] w-full max-w-lg border border-white/[0.08] shadow-2xl shadow-indigo-900/30 relative flex flex-col max-h-[90vh]">
 
-            <!-- شريط العنوان مع زر الرجوع -->
-            <div class="flex items-center justify-between shrink-0">
-                <button onclick="closeSportsModal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-white transition border border-white/[0.05] active:scale-90">
-                    <i class="fas fa-arrow-right text-sm"></i>
-                </button>
-                <h3 id="sportsModalTitle" class="font-black text-lg text-transparent bg-clip-text bg-gradient-to-l from-rose-400 to-orange-400">قنوات رياضية (مؤقتة)</h3>
-                <div class="w-9"></div>
-            </div>
+            <!-- قسم ثابت: العنوان + المشغل -->
+            <div class="shrink-0 p-5 pb-3">
+                <!-- شريط العنوان مع زر الرجوع -->
+                <div class="flex items-center justify-between mb-3">
+                    <button onclick="closeSportsModal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-white transition border border-white/[0.05] active:scale-90">
+                        <i class="fas fa-arrow-right text-sm"></i>
+                    </button>
+                    <h3 id="sportsModalTitle" class="font-black text-lg text-transparent bg-clip-text bg-gradient-to-l from-rose-400 to-orange-400">قنوات رياضية (مؤقتة)</h3>
+                    <div class="w-9"></div>
+                </div>
 
-            <!-- مشغل الفيديو المدمج - محسّن للأندرويد -->
-            <div class="relative w-full rounded-2xl overflow-hidden border border-white/[0.06] shadow-lg bg-black/60 video-player-wrapper">
-                <div class="aspect-video relative">
-                    <video id="sportsVideoPlayer" 
-                        class="w-full h-full object-contain outline-none"
-                        poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 225'%3E%3Crect width='400' height='225' fill='%23000'/%3E%3Ctext x='200' y='115' text-anchor='middle' fill='%23333' font-size='14' font-family='sans-serif'%3E%F0%9F%93%BA%3C/text%3E%3C/svg%3E"
-                        playsinline
-                        preload="metadata"
-                        controlsList="nodownload"
-                        controls
-                    ></video>
-                    <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                <!-- مشغل الفيديو المدمج - محسّن للأندرويد -->
+                <div class="relative w-full rounded-2xl overflow-hidden border border-white/[0.06] shadow-lg bg-black/60 video-player-wrapper">
+                    <div class="aspect-video relative">
+                        <video id="sportsVideoPlayer" 
+                            class="w-full h-full object-contain outline-none"
+                            poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 225'%3E%3Crect width='400' height='225' fill='%23000'/%3E%3Ctext x='200' y='115' text-anchor='middle' fill='%23333' font-size='14' font-family='sans-serif'%3E%F0%9F%93%BA%3C/text%3E%3C/svg%3E"
+                            playsinline
+                            preload="metadata"
+                            controlsList="nodownload"
+                            controls
+                        ></video>
+                        <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                    </div>
                 </div>
             </div>
+
+            <!-- قسم قابل للتمرير: القنوات + دليل VLC -->
+            <div class="overflow-y-auto no-scrollbar px-5 pb-5 flex flex-col gap-3">
 
             <!-- قائمة القنوات -->
             <div class="space-y-1.5">
@@ -476,6 +482,7 @@
                     </div>
                 </div>
             </details>
+            </div>
         </div>
     </div>
 
@@ -2416,11 +2423,12 @@
                 const isWeb = channel.type === 'web';
                 
                 if (isWeb) {
+                    const safeUrl = channel.url.replace(/'/g, "\\'");
                     actionButton = `
-                        <a href="${channel.url}" target="_blank" class="flex-1 bg-gradient-to-l from-sky-600 to-blue-500 hover:from-sky-500 hover:to-blue-400 text-white text-xs font-black py-2.5 px-3 rounded-xl transition text-right flex justify-between items-center shadow-md shadow-sky-900/30 border border-sky-500/40 active:scale-[0.98]">
+                        <button onclick="openInAppBrowser('${safeUrl}')" class="flex-1 bg-gradient-to-l from-sky-600 to-blue-500 hover:from-sky-500 hover:to-blue-400 text-white text-xs font-black py-2.5 px-3 rounded-xl transition text-right flex justify-between items-center shadow-md shadow-sky-900/30 border border-sky-500/40 active:scale-[0.98]">
                             <span><i class="fas fa-external-link-alt ml-1.5 text-sm"></i> ${displayName}</span>
                             <span class="text-[10px] bg-black/30 px-2.5 py-1 rounded-lg backdrop-blur-sm">${tr('ch_web')}</span>
-                        </a>
+                        </button>
                     `;
                 } else {
                     actionButton = `
@@ -2441,6 +2449,31 @@
                 container.appendChild(channelEl);
             });
         }
+
+        let browserCurrentUrl = '';
+
+        function openInAppBrowser(url) {
+            browserCurrentUrl = url;
+            document.getElementById('browserUrlDisplay').textContent = url;
+            document.getElementById('inAppBrowser').classList.remove('hidden');
+            document.getElementById('browserLoading').classList.remove('hidden');
+            const iframe = document.getElementById('browserIframe');
+            const proxyUrl = 'https://fibertv-bot.cazanova1991.workers.dev/proxy?url=' + encodeURIComponent(url);
+            iframe.src = proxyUrl;
+            iframe.onload = function() {
+                document.getElementById('browserLoading').classList.add('hidden');
+            };
+        }
+
+        function closeInAppBrowser() {
+            document.getElementById('inAppBrowser').classList.add('hidden');
+            document.getElementById('browserIframe').src = 'about:blank';
+            browserCurrentUrl = '';
+        }
+
+        function openInAppBrowserExternal() {
+            if (browserCurrentUrl) window.open(browserCurrentUrl, '_blank');
+        }
     </script>
 
     <!-- لوحة الإشعارات الجانبية -->
@@ -2457,6 +2490,27 @@
             </div>
             <div id="notifPanelBody" class="p-4 space-y-3">
                 <div class="text-center text-gray-500 text-sm font-bold py-10" id="notifEmptyMsg">لا توجد إشعارات</div>
+            </div>
+        </div>
+    </div>
+    <!-- المتصفح الداخلي للقنوات -->
+    <div id="inAppBrowser" class="hidden fixed inset-0 z-[80] flex flex-col bg-[#0a1022]">
+        <div class="flex items-center gap-2 p-3 bg-[#0a1022]/95 backdrop-blur-md border-b border-white/[0.06] shrink-0">
+            <button onclick="closeInAppBrowser()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-white transition border border-white/[0.05] active:scale-90 shrink-0">
+                <i class="fas fa-arrow-right text-sm"></i>
+            </button>
+            <div class="flex-1 bg-white/[0.04] border border-white/[0.06] rounded-xl px-3 py-2 text-xs text-gray-300 font-bold truncate" id="browserUrlDisplay">https://...</div>
+            <button onclick="openInAppBrowserExternal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-sky-400 transition border border-white/[0.05] active:scale-90 shrink-0" title="فتح في المتصفح الخارجي">
+                <i class="fas fa-external-link-alt text-sm"></i>
+            </button>
+        </div>
+        <div class="flex-1 relative bg-white">
+            <iframe id="browserIframe" class="w-full h-full border-none" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+            <div id="browserLoading" class="absolute inset-0 flex items-center justify-center bg-[#0a1022] z-10">
+                <div class="text-center">
+                    <div class="w-10 h-10 border-2 border-t-indigo-500 border-r-indigo-500 border-b-transparent border-l-transparent rounded-full animate-spin mx-auto mb-3"></div>
+                    <p class="text-xs text-gray-400 font-bold">جاري التحميل مع حجب الإعلانات...</p>
+                </div>
             </div>
         </div>
     </div>
