@@ -939,7 +939,7 @@
                 qr_title: 'امسح الباركود', qr_desc: 'شارك رابط مركز الخدمات بسرعة',
                 theme_title: 'اختر مظهر المنصة',
                 share_title: 'فايبر TV', share_text: 'اكتشف منصة فايبر TV لتطبيقات وخدمات الانترنت الضوئي',
-                ch_web: 'فتح الرابط', ch_stream: 'شغّل الآن', ch_copy: 'تم نسخ الرابط! يمكنك الآن لصقه في مشغل VLC.',
+                ch_web: 'تشغيل في المشغل', ch_stream: 'شغّل الآن', ch_copy: 'تم نسخ الرابط! يمكنك الآن لصقه في مشغل VLC.',
                 alert_save: 'تم حفظ الترتيب واختياراتك بنجاح!', alert_reset: 'تم استعادة الشكل والترتيب الأصلي.',
                 ad_title: 'حجب الإعلانات المزعجة', ad_desc: 'تفعيل نظام AdGuard DNS العالمي الآمن',
                 ad_ios_lbl: 'لمستخدمي الآيفون (iOS)', ad_droid_lbl: 'لمستخدمي الأندرويد (Android)',
@@ -994,7 +994,7 @@
                 qr_title: 'Scan QR Code', qr_desc: 'Share the platform link quickly',
                 theme_title: 'Choose Platform Theme',
                 share_title: 'Fiber TV', share_text: 'Discover Fiber TV platform for apps and fiber internet services',
-                ch_web: 'Open link', ch_stream: 'Play now', ch_copy: 'Link copied! You can now paste it in VLC player.',
+                ch_web: 'Play in player', ch_stream: 'Play now', ch_copy: 'Link copied! You can now paste it in VLC player.',
                 alert_save: 'Order and choices saved successfully!', alert_reset: 'Default order restored.',
                 ad_title: 'Block Annoying Ads', ad_desc: 'Activate the secure AdGuard DNS system',
                 ad_ios_lbl: 'For iPhone Users (iOS)', ad_droid_lbl: 'For Android Users',
@@ -2379,6 +2379,33 @@
             }
         }
 
+        const EXTRACT_WORKER_URL = 'https://fibertv-bot.cazanova1991.workers.dev/extract-stream';
+
+        async function playWebChannel(btn, url) {
+            const origText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-1.5"></i> جاري التحميل...';
+            try {
+                const res = await fetch(EXTRACT_WORKER_URL + '?url=' + encodeURIComponent(url));
+                const data = await res.json();
+                if (data.streamUrl) {
+                    playSportsChannel(data.streamUrl);
+                    btn.innerHTML = '<i class="fas fa-check ml-1.5"></i> تم';
+                    setTimeout(() => { btn.disabled = false; btn.innerHTML = origText; }, 2000);
+                } else {
+                    if (confirm('تعذر استخراج رابط البث من هذا الموقع.\nهل تريد فتحه في المتصفح؟')) {
+                        window.open(url, '_blank');
+                    }
+                    btn.disabled = false; btn.innerHTML = origText;
+                }
+            } catch (e) {
+                if (confirm('حدث خطأ: ' + e.message + '\nهل تريد فتحه في المتصفح؟')) {
+                    window.open(url, '_blank');
+                }
+                btn.disabled = false; btn.innerHTML = origText;
+            }
+        }
+
         function fallbackPlay(url) {
             const videoElement = document.getElementById('sportsVideoPlayer');
             videoElement.src = url;
@@ -2423,11 +2450,12 @@
                 const isWeb = channel.type === 'web';
                 
                 if (isWeb) {
+                    const safeUrl = channel.url.replace(/'/g, "\\'");
                     actionButton = `
-                        <a href="${channel.url}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-gradient-to-l from-sky-600 to-blue-500 hover:from-sky-500 hover:to-blue-400 text-white text-xs font-black py-2.5 px-3 rounded-xl transition text-right flex justify-between items-center shadow-md shadow-sky-900/30 border border-sky-500/40 active:scale-[0.98]">
-                            <span><i class="fas fa-external-link-alt ml-1.5 text-sm"></i> ${displayName}</span>
+                        <button onclick="playWebChannel(this, '${safeUrl}')" class="flex-1 bg-gradient-to-l from-sky-600 to-blue-500 hover:from-sky-500 hover:to-blue-400 text-white text-xs font-black py-2.5 px-3 rounded-xl transition text-right flex justify-between items-center shadow-md shadow-sky-900/30 border border-sky-500/40 active:scale-[0.98]">
+                            <span><i class="fas fa-play-circle ml-1.5 text-sm"></i> ${displayName}</span>
                             <span class="text-[10px] bg-black/30 px-2.5 py-1 rounded-lg backdrop-blur-sm">${tr('ch_web')}</span>
-                        </a>
+                        </button>
                     `;
                 } else {
                     actionButton = `
