@@ -40,5 +40,11 @@
     "name": "قناة 11",
     "url": "https://m1.kora-sami.com/bmax1/",
     "type": "web"
+  },
+  {
+    "id": 12,
+    "name": "قناة 12",
+    "url": "https://cdn.soft31.com/erthlik/22",
+    "type": "web"
   }
 ]
