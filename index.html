@@ -22,7 +22,6 @@
    
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17"></script>
-    <link rel="stylesheet" href="https://cdn.emulatorjs.org/stable/data/emulator.css">
 
     <script>
         tailwind.config = {
@@ -544,15 +543,12 @@
         </div>
 
         <!-- ====== التبويبات بتصميم جديد ====== -->
-        <div id="modeTabsContainer" class="relative grid grid-cols-4 gap-1 mb-6 p-1 backdrop-blur-md theme-transition">
+        <div id="modeTabsContainer" class="relative grid grid-cols-3 gap-1 mb-6 p-1 backdrop-blur-md theme-transition">
             <button onclick="filterMode('watch')" id="btnModeWatch" class="mode-btn relative text-center py-2.5 text-xs font-black transition-all flex items-center justify-center gap-1.5 z-10">
                 <i class="fas fa-play-circle text-sm"></i> مشاهدة
             </button>
             <button onclick="filterMode('download')" id="btnModeDownload" class="mode-btn relative text-center py-2.5 text-xs font-black transition-all flex items-center justify-center gap-1.5 z-10">
                 <i class="fas fa-download text-sm"></i> التطبيقات
-            </button>
-            <button onclick="openGamesModal()" id="btnModeGames" class="mode-btn relative text-center py-2.5 text-xs font-black transition-all flex items-center justify-center gap-1.5 z-10">
-                <i class="fas fa-gamepad text-sm"></i> ألعاب
             </button>
             <button onclick="filterMode('block-ads')" id="btnModeBlockAds" class="mode-btn relative text-center py-2.5 text-xs font-black transition-all flex items-center justify-center gap-1.5 z-10">
                 <i class="fas fa-shield-halved text-sm"></i> حجب الاعلانات
@@ -944,9 +940,6 @@
                 theme_title: 'اختر مظهر المنصة',
                 share_title: 'فايبر TV', share_text: 'اكتشف منصة فايبر TV لتطبيقات وخدمات الانترنت الضوئي',
                 ch_web: 'تشغيل في المشغل', ch_stream: 'شغّل الآن', ch_copy: 'تم نسخ الرابط! يمكنك الآن لصقه في مشغل VLC.',
-                tab_games: 'ألعاب', games_title: 'ألعاب مصغرة', games_desc: 'ألعاب رجعية قديمة',
-                games_loading: 'جاري تحميل المحاكي...', games_play: 'تشغيل اللعبة', games_systems: 'الأنظمة المدعومة: NES، SNES، Sega، GameBoy',
-                games_empty: 'لا توجد ألعاب متوفرة حالياً.', games_back: 'رجوع', games_close: 'إغلاق المحاكي',
                 alert_save: 'تم حفظ الترتيب واختياراتك بنجاح!', alert_reset: 'تم استعادة الشكل والترتيب الأصلي.',
                 ad_title: 'حجب الإعلانات المزعجة', ad_desc: 'تفعيل نظام AdGuard DNS العالمي الآمن',
                 ad_ios_lbl: 'لمستخدمي الآيفون (iOS)', ad_droid_lbl: 'لمستخدمي الأندرويد (Android)',
@@ -1002,9 +995,6 @@
                 theme_title: 'Choose Platform Theme',
                 share_title: 'Fiber TV', share_text: 'Discover Fiber TV platform for apps and fiber internet services',
                 ch_web: 'Play in player', ch_stream: 'Play now', ch_copy: 'Link copied! You can now paste it in VLC player.',
-                tab_games: 'Games', games_title: 'Mini Games', games_desc: 'Retro classic games',
-                games_loading: 'Loading emulator...', games_play: 'Play Game', games_systems: 'Supported: NES, SNES, Sega, GameBoy',
-                games_empty: 'No games available yet.', games_back: 'Back', games_close: 'Close Emulator',
                 alert_save: 'Order and choices saved successfully!', alert_reset: 'Default order restored.',
                 ad_title: 'Block Annoying Ads', ad_desc: 'Activate the secure AdGuard DNS system',
                 ad_ios_lbl: 'For iPhone Users (iOS)', ad_droid_lbl: 'For Android Users',
@@ -1068,10 +1058,6 @@
                 'notifTitle': 'notif_title', 'notifDesc': 'notif_desc', 'notifBtn': 'notif_btn', 'notifSkip': 'notif_skip',
                 'msgPopupTitle': 'msg_title', 'msgOkBtn': 'msg_btn',
                 'notifPanelTitle': 'notif_panel_title', 'notifEmptyMsg': 'notif_empty',
-                'btnModeGames': 'tab_games',
-                'gamesModalTitle': 'games_title', 'gamesEmptyMsg': 'games_empty',
-                'gamesSystemsHint': 'games_systems',
-                'emulatorLoadingText': 'games_loading',
             };
 
             // Set text content by ID
@@ -1687,120 +1673,6 @@
             sportsDataLoaded = true;
         }
 
-        let gamesData = [];
-        let gamesDataLoaded = false;
-
-        async function loadGamesData() {
-            if (gamesDataLoaded) return;
-            try {
-                const res = await fetch('games.json?' + Date.now());
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.games && Array.isArray(data.games)) {
-                        gamesData = data.games.filter(g => g.active !== false);
-                    }
-                }
-            } catch (e) {
-                // use empty fallback
-            }
-            gamesDataLoaded = true;
-        }
-
-        async function openGamesModal() {
-            if (!gamesDataLoaded) await loadGamesData();
-            // Highlight games tab, dim others
-            const themeKey = localStorage.getItem('fibertv_theme') || 'glassDark';
-            const theme = platformThemes[themeKey] || platformThemes.glassDark;
-            ['btnModeWatch','btnModeDownload','btnModeBlockAds'].forEach(id => {
-                const b = document.getElementById(id);
-                if(b) b.className = `mode-btn relative text-center py-2.5 text-xs font-black transition-all flex items-center justify-center gap-1.5 z-10 theme-transition ${theme.btnInActive}`;
-            });
-            const btnGames = document.getElementById('btnModeGames');
-            if (btnGames) btnGames.className = `mode-btn relative text-center py-2.5 text-xs font-black transition-all flex items-center justify-center gap-1.5 z-10 theme-transition ${theme.btnWatchActive}`;
-            document.getElementById('gamesModal').classList.remove('hidden');
-            const container = document.getElementById('gamesListContainer');
-            Array.from(container.children).forEach(function(child) {
-                if (child.id !== 'gamesEmptyMsg') child.remove();
-            });
-            const active = gamesData.filter(g => g.active !== false && g.rom && g.rom.trim());
-            if (!active.length) {
-                document.getElementById('gamesEmptyMsg').classList.remove('hidden');
-                return;
-            }
-            document.getElementById('gamesEmptyMsg').classList.add('hidden');
-            const systemIcons = { nes: 'fab fa-nintendo-switch', snes: 'fab fa-nintendo-switch', sms: 'fas fa-gamepad', genesis: 'fas fa-gamepad', gb: 'fas fa-gamepad', gbc: 'fas fa-gamepad', gba: 'fas fa-gamepad' };
-            const systemNames = { nes: 'NES', snes: 'SNES', sms: 'Sega MS', genesis: 'Sega', gb: 'GB', gbc: 'GBC', gba: 'GBA' };
-            active.forEach(g => {
-                const div = document.createElement('div');
-                div.className = 'flex items-center gap-3 bg-white/[0.04] hover:bg-white/[0.08] p-3 rounded-xl border border-white/[0.06] hover:border-purple-500/30 transition-all active:scale-[0.99] cursor-pointer';
-                div.innerHTML = `
-                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
-                        <i class="${systemIcons[g.system] || 'fas fa-gamepad'} text-white"></i>
-                    </div>
-                    <div class="flex-1" data-i18n-gamename>
-                        <h4 class="text-sm font-black text-white">${currentLang === 'ar' && g.name_ar ? g.name_ar : g.name}</h4>
-                        <p class="text-[10px] text-purple-300/70 font-bold">${systemNames[g.system] || g.system}</p>
-                    </div>
-                    <button onclick="playGame(${g.id})" class="bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-xs font-black py-2 px-3 rounded-xl transition shadow-md shadow-purple-900/30 border border-purple-500/40 active:scale-90">
-                        ${tr('games_play')}
-                    </button>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function closeGamesModal() {
-            document.getElementById('gamesModal').classList.add('hidden');
-        }
-
-        function playGame(gameId) {
-            const game = gamesData.find(g => g.id === gameId);
-            if (!game) return;
-            closeGamesModal();
-            document.getElementById('emulatorModal').classList.remove('hidden');
-            document.getElementById('emulatorLoading').classList.remove('hidden');
-            document.getElementById('emulatorLoadingText').textContent = tr('games_loading');
-            document.getElementById('gameEmulator').innerHTML = '';
-            document.getElementById('emulatorGameTitle').textContent = currentLang === 'ar' && game.name_ar ? game.name_ar : game.name;
-            document.getElementById('emulatorGameSystem').textContent = game.system.toUpperCase();
-
-            window.EJS_player = '#gameEmulator';
-            window.EJS_core = game.system;
-            window.EJS_gameUrl = game.rom;
-            window.EJS_color = '#1a1040';
-            window.EJS_volume = 50;
-            window.EJS_startOnLoaded = true;
-            window.EJS_onLoad = function() {
-                document.getElementById('emulatorLoading').classList.add('hidden');
-            };
-            window.EJS_onError = function() {
-                document.getElementById('emulatorLoading').classList.add('hidden');
-                document.getElementById('emulatorLoadingText').textContent = 'خطأ في تحميل المحاكي';
-            };
-
-            const script = document.createElement('script');
-            script.src = 'https://cdn.emulatorjs.org/stable/data/emulator.js?_=' + Date.now();
-            script.onload = function() {
-                setTimeout(function() {
-                    document.getElementById('emulatorLoading').classList.add('hidden');
-                }, 3000);
-            };
-            document.body.appendChild(script);
-        }
-
-        function closeEmulatorModal() {
-            document.getElementById('emulatorModal').classList.add('hidden');
-            document.getElementById('emulatorLoading').classList.add('hidden');
-            document.getElementById('emulatorLoadingText').textContent = tr('games_loading');
-            document.getElementById('gameEmulator').innerHTML = '';
-            window.EJS_player = null;
-            window.EJS_core = null;
-            window.EJS_gameUrl = null;
-            // Remove all scripts added for emulator
-            document.querySelectorAll('script[src*="emulatorjs"]').forEach(s => s.remove());
-            document.querySelectorAll('link[href*="emulatorjs"]').forEach(l => l.remove());
-        }
-
         function showNotificationPrompt() {
             if (!('Notification' in window)) return;
             if (Notification.permission === 'granted') return;
@@ -2238,14 +2110,13 @@
             const btnWatch = document.getElementById('btnModeWatch');
             const btnDownload = document.getElementById('btnModeDownload');
             const btnBlockAds = document.getElementById('btnModeBlockAds');
-            const btnGames = document.getElementById('btnModeGames');
             const apps = document.querySelectorAll('.app-item');
             let hasResults = false;
 
             const themeKey = localStorage.getItem('fibertv_theme') || 'glassDark';
             const theme = platformThemes[themeKey] || platformThemes.glassDark;
 
-            [btnWatch, btnDownload, btnBlockAds, btnGames].forEach(btn => {
+            [btnWatch, btnDownload, btnBlockAds].forEach(btn => {
                 if(btn) btn.className = `mode-btn relative text-center py-2.5 text-xs font-black transition-all flex items-center justify-center gap-1.5 z-10 theme-transition ${theme.btnInActive}`;
             });
 
@@ -2632,49 +2503,6 @@
             <p id="notifDesc" class="text-sm text-gray-300 font-bold mb-6 leading-relaxed">احصل على إشعارات فورية عند إضافة قنوات رياضية جديدة وتحديثات المنصة</p>
             <button id="notifBtn" onclick="enableNotifications()" class="notif-btn">تفعيل الإشعارات</button>
             <button id="notifSkip" onclick="dismissNotificationPrompt()" class="notif-skip">تخطي</button>
-        </div>
-    </div>
-
-    <!-- قائمة الألعاب -->
-    <div id="gamesModal" class="hidden fixed inset-0 z-[70] flex items-center justify-center bg-[#050a14]/95 backdrop-blur-xl p-4 transition-all">
-        <div class="bg-gradient-to-b from-[#1a1040] to-[#0d0820] rounded-[2.5rem] w-full max-w-lg border border-purple-500/15 shadow-2xl shadow-purple-900/20 relative flex flex-col max-h-[85vh]">
-            <div class="shrink-0 p-5 pb-3 flex items-center justify-between">
-                <h3 id="gamesModalTitle" class="font-black text-lg text-transparent bg-clip-text bg-gradient-to-l from-purple-400 to-pink-400">ألعاب مصغرة</h3>
-                <button onclick="closeGamesModal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-white transition border border-white/[0.05] active:scale-90">
-                    <i class="fas fa-times text-sm"></i>
-                </button>
-            </div>
-            <div id="gamesListContainer" class="overflow-y-auto no-scrollbar px-5 pb-5 flex flex-col gap-2">
-                <div class="text-center text-gray-500 text-sm font-bold py-10" id="gamesEmptyMsg">لا توجد ألعاب متوفرة حالياً.</div>
-            </div>
-            <div class="shrink-0 px-5 pb-4 text-center">
-                <p id="gamesSystemsHint" class="text-[10px] text-purple-300/60 font-bold">الأنظمة المدعومة: NES، SNES، Sega، GameBoy</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- مشغل المحاكي -->
-    <div id="emulatorModal" class="hidden fixed inset-0 z-[80] flex flex-col bg-black">
-        <div class="flex items-center gap-2 p-3 bg-black/80 backdrop-blur-md border-b border-white/[0.06] shrink-0">
-            <button onclick="closeEmulatorModal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-white transition border border-white/[0.05] active:scale-90 shrink-0">
-                <i class="fas fa-arrow-right text-sm"></i>
-            </button>
-            <div class="flex-1">
-                <h3 id="emulatorGameTitle" class="text-sm font-black text-white truncate">جاري التحميل...</h3>
-                <p id="emulatorGameSystem" class="text-[10px] text-purple-400 font-bold">NES</p>
-            </div>
-            <button onclick="closeEmulatorModal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-rose-400 transition border border-white/[0.05] active:scale-90 shrink-0" title="إغلاق">
-                <i class="fas fa-times text-sm"></i>
-            </button>
-        </div>
-        <div id="emulatorContainer" class="flex-1 relative">
-            <div id="emulatorLoading" class="absolute inset-0 flex items-center justify-center bg-black/90 z-10">
-                <div class="text-center">
-                    <div class="w-10 h-10 border-2 border-t-purple-500 border-r-purple-500 border-b-transparent border-l-transparent rounded-full animate-spin mx-auto mb-3"></div>
-                    <p id="emulatorLoadingText" class="text-xs text-gray-400 font-bold">جاري تحميل المحاكي...</p>
-                </div>
-            </div>
-            <div id="gameEmulator" class="w-full h-full"></div>
         </div>
     </div>
 
