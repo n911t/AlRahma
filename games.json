@@ -1,0 +1,52 @@
+{
+  "games": [
+    {
+      "id": 1,
+      "name": "The Legend of Zelda: A Link to the Past & Four Swords",
+      "name_ar": "زيلدا: رابط إلى الماضي",
+      "system": "gba",
+      "rom": "games/Legend of Zelda, The - A Link to the Past & Four Swords (USA).gba",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Pokemon - Red Version",
+      "name_ar": "بوكيمون أحمر",
+      "system": "gb",
+      "rom": "games/Pokemon - Red Version (USA, Europe) (SGB Enhanced).gb",
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "Super Mario Bros",
+      "name_ar": "سوبر ماريو بروس",
+      "system": "nes",
+      "rom": "games/Super Mario Bros (PC10).nes",
+      "active": true
+    },
+    {
+      "id": 4,
+      "name": "Teenage Mutant Ninja Turtles",
+      "name_ar": "سلاحف النينجا",
+      "system": "nes",
+      "rom": "games/Teenage Mutant Ninja Turtles (USA).nes",
+      "active": true
+    },
+    {
+      "id": 5,
+      "name": "TMNT II - Back from the Sewers",
+      "name_ar": "سلاحف النينجا 2 - العودة من المجاري",
+      "system": "gb",
+      "rom": "games/Teenage Mutant Ninja Turtles II - Back from the Sewers (USA).gb",
+      "active": true
+    },
+    {
+      "id": 6,
+      "name": "Tiny Toon Adventures",
+      "name_ar": "مغامرات تيني تون",
+      "system": "nes",
+      "rom": "games/Tiny Toon Adventures (USA).nes",
+      "active": true
+    }
+  ]
+}
