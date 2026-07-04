@@ -419,7 +419,7 @@
 
     <!-- نافذة قنوات الرياضة المنبثقة -->
     <div id="sportsModal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-[#050a14]/95 backdrop-blur-xl p-4 transition-all duration-300">
-        <div class="bg-gradient-to-b from-[#0f172a] to-[#0a0f1e] rounded-[2.5rem] w-full max-w-lg border border-white/[0.08] shadow-2xl shadow-indigo-900/30 relative flex flex-col max-h-[90vh]">
+        <div class="bg-gradient-to-b from-[#0f172a] to-[#0a0f1e] rounded-[2.5rem] w-full max-w-lg lg:max-w-3xl border border-white/[0.08] shadow-2xl shadow-indigo-900/30 relative flex flex-col max-h-[90vh]">
 
             <!-- قسم ثابت: العنوان + المشغل -->
             <div class="shrink-0 p-5 pb-3">
@@ -496,24 +496,25 @@
         </div>
     </div>
 
-    <div class="relative z-20 max-w-md mx-auto px-4 pt-10">
+    <div class="relative z-20 max-w-md md:max-w-4xl lg:max-w-6xl mx-auto px-4 md:px-6 lg:px-8 pt-10">
         
         <!-- ====== الهيدر بتصميم جديد ====== -->
-        <div id="mainHeaderCard" class="relative overflow-hidden rounded-3xl p-6 text-center mb-6 theme-transition">
+        <div id="mainHeaderCard" class="relative overflow-hidden rounded-3xl p-6 md:p-8 text-center mb-6 theme-transition">
             <div class="absolute inset-0 bg-gradient-to-b from-indigo-950/60 to-[#080e1a] pointer-events-none"></div>
             <div class="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-gradient-to-r from-transparent via-violet-500 to-transparent rounded-full opacity-60"></div>
             <div class="relative z-10">
-                <div class="flex items-center justify-center gap-3 select-none">
-                    <span id="logoPart1" class="font-logo font-black text-4xl tracking-wide theme-transition">فايبر</span>
-                    <span class="inline-block min-w-[70px] text-center">
-                        <span id="animatedTv" class="flip-animation font-logo font-black text-4xl">TV</span>
-                    </span>
-                </div>
-                <div class="flex items-center justify-center gap-2 mt-3">
-                    <div class="h-px w-8 bg-gradient-to-l from-indigo-500/50 to-transparent"></div>
-                    <p id="logoSubtitle" class="text-xs font-bold tracking-widest inline-block px-4 py-1.5 rounded-full theme-transition">تطبيقات وخدمات الانترنت الضوئي</p>
-                    <div class="h-px w-8 bg-gradient-to-r from-indigo-500/50 to-transparent"></div>
-                </div>
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div class="flex items-center justify-center md:justify-start gap-3 select-none">
+                        <span id="logoPart1" class="font-logo font-black text-4xl tracking-wide theme-transition">فايبر</span>
+                        <span class="inline-block min-w-[70px] text-center">
+                            <span id="animatedTv" class="flip-animation font-logo font-black text-4xl">TV</span>
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-center gap-2">
+                        <div class="h-px w-8 bg-gradient-to-l from-indigo-500/50 to-transparent"></div>
+                        <p id="logoSubtitle" class="text-xs font-bold tracking-widest inline-block px-4 py-1.5 rounded-full theme-transition">تطبيقات وخدمات الانترنت الضوئي</p>
+                        <div class="h-px w-8 bg-gradient-to-r from-indigo-500/50 to-transparent"></div>
+                    </div>
                 
                 <div class="mt-6 flex justify-center items-center gap-3 flex-wrap">
                     <button id="btnShare" onclick="sharePlatformLink(this)" class="ctrl-btn w-11 h-11 flex items-center justify-center text-lg transition-all active:scale-90 shadow-md theme-transition" title="مشاركة المنصة">
@@ -565,7 +566,7 @@
             </button>
         </div>
 
-        <div id="appsContainer" class="grid grid-cols-2 gap-3">
+        <div id="appsContainer" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
 
             <!-- القنوات الرياضية -->
             <div id="watch-temp-sports" data-mode="watch" data-i18n-title="card_sports" data-i18n-desc="card_sports_d" onclick="openSportsModal()" class="app-item col-span-2 flex items-center p-3 rounded-2xl group theme-transition cursor-pointer card-shine">
