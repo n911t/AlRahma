@@ -1719,7 +1719,7 @@
             if (btnGames) btnGames.className = `mode-btn relative text-center py-2.5 text-xs font-black transition-all flex items-center justify-center gap-1.5 z-10 theme-transition ${theme.btnWatchActive}`;
             document.getElementById('gamesModal').classList.remove('hidden');
             const container = document.getElementById('gamesListContainer');
-            container.innerHTML = '';
+            container.querySelectorAll('.game-item-div').forEach(el => el.remove());
             const active = gamesData.filter(g => g.active !== false && g.rom && g.rom.trim());
             if (!active.length) {
                 document.getElementById('gamesEmptyMsg').classList.remove('hidden');
@@ -1730,7 +1730,7 @@
             const systemNames = { nes: 'NES', snes: 'SNES', sms: 'Sega MS', genesis: 'Sega', gb: 'GB', gbc: 'GBC', gba: 'GBA' };
             active.forEach(g => {
                 const div = document.createElement('div');
-                div.className = 'flex items-center gap-3 bg-white/[0.04] hover:bg-white/[0.08] p-3 rounded-xl border border-white/[0.06] hover:border-purple-500/30 transition-all active:scale-[0.99] cursor-pointer';
+                div.className = 'game-item-div flex items-center gap-3 bg-white/[0.04] hover:bg-white/[0.08] p-3 rounded-xl border border-white/[0.06] hover:border-purple-500/30 transition-all active:scale-[0.99] cursor-pointer';
                 div.innerHTML = `
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
                         <i class="${systemIcons[g.system] || 'fas fa-gamepad'} text-white"></i>
