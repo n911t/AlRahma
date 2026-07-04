@@ -34,5 +34,11 @@
     "name": "قناة 9",
     "url": "",
     "type": "stream"
+  },
+  {
+    "id": 11,
+    "name": "قناة 11",
+    "url": "https://m1.kora-sami.com/bmax1/",
+    "type": "web"
   }
 ]
