@@ -1706,8 +1706,8 @@
             gamesDataLoaded = true;
         }
 
-        function openGamesModal() {
-            if (!gamesDataLoaded) loadGamesData();
+        async function openGamesModal() {
+            if (!gamesDataLoaded) await loadGamesData();
             // Highlight games tab, dim others
             const themeKey = localStorage.getItem('fibertv_theme') || 'glassDark';
             const theme = platformThemes[themeKey] || platformThemes.glassDark;
