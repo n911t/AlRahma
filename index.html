@@ -22,7 +22,6 @@
    
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17"></script>
-    <script data-goatcounter="https://fiber-tv.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
     <script>
         tailwind.config = {
@@ -420,7 +419,7 @@
 
     <!-- نافذة قنوات الرياضة المنبثقة -->
     <div id="sportsModal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-[#050a14]/95 backdrop-blur-xl p-4 transition-all duration-300">
-        <div class="bg-gradient-to-b from-[#0f172a] to-[#0a0f1e] rounded-[2.5rem] w-full max-w-lg lg:max-w-3xl border border-white/[0.08] shadow-2xl shadow-indigo-900/30 relative flex flex-col max-h-[90vh]">
+        <div class="bg-gradient-to-b from-[#0f172a] to-[#0a0f1e] rounded-[2.5rem] w-full max-w-lg border border-white/[0.08] shadow-2xl shadow-indigo-900/30 relative flex flex-col max-h-[90vh]">
 
             <!-- قسم ثابت: العنوان + المشغل -->
             <div class="shrink-0 p-5 pb-3">
@@ -446,16 +445,6 @@
                         ></video>
                         <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
                     </div>
-                </div>
-            </div>
-
-            <!-- تنبيه تفعيل حجب الإعلانات -->
-            <div class="shrink-0 px-5 pb-1">
-                <div class="flex items-start gap-2 bg-amber-500/10 border border-amber-500/20 rounded-xl p-2.5">
-                    <i class="fas fa-shield-halved text-amber-400 text-sm mt-0.5 shrink-0"></i>
-                    <p class="text-[10px] text-amber-300/90 font-bold leading-relaxed">
-                        لتشغيل القنوات بشكل سليم وبدون إعلانات، يُرجى تفعيل خاصية <strong>"حجب الإعلانات"</strong> من القائمة الرئيسية أولاً.
-                    </p>
                 </div>
             </div>
 
@@ -497,25 +486,24 @@
         </div>
     </div>
 
-    <div class="relative z-20 max-w-md md:max-w-4xl lg:max-w-6xl mx-auto px-4 md:px-6 lg:px-8 pt-10">
+    <div class="relative z-20 max-w-md mx-auto px-4 pt-10">
         
         <!-- ====== الهيدر بتصميم جديد ====== -->
-        <div id="mainHeaderCard" class="relative overflow-hidden rounded-3xl p-6 md:p-8 text-center mb-6 theme-transition">
+        <div id="mainHeaderCard" class="relative overflow-hidden rounded-3xl p-6 text-center mb-6 theme-transition">
             <div class="absolute inset-0 bg-gradient-to-b from-indigo-950/60 to-[#080e1a] pointer-events-none"></div>
             <div class="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-gradient-to-r from-transparent via-violet-500 to-transparent rounded-full opacity-60"></div>
             <div class="relative z-10">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div class="flex items-center justify-center md:justify-start gap-3 select-none">
-                        <span id="logoPart1" class="font-logo font-black text-4xl tracking-wide theme-transition">فايبر</span>
-                        <span class="inline-block min-w-[70px] text-center">
-                            <span id="animatedTv" class="flip-animation font-logo font-black text-4xl">TV</span>
-                        </span>
-                    </div>
-                    <div class="flex items-center justify-center gap-2">
-                        <div class="h-px w-8 bg-gradient-to-l from-indigo-500/50 to-transparent"></div>
-                        <p id="logoSubtitle" class="text-xs font-bold tracking-widest inline-block px-4 py-1.5 rounded-full theme-transition">تطبيقات وخدمات الانترنت الضوئي</p>
-                        <div class="h-px w-8 bg-gradient-to-r from-indigo-500/50 to-transparent"></div>
-                    </div>
+                <div class="flex items-center justify-center gap-3 select-none">
+                    <span id="logoPart1" class="font-logo font-black text-4xl tracking-wide theme-transition">فايبر</span>
+                    <span class="inline-block min-w-[70px] text-center">
+                        <span id="animatedTv" class="flip-animation font-logo font-black text-4xl">TV</span>
+                    </span>
+                </div>
+                <div class="flex items-center justify-center gap-2 mt-3">
+                    <div class="h-px w-8 bg-gradient-to-l from-indigo-500/50 to-transparent"></div>
+                    <p id="logoSubtitle" class="text-xs font-bold tracking-widest inline-block px-4 py-1.5 rounded-full theme-transition">تطبيقات وخدمات الانترنت الضوئي</p>
+                    <div class="h-px w-8 bg-gradient-to-r from-indigo-500/50 to-transparent"></div>
+                </div>
                 
                 <div class="mt-6 flex justify-center items-center gap-3 flex-wrap">
                     <button id="btnShare" onclick="sharePlatformLink(this)" class="ctrl-btn w-11 h-11 flex items-center justify-center text-lg transition-all active:scale-90 shadow-md theme-transition" title="مشاركة المنصة">
@@ -567,7 +555,7 @@
             </button>
         </div>
 
-        <div id="appsContainer" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+        <div id="appsContainer" class="grid grid-cols-2 gap-3">
 
             <!-- القنوات الرياضية -->
             <div id="watch-temp-sports" data-mode="watch" data-i18n-title="card_sports" data-i18n-desc="card_sports_d" onclick="openSportsModal()" class="app-item col-span-2 flex items-center p-3 rounded-2xl group theme-transition cursor-pointer card-shine">
@@ -798,7 +786,7 @@
                 </button>
                 
                 <div class="flex items-center gap-2 px-1">
-                    <a href="https://instagram.com/n911ig" target="_blank" class="social-icon w-9 h-9 flex items-center justify-center text-base transition transform active:scale-90 theme-transition">
+                    <a href="https://instagram.com/n911.z" target="_blank" class="social-icon w-9 h-9 flex items-center justify-center text-base transition transform active:scale-90 theme-transition">
                         <i class="fab fa-instagram"></i>
                     </a>
                     <a href="https://t.me/N911t" target="_blank" class="social-icon w-9 h-9 flex items-center justify-center text-base transition transform active:scale-90 theme-transition">
@@ -926,13 +914,6 @@
     </div>
 
     <script>
-        if (!Object.entries) {
-            Object.entries = function(obj) {
-                var ownProps = Object.keys(obj), i = ownProps.length, res = new Array(i);
-                while (i--) res[i] = [ownProps[i], obj[ownProps[i]]];
-                return res;
-            };
-        }
         const PLATFORM_URL = 'https://n911t.github.io/AlRahma/';
         let currentLang = 'ar';
 
@@ -958,7 +939,7 @@
                 qr_title: 'امسح الباركود', qr_desc: 'شارك رابط مركز الخدمات بسرعة',
                 theme_title: 'اختر مظهر المنصة',
                 share_title: 'فايبر TV', share_text: 'اكتشف منصة فايبر TV لتطبيقات وخدمات الانترنت الضوئي',
-                ch_web: 'فتح في المتصفح', ch_stream: 'شغّل الآن', ch_copy: 'تم نسخ الرابط! يمكنك الآن لصقه في مشغل VLC.',
+                ch_web: 'تشغيل في المشغل', ch_stream: 'شغّل الآن', ch_copy: 'تم نسخ الرابط! يمكنك الآن لصقه في مشغل VLC.',
                 alert_save: 'تم حفظ الترتيب واختياراتك بنجاح!', alert_reset: 'تم استعادة الشكل والترتيب الأصلي.',
                 ad_title: 'حجب الإعلانات المزعجة', ad_desc: 'تفعيل نظام AdGuard DNS العالمي الآمن',
                 ad_ios_lbl: 'لمستخدمي الآيفون (iOS)', ad_droid_lbl: 'لمستخدمي الأندرويد (Android)',
@@ -1013,7 +994,7 @@
                 qr_title: 'Scan QR Code', qr_desc: 'Share the platform link quickly',
                 theme_title: 'Choose Platform Theme',
                 share_title: 'Fiber TV', share_text: 'Discover Fiber TV platform for apps and fiber internet services',
-                ch_web: 'Open in browser', ch_stream: 'Play now', ch_copy: 'Link copied! You can now paste it in VLC player.',
+                ch_web: 'Play in player', ch_stream: 'Play now', ch_copy: 'Link copied! You can now paste it in VLC player.',
                 alert_save: 'Order and choices saved successfully!', alert_reset: 'Default order restored.',
                 ad_title: 'Block Annoying Ads', ad_desc: 'Activate the secure AdGuard DNS system',
                 ad_ios_lbl: 'For iPhone Users (iOS)', ad_droid_lbl: 'For Android Users',
@@ -1676,19 +1657,21 @@
         ];
         let sportsDataLoaded = false;
 
-        function loadSportsData() {
-    if (sportsDataLoaded) return;
-    fetch('sports-channels.json?' + Date.now()).then(function(res) {
-        if (res.ok) return res.json();
-    }).then(function(data) {
-        if (Array.isArray(data) && data.length > 0) {
-            sportsChannelsData = data;
+        async function loadSportsData() {
+            if (sportsDataLoaded) return;
+            try {
+                const res = await fetch('sports-channels.json?' + Date.now());
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        sportsChannelsData = data;
+                    }
+                }
+            } catch (e) {
+                // use hardcoded fallback
+            }
+            sportsDataLoaded = true;
         }
-    }).catch(function(e) {
-    }).then(function() {
-        sportsDataLoaded = true;
-    });
-}
 
         function showNotificationPrompt() {
             if (!('Notification' in window)) return;
@@ -1720,37 +1703,39 @@
             document.getElementById('notifPrompt').classList.add('hidden');
         }
 
-        function fetchAndShowMessages() {
+        async function fetchAndShowMessages() {
             try {
                 const seenIds = JSON.parse(localStorage.getItem('fibertv_msg_seen') || '[]');
-                fetch('notifications.json?' + Date.now()).then(function(res) {
-                    if (res.ok) return res.json();
-                }).then(function(data) {
-                    if (!data || !Array.isArray(data.messages)) return;
-                    const activeMsgs = data.messages.filter(function(m) { return m.active && m.id && seenIds.indexOf(m.id) === -1; });
-                    if (activeMsgs.length > 0) { showMessagePopup(activeMsgs[0]); renderNotifBadge(); }
-                }).catch(function(e) {});
-            } catch (e) {}
+                const res = await fetch('notifications.json?' + Date.now());
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!data || !Array.isArray(data.messages)) return;
+                const activeMsgs = data.messages.filter(m => m.active && m.id && seenIds.indexOf(m.id) === -1);
+                if (activeMsgs.length > 0) { showMessagePopup(activeMsgs[0]); renderNotifBadge(); }
+            } catch (e) {
+                // silent
+            }
         }
 
-        function renderNotifBadge() {
+        async function renderNotifBadge() {
             try {
                 const seenIds = JSON.parse(localStorage.getItem('fibertv_msg_seen') || '[]');
-                fetch('notifications.json?' + Date.now()).then(function(res) {
-                    if (res.ok) return res.json();
-                }).then(function(data) {
-                    if (!data || !Array.isArray(data.messages)) return;
-                    const active = data.messages.filter(function(m) { return m.active; });
-                    const unread = active.filter(function(m) { return seenIds.indexOf(m.id) === -1; });
-                    const badge = document.getElementById('notifBadge');
-                    if (unread.length > 0) {
-                        badge.textContent = unread.length;
-                        badge.classList.remove('hidden');
-                    } else {
-                        badge.classList.add('hidden');
-                    }
-                }).catch(function(e) {});
-            } catch (e) {}
+                const res = await fetch('notifications.json?' + Date.now());
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!data || !Array.isArray(data.messages)) return;
+                const active = data.messages.filter(m => m.active);
+                const unread = active.filter(m => seenIds.indexOf(m.id) === -1);
+                const badge = document.getElementById('notifBadge');
+                if (unread.length > 0) {
+                    badge.textContent = unread.length;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            } catch (e) {
+                // silent
+            }
         }
 
         function toggleNotifPanel() {
@@ -1923,11 +1908,11 @@
             });
 
             if (btnInstall) {
-                btnInstall.addEventListener('click', function() {
+                btnInstall.addEventListener('click', async () => {
                     if (!deferredInstallPrompt) return;
                     deferredInstallPrompt.prompt();
                     try {
-                        deferredInstallPrompt.userChoice.then(function() {}).catch(function() {});
+                        await deferredInstallPrompt.userChoice;
                     } catch (e) {}
                     deferredInstallPrompt = null;
                     btnInstall.classList.add('hidden');
@@ -2330,10 +2315,10 @@
             }
         }
 
-        function openSportsModal() {
+        async function openSportsModal() {
             if(isEditMode) return;
             document.getElementById('sportsModal').classList.remove('hidden');
-            loadSportsData();
+            await loadSportsData();
             renderSportsChannels();
             const videoEl = document.getElementById('sportsVideoPlayer');
             const playText = currentLang === 'ar' ? 'اضغط تشغيل' : 'Tap to play';
@@ -2364,17 +2349,7 @@
             videoElement.src = '';
             videoElement.load();
 
-            // iOS/iPhone - use native HLS playback (Safari supports HLS natively)
-            if (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
-                videoElement.src = url;
-                videoElement.load();
-                videoElement.play().catch(function(e) {
-                    console.warn('التشغيل التلقائي لم يعمل، انتظر المستخدم', e);
-                });
-                return;
-            }
-
-            // Android/others - use HLS.js
+            // إزالة أخطاء الأندرويد: نستخدم hls.js فقط إن كان متاحًا وباقي الأجهزة نستخدم src مباشرة
             if (typeof Hls !== 'undefined' && Hls.isSupported()) {
                 try {
                     hlsPlayerInstance = new Hls();
@@ -2382,6 +2357,7 @@
                     hlsPlayerInstance.attachMedia(videoElement);
                     hlsPlayerInstance.on(Hls.Events.MANIFEST_PARSED, function() {
                         videoElement.play().catch(function(e) {
+                            // بعض أجهزة الأندرويد تحتاج تفاعل المستخدم
                             console.warn('لم يتم التشغيل التلقائي، انتظر تفاعل المستخدم', e);
                         });
                     });
@@ -2390,6 +2366,7 @@
                             console.error('خطأ في hls.js:', data);
                             hlsPlayerInstance.destroy();
                             hlsPlayerInstance = null;
+                            // الرجوع للطريقة البديلة
                             fallbackPlay(url);
                         }
                     });
@@ -2402,8 +2379,31 @@
             }
         }
 
-        function playWebChannel(url) {
-            window.open(url, '_blank');
+        const EXTRACT_WORKER_URL = 'https://fibertv-bot.cazanova1991.workers.dev/extract-stream';
+
+        async function playWebChannel(btn, url) {
+            const origText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-1.5"></i> جاري التحميل...';
+            try {
+                const res = await fetch(EXTRACT_WORKER_URL + '?url=' + encodeURIComponent(url));
+                const data = await res.json();
+                if (data.streamUrl) {
+                    playSportsChannel(data.streamUrl);
+                    btn.innerHTML = '<i class="fas fa-check ml-1.5"></i> تم';
+                    setTimeout(() => { btn.disabled = false; btn.innerHTML = origText; }, 2000);
+                } else {
+                    if (confirm('تعذر استخراج رابط البث من هذا الموقع.\nهل تريد فتحه في المتصفح؟')) {
+                        window.open(url, '_blank');
+                    }
+                    btn.disabled = false; btn.innerHTML = origText;
+                }
+            } catch (e) {
+                if (confirm('حدث خطأ: ' + e.message + '\nهل تريد فتحه في المتصفح؟')) {
+                    window.open(url, '_blank');
+                }
+                btn.disabled = false; btn.innerHTML = origText;
+            }
         }
 
         function fallbackPlay(url) {
@@ -2452,8 +2452,8 @@
                 if (isWeb) {
                     const safeUrl = channel.url.replace(/'/g, "\\'");
                     actionButton = `
-                        <button onclick="playWebChannel('${safeUrl}')" class="flex-1 bg-gradient-to-l from-sky-600 to-blue-500 hover:from-sky-500 hover:to-blue-400 text-white text-xs font-black py-2.5 px-3 rounded-xl transition text-right flex justify-between items-center shadow-md shadow-sky-900/30 border border-sky-500/40 active:scale-[0.98]">
-                            <span><i class="fas fa-external-link-alt ml-1.5 text-sm"></i> ${displayName}</span>
+                        <button onclick="playWebChannel(this, '${safeUrl}')" class="flex-1 bg-gradient-to-l from-sky-600 to-blue-500 hover:from-sky-500 hover:to-blue-400 text-white text-xs font-black py-2.5 px-3 rounded-xl transition text-right flex justify-between items-center shadow-md shadow-sky-900/30 border border-sky-500/40 active:scale-[0.98]">
+                            <span><i class="fas fa-play-circle ml-1.5 text-sm"></i> ${displayName}</span>
                             <span class="text-[10px] bg-black/30 px-2.5 py-1 rounded-lg backdrop-blur-sm">${tr('ch_web')}</span>
                         </button>
                     `;
