@@ -2379,31 +2379,8 @@
             }
         }
 
-        const EXTRACT_WORKER_URL = 'https://fibertv-bot.cazanova1991.workers.dev/extract-stream';
-
-        async function playWebChannel(btn, url) {
-            const origText = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-1.5"></i> جاري التحميل...';
-            try {
-                const res = await fetch(EXTRACT_WORKER_URL + '?url=' + encodeURIComponent(url));
-                const data = await res.json();
-                if (data.streamUrl) {
-                    playSportsChannel(data.streamUrl);
-                    btn.innerHTML = '<i class="fas fa-check ml-1.5"></i> تم';
-                    setTimeout(() => { btn.disabled = false; btn.innerHTML = origText; }, 2000);
-                } else {
-                    if (confirm('تعذر استخراج رابط البث من هذا الموقع.\nهل تريد فتحه في المتصفح؟')) {
-                        window.open(url, '_blank');
-                    }
-                    btn.disabled = false; btn.innerHTML = origText;
-                }
-            } catch (e) {
-                if (confirm('حدث خطأ: ' + e.message + '\nهل تريد فتحه في المتصفح؟')) {
-                    window.open(url, '_blank');
-                }
-                btn.disabled = false; btn.innerHTML = origText;
-            }
+        function playWebChannel(btn, url) {
+            window.open(url, '_blank');
         }
 
         function fallbackPlay(url) {
