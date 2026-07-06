@@ -926,6 +926,13 @@
     </div>
 
     <script>
+        if (!Object.entries) {
+            Object.entries = function(obj) {
+                var ownProps = Object.keys(obj), i = ownProps.length, res = new Array(i);
+                while (i--) res[i] = [ownProps[i], obj[ownProps[i]]];
+                return res;
+            };
+        }
         const PLATFORM_URL = 'https://n911t.github.io/AlRahma/';
         let currentLang = 'ar';
 
@@ -1669,21 +1676,19 @@
         ];
         let sportsDataLoaded = false;
 
-        async function loadSportsData() {
-            if (sportsDataLoaded) return;
-            try {
-                const res = await fetch('sports-channels.json?' + Date.now());
-                if (res.ok) {
-                    const data = await res.json();
-                    if (Array.isArray(data) && data.length > 0) {
-                        sportsChannelsData = data;
-                    }
-                }
-            } catch (e) {
-                // use hardcoded fallback
-            }
-            sportsDataLoaded = true;
+        function loadSportsData() {
+    if (sportsDataLoaded) return;
+    fetch('sports-channels.json?' + Date.now()).then(function(res) {
+        if (res.ok) return res.json();
+    }).then(function(data) {
+        if (Array.isArray(data) && data.length > 0) {
+            sportsChannelsData = data;
         }
+    }).catch(function(e) {
+    }).then(function() {
+        sportsDataLoaded = true;
+    });
+}
 
         function showNotificationPrompt() {
             if (!('Notification' in window)) return;
@@ -1715,39 +1720,37 @@
             document.getElementById('notifPrompt').classList.add('hidden');
         }
 
-        async function fetchAndShowMessages() {
+        function fetchAndShowMessages() {
             try {
                 const seenIds = JSON.parse(localStorage.getItem('fibertv_msg_seen') || '[]');
-                const res = await fetch('notifications.json?' + Date.now());
-                if (!res.ok) return;
-                const data = await res.json();
-                if (!data || !Array.isArray(data.messages)) return;
-                const activeMsgs = data.messages.filter(m => m.active && m.id && seenIds.indexOf(m.id) === -1);
-                if (activeMsgs.length > 0) { showMessagePopup(activeMsgs[0]); renderNotifBadge(); }
-            } catch (e) {
-                // silent
-            }
+                fetch('notifications.json?' + Date.now()).then(function(res) {
+                    if (res.ok) return res.json();
+                }).then(function(data) {
+                    if (!data || !Array.isArray(data.messages)) return;
+                    const activeMsgs = data.messages.filter(function(m) { return m.active && m.id && seenIds.indexOf(m.id) === -1; });
+                    if (activeMsgs.length > 0) { showMessagePopup(activeMsgs[0]); renderNotifBadge(); }
+                }).catch(function(e) {});
+            } catch (e) {}
         }
 
-        async function renderNotifBadge() {
+        function renderNotifBadge() {
             try {
                 const seenIds = JSON.parse(localStorage.getItem('fibertv_msg_seen') || '[]');
-                const res = await fetch('notifications.json?' + Date.now());
-                if (!res.ok) return;
-                const data = await res.json();
-                if (!data || !Array.isArray(data.messages)) return;
-                const active = data.messages.filter(m => m.active);
-                const unread = active.filter(m => seenIds.indexOf(m.id) === -1);
-                const badge = document.getElementById('notifBadge');
-                if (unread.length > 0) {
-                    badge.textContent = unread.length;
-                    badge.classList.remove('hidden');
-                } else {
-                    badge.classList.add('hidden');
-                }
-            } catch (e) {
-                // silent
-            }
+                fetch('notifications.json?' + Date.now()).then(function(res) {
+                    if (res.ok) return res.json();
+                }).then(function(data) {
+                    if (!data || !Array.isArray(data.messages)) return;
+                    const active = data.messages.filter(function(m) { return m.active; });
+                    const unread = active.filter(function(m) { return seenIds.indexOf(m.id) === -1; });
+                    const badge = document.getElementById('notifBadge');
+                    if (unread.length > 0) {
+                        badge.textContent = unread.length;
+                        badge.classList.remove('hidden');
+                    } else {
+                        badge.classList.add('hidden');
+                    }
+                }).catch(function(e) {});
+            } catch (e) {}
         }
 
         function toggleNotifPanel() {
@@ -1920,11 +1923,11 @@
             });
 
             if (btnInstall) {
-                btnInstall.addEventListener('click', async () => {
+                btnInstall.addEventListener('click', function() {
                     if (!deferredInstallPrompt) return;
                     deferredInstallPrompt.prompt();
                     try {
-                        await deferredInstallPrompt.userChoice;
+                        deferredInstallPrompt.userChoice.then(function() {}).catch(function() {});
                     } catch (e) {}
                     deferredInstallPrompt = null;
                     btnInstall.classList.add('hidden');
@@ -2327,10 +2330,10 @@
             }
         }
 
-        async function openSportsModal() {
+        function openSportsModal() {
             if(isEditMode) return;
             document.getElementById('sportsModal').classList.remove('hidden');
-            await loadSportsData();
+            loadSportsData();
             renderSportsChannels();
             const videoEl = document.getElementById('sportsVideoPlayer');
             const playText = currentLang === 'ar' ? 'اضغط تشغيل' : 'Tap to play';
