@@ -453,7 +453,7 @@
             <div class="overflow-y-auto no-scrollbar px-5 pb-5 flex flex-col gap-3">
 
             <!-- تنبيه حجب الاعلانات -->
-            <div id="sportsAdWarning" class="relative overflow-hidden rounded-2xl p-3.5 border border-rose-500/40 bg-gradient-to-br from-rose-950/60 via-rose-900/30 to-amber-950/40 shadow-lg shadow-rose-900/30">
+            <div id="sportsAdWarning" onclick="closeSportsModal();filterMode('block-ads')" class="relative overflow-hidden rounded-2xl p-3.5 border border-rose-500/40 bg-gradient-to-br from-rose-950/60 via-rose-900/30 to-amber-950/40 shadow-lg shadow-rose-900/30 cursor-pointer active:scale-[0.98] transition-transform">
                 <div class="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(255,255,255,0.02)_10px,rgba(255,255,255,0.02)_20px)] pointer-events-none"></div>
                 <div id="sportsAdPulse" class="absolute inset-0 rounded-2xl border border-rose-400/20 pointer-events-none"></div>
                 <div class="relative z-10 flex items-start gap-2.5">
@@ -462,7 +462,7 @@
                     </div>
                     <div class="flex-1">
                         <p id="sportsAdText" class="text-xs font-black text-amber-300 leading-relaxed">
-                            ⚠️ حتى تشتغل روابط القنوات بشكل طبيعي، فعّل <strong class="text-rose-300">"حجب الإعلانات"</strong> من القائمة الرئيسية بالأسفل
+                            ⚠️ حتى تشتغل روابط القنوات بشكل طبيعي، فعّل <strong class="text-rose-300">"حجب الإعلانات"</strong> من القائمة الرئيسية
                         </p>
                     </div>
                 </div>
