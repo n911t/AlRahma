@@ -794,13 +794,23 @@
                             </div>
                         </div>
                         
-                        <div onclick="openDnsGuideModal()" class="bg-white/[0.03] hover:bg-white/[0.07] p-4 rounded-xl border border-white/[0.05] hover:border-green-500/40 flex items-center gap-4 text-right cursor-pointer transition-all active:scale-[0.98]">
+                        <div onclick="openAdGuardLink()" class="bg-white/[0.03] hover:bg-white/[0.07] p-4 rounded-xl border border-white/[0.05] hover:border-green-500/40 flex items-center gap-4 text-right cursor-pointer transition-all active:scale-[0.98]">
                             <div class="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center shrink-0 border border-green-500/20">
                                 <i class="fab fa-android text-2xl text-green-400"></i>
                             </div>
                             <div class="flex-1 text-xs app-item-desc">
                                 <strong id="adDroidLabel" class="block text-sm text-green-300 mb-1">لمستخدمي الأندرويد (Android)</strong>
                                 <span id="adDroidDesc" class="leading-relaxed"></span>
+                            </div>
+                        </div>
+
+                        <div onclick="openDnsGuideModal()" class="bg-white/[0.03] hover:bg-white/[0.07] p-4 rounded-xl border border-white/[0.05] hover:border-emerald-500/40 flex items-center gap-4 text-right cursor-pointer transition-all active:scale-[0.98]">
+                            <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0 border border-emerald-500/20">
+                                <i class="fas fa-list-ol text-2xl text-emerald-400"></i>
+                            </div>
+                            <div class="flex-1 text-xs app-item-desc">
+                                <strong id="adDnsGuideLabel" class="block text-sm text-emerald-300 mb-1">تثبيت يدوي</strong>
+                                <span id="adDnsGuideDesc" class="leading-relaxed">طريقة إضافة AdGuard DNS خطوة بخطوة</span>
                             </div>
                         </div>
                     </div>
@@ -1041,6 +1051,7 @@
                 dns_step5: 'حدد خيار <strong>"اسم مضيف مزود DNS الخاص" (Private DNS provider hostname)</strong>.',
                 dns_step6: 'ألصق الرابط التالي في المربع المخصص:',
                 dns_step7: 'اضغط على <strong>"حفظ" (Save)</strong>.',
+                ad_dns_guide_lbl: 'تثبيت يدوي', ad_dns_guide_desc: 'طريقة إضافة AdGuard DNS خطوة بخطوة',
                 card_sports: 'قنوات رياضية', card_sports_d: 'بث مباشر للمباريات',
                 card_vodu_m: 'مشاهدة منصة فودو', card_vodu_m_d: 'الموقع الرسمي للمشاهدة المباشرة (أفلام ومسلسلات)',
                 card_vodu_t: 'فودو TV', card_vodu_t_d: 'الموقع الرسمي لمشاهدة التلفزيون بث مباشر والقنوات',
@@ -1106,7 +1117,7 @@
                 dns_step5: 'Choose <strong>Private DNS provider hostname</strong>.',
                 dns_step6: 'Paste the following link in the box:',
                 dns_step7: 'Press <strong>Save</strong>.',
-                card_sports: 'Sports Channels', card_sports_d: 'Live match streaming',
+                ad_dns_guide_lbl: 'Manual Setup', ad_dns_guide_desc: 'Step-by-step AdGuard DNS installation',
                 card_vodu_m: 'Watch Vodu Platform', card_vodu_m_d: 'Official site for movies & series streaming',
                 card_vodu_t: 'Vodu TV', card_vodu_t_d: 'Official site for live TV & channels',
                 card_egy: 'Watch EgyDead', card_egy_d: 'Latest movies & series',
@@ -1189,7 +1200,8 @@
             const dnsGuideIntroEl = document.getElementById('dnsGuideIntro');
             if (dnsGuideIntroEl) dnsGuideIntroEl.innerHTML = tr('dns_guide_intro');
             const dnsStepEls = ['dnsStep1','dnsStep2','dnsStep3','dnsStep4','dnsStep5','dnsStep6','dnsStep7'];
-            dnsStepEls.forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = tr(id); });
+            const dnsStepKeys = ['dns_step1','dns_step2','dns_step3','dns_step4','dns_step5','dns_step6','dns_step7'];
+            dnsStepEls.forEach((id, i) => { const el = document.getElementById(id); if (el) el.innerHTML = tr(dnsStepKeys[i]); });
 
             // Title attributes on buttons
             const titleMap = {
@@ -1239,6 +1251,10 @@
             const adDroidLbl = document.getElementById('adDroidLabel');
             if (adIosLbl) adIosLbl.textContent = tr('ad_ios_lbl');
             if (adDroidLbl) adDroidLbl.textContent = tr('ad_droid_lbl');
+            const adDnsGuideLbl = document.getElementById('adDnsGuideLabel');
+            if (adDnsGuideLbl) adDnsGuideLbl.textContent = tr('ad_dns_guide_lbl');
+            const adDnsGuideDesc = document.getElementById('adDnsGuideDesc');
+            if (adDnsGuideDesc) adDnsGuideDesc.textContent = tr('ad_dns_guide_desc');
 
             // Toggle button text - just ع or En
             const langLabel = document.querySelector('#langToggle .lang-label');
