@@ -823,6 +823,16 @@
                                 <span id="adDnsFileDesc" class="leading-relaxed">AdGuard DNS profile (iOS)</span>
                             </div>
                         </a>
+
+                        <div onclick="openIosDnsModal()" class="bg-white/[0.03] hover:bg-white/[0.07] p-4 rounded-xl border border-white/[0.05] hover:border-purple-500/40 flex items-center gap-4 text-right cursor-pointer transition-all active:scale-[0.98]">
+                            <div class="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center shrink-0 border border-purple-500/20">
+                                <i class="fab fa-apple text-2xl text-purple-400"></i>
+                            </div>
+                            <div class="flex-1 text-xs app-item-desc">
+                                <strong id="adIosDnsLabel" class="block text-sm text-purple-300 mb-1">لتثبيت لمستخدمي الآيفون</strong>
+                                <span id="adIosDnsDesc" class="leading-relaxed">تثبيت AdGuard DNS على iOS خطوة بخطوة</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -873,6 +883,58 @@
                         <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
                             <span class="shrink-0 w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs font-black">7</span>
                             <p id="dnsStep7" class="text-xs app-item-desc leading-relaxed">اضغط على <strong>"حفظ" (Save)</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="iosDnsModal" class="hidden fixed inset-0 z-[65] flex items-center justify-center bg-[#050a14]/95 backdrop-blur-xl p-4 transition-all duration-300">
+                <div class="bg-gradient-to-b from-[#0f172a] to-[#0a0f1e] rounded-[2.5rem] w-full max-w-lg border border-white/[0.08] shadow-2xl shadow-indigo-900/30 relative flex flex-col max-h-[90vh]">
+                    <div class="shrink-0 p-5 pb-3">
+                        <div class="flex items-center justify-between mb-3">
+                            <button onclick="closeIosDnsModal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-white transition border border-white/[0.05] active:scale-90">
+                                <i class="fas fa-times text-sm"></i>
+                            </button>
+                            <h3 id="iosDnsModalTitle" class="font-black text-lg text-transparent bg-clip-text bg-gradient-to-l from-purple-400 to-pink-400">تثبيت AdGuard DNS (آيفون)</h3>
+                            <div class="w-9"></div>
+                        </div>
+                        <p id="iosDnsIntro" class="text-xs font-bold app-item-desc leading-relaxed">اتبع الخطوات التالية لتثبيت ملف التعريف على جهازك:</p>
+                    </div>
+                    <div class="overflow-y-auto no-scrollbar px-5 pb-5 flex flex-col gap-2.5 text-right">
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xs font-black">1</span>
+                            <p id="iosDnsStep1" class="text-xs app-item-desc leading-relaxed">قم بالضغط على <a href="adguard-dns.mobileconfig" download class="text-sky-400 font-black underline hover:text-sky-300">ملف الـ DNS</a> لتنزيله.</p>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xs font-black">2</span>
+                            <p id="iosDnsStep2" class="text-xs app-item-desc leading-relaxed">ستظهر لك رسالة تطلب السماح بتنزيل ملف التعريف، اضغط على <strong>"السماح" (Allow)</strong>.</p>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xs font-black">3</span>
+                            <p id="iosDnsStep3" class="text-xs app-item-desc leading-relaxed">افتح تطبيق <strong>"الإعدادات" (Settings)</strong> في جهازك الآيفون.</p>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xs font-black">4</span>
+                            <p id="iosDnsStep4" class="text-xs app-item-desc leading-relaxed">اضغط على خيار <strong>"تم تنزيل ملف التعريف" (Profile Downloaded)</strong> الذي سيظهر في أعلى القائمة مباشرة.</p>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xs font-black">5</span>
+                            <p id="iosDnsStep5" class="text-xs app-item-desc leading-relaxed">اضغط على <strong>"تثبيت" (Install)</strong> في الزاوية العلوية للشاشة.</p>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xs font-black">6</span>
+                            <p id="iosDnsStep6" class="text-xs app-item-desc leading-relaxed">أدخل رمز الدخول <strong>(Passcode)</strong> الخاص بهاتفك عندما يُطلب منك ذلك.</p>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xs font-black">7</span>
+                            <p id="iosDnsStep7" class="text-xs app-item-desc leading-relaxed">ستظهر لك رسالة تحذيرية، اضغط على <strong>"تثبيت"</strong> مرة أخرى لتأكيد العملية.</p>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xs font-black">8</span>
+                            <p id="iosDnsStep8" class="text-xs app-item-desc leading-relaxed">أخيرًا، اضغط على <strong>"تم" (Done)</strong>.</p>
+                        </div>
+                        <div class="bg-white/[0.03] border border-amber-500/20 rounded-xl p-3">
+                            <p id="iosDnsNote" class="text-[11px] text-amber-400 font-bold leading-relaxed"><i class="fas fa-info-circle ml-1"></i> ملاحظة: إذا لم يظهر خيار "تم تنزيل ملف التعريف" في الخطوة 4، يمكن الوصول إليه عبر الذهاب إلى: <strong>الإعدادات > عام > VPN وإدارة الجهاز</strong>.</p>
                         </div>
                     </div>
                 </div>
@@ -1063,6 +1125,18 @@
                 dns_step7: 'اضغط على <strong>"حفظ" (Save)</strong>.',
                 ad_dns_guide_lbl: 'تثبيت يدوي', ad_dns_guide_desc: 'طريقة إضافة AdGuard DNS خطوة بخطوة',
                 ad_dns_file_lbl: 'تحميل ملف الإعدادات', ad_dns_file_desc: 'AdGuard DNS profile (iOS)',
+                ad_ios_dns_lbl: 'لتثبيت لمستخدمي الآيفون', ad_ios_dns_desc: 'تثبيت AdGuard DNS على iOS خطوة بخطوة',
+                ios_dns_title: 'تثبيت AdGuard DNS (آيفون)',
+                ios_dns_intro: 'اتبع الخطوات التالية لتثبيت ملف التعريف على جهازك:',
+                ios_dns_step1: 'قم بالضغط على <a href="adguard-dns.mobileconfig" download class="text-sky-400 font-black underline hover:text-sky-300">ملف الـ DNS</a> لتنزيله.',
+                ios_dns_step2: 'ستظهر لك رسالة تطلب السماح بتنزيل ملف التعريف، اضغط على <strong>"السماح" (Allow)</strong>.',
+                ios_dns_step3: 'افتح تطبيق <strong>"الإعدادات" (Settings)</strong> في جهازك الآيفون.',
+                ios_dns_step4: 'اضغط على خيار <strong>"تم تنزيل ملف التعريف" (Profile Downloaded)</strong> الذي سيظهر في أعلى القائمة مباشرة.',
+                ios_dns_step5: 'اضغط على <strong>"تثبيت" (Install)</strong> في الزاوية العلوية للشاشة.',
+                ios_dns_step6: 'أدخل رمز الدخول <strong>(Passcode)</strong> الخاص بهاتفك عندما يُطلب منك ذلك.',
+                ios_dns_step7: 'ستظهر لك رسالة تحذيرية، اضغط على <strong>"تثبيت"</strong> مرة أخرى لتأكيد العملية.',
+                ios_dns_step8: 'أخيرًا، اضغط على <strong>"تم" (Done)</strong>.',
+                ios_dns_note: '<i class="fas fa-info-circle ml-1"></i> ملاحظة: إذا لم يظهر خيار "تم تنزيل ملف التعريف" في الخطوة 4، يمكن الوصول إليه عبر الذهاب إلى: <strong>الإعدادات > عام > VPN وإدارة الجهاز</strong>.',
                 card_sports: 'قنوات رياضية', card_sports_d: 'بث مباشر للمباريات',
                 card_vodu_m: 'مشاهدة منصة فودو', card_vodu_m_d: 'الموقع الرسمي للمشاهدة المباشرة (أفلام ومسلسلات)',
                 card_vodu_t: 'فودو TV', card_vodu_t_d: 'الموقع الرسمي لمشاهدة التلفزيون بث مباشر والقنوات',
@@ -1130,6 +1204,18 @@
                 dns_step7: 'Press <strong>Save</strong>.',
                 ad_dns_guide_lbl: 'Manual Setup', ad_dns_guide_desc: 'Step-by-step AdGuard DNS installation',
                 ad_dns_file_lbl: 'Download Config File', ad_dns_file_desc: 'AdGuard DNS profile (iOS)',
+                ad_ios_dns_lbl: 'Installation for iPhone', ad_ios_dns_desc: 'Install AdGuard DNS on iOS step by step',
+                ios_dns_title: 'Install AdGuard DNS (iPhone)',
+                ios_dns_intro: 'Follow these steps to install the profile on your device:',
+                ios_dns_step1: 'Click on the <a href="adguard-dns.mobileconfig" download class="text-sky-400 font-black underline hover:text-sky-300">DNS file</a> to download it.',
+                ios_dns_step2: 'You will see a message asking permission to download the profile, tap <strong>Allow</strong>.',
+                ios_dns_step3: 'Open <strong>Settings</strong> on your iPhone.',
+                ios_dns_step4: 'Tap on <strong>Profile Downloaded</strong> which appears at the top of the list.',
+                ios_dns_step5: 'Tap <strong>Install</strong> in the top right corner.',
+                ios_dns_step6: 'Enter your <strong>Passcode</strong> when prompted.',
+                ios_dns_step7: 'A warning message will appear, tap <strong>Install</strong> again to confirm.',
+                ios_dns_step8: 'Finally, tap <strong>Done</strong>.',
+                ios_dns_note: '<i class="fas fa-info-circle ml-1"></i> Note: If "Profile Downloaded" does not appear in step 4, go to: <strong>Settings > General > VPN & Device Management</strong>.',
                 card_vodu_m: 'Watch Vodu Platform', card_vodu_m_d: 'Official site for movies & series streaming',
                 card_vodu_t: 'Vodu TV', card_vodu_t_d: 'Official site for live TV & channels',
                 card_egy: 'Watch EgyDead', card_egy_d: 'Latest movies & series',
@@ -1181,6 +1267,7 @@
                 'sportsVlcS1': 'sports_vlc_s1', 'sportsVlcS2': 'sports_vlc_s2', 'sportsVlcS3': 'sports_vlc_s3',
                 'adTitle': 'ad_title', 'adDesc': 'ad_desc',
                 'dnsGuideModalTitle': 'dns_guide_title',
+                'iosDnsModalTitle': 'ios_dns_title',
                 'qrPopupTitle': 'qr_title', 'qrPopupDesc': 'qr_desc',
                 'themeModalTitle': 'theme_title',
                 'noticeTitle': 'notice_title', 'noticeLabel': 'notice_label',
@@ -1214,6 +1301,14 @@
             const dnsStepEls = ['dnsStep1','dnsStep2','dnsStep3','dnsStep4','dnsStep5','dnsStep6','dnsStep7'];
             const dnsStepKeys = ['dns_step1','dns_step2','dns_step3','dns_step4','dns_step5','dns_step6','dns_step7'];
             dnsStepEls.forEach((id, i) => { const el = document.getElementById(id); if (el) el.innerHTML = tr(dnsStepKeys[i]); });
+
+            const iosDnsIntroEl = document.getElementById('iosDnsIntro');
+            if (iosDnsIntroEl) iosDnsIntroEl.innerHTML = tr('ios_dns_intro');
+            const iosDnsStepEls = ['iosDnsStep1','iosDnsStep2','iosDnsStep3','iosDnsStep4','iosDnsStep5','iosDnsStep6','iosDnsStep7','iosDnsStep8'];
+            const iosDnsStepKeys = ['ios_dns_step1','ios_dns_step2','ios_dns_step3','ios_dns_step4','ios_dns_step5','ios_dns_step6','ios_dns_step7','ios_dns_step8'];
+            iosDnsStepEls.forEach((id, i) => { const el = document.getElementById(id); if (el) el.innerHTML = tr(iosDnsStepKeys[i]); });
+            const iosDnsNoteEl = document.getElementById('iosDnsNote');
+            if (iosDnsNoteEl) iosDnsNoteEl.innerHTML = tr('ios_dns_note');
 
             // Title attributes on buttons
             const titleMap = {
@@ -1271,6 +1366,10 @@
             if (adDnsFileLbl) adDnsFileLbl.textContent = tr('ad_dns_file_lbl');
             const adDnsFileDesc = document.getElementById('adDnsFileDesc');
             if (adDnsFileDesc) adDnsFileDesc.textContent = tr('ad_dns_file_desc');
+            const adIosDnsLbl = document.getElementById('adIosDnsLabel');
+            if (adIosDnsLbl) adIosDnsLbl.textContent = tr('ad_ios_dns_lbl');
+            const adIosDnsDesc = document.getElementById('adIosDnsDesc');
+            if (adIosDnsDesc) adIosDnsDesc.textContent = tr('ad_ios_dns_desc');
 
             // Toggle button text - just ع or En
             const langLabel = document.querySelector('#langToggle .lang-label');
@@ -2346,6 +2445,14 @@
 
         function closeDnsGuideModal() {
             document.getElementById('dnsGuideModal').classList.add('hidden');
+        }
+
+        function openIosDnsModal() {
+            document.getElementById('iosDnsModal').classList.remove('hidden');
+        }
+
+        function closeIosDnsModal() {
+            document.getElementById('iosDnsModal').classList.add('hidden');
         }
 
         function forceUpdateApp() {
