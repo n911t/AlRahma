@@ -807,6 +807,59 @@
                 </div>
             </div>
 
+            <div id="adguard-dns-guide" data-mode="block-ads" class="app-item col-span-2 flex flex-col p-5 rounded-2xl group theme-transition card-shine">
+                <div class="flex items-center mb-4 w-full">
+                    <div data-icon-index="18" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shrink-0 theme-transition">
+                        <i class="fas fa-list-ol"></i>
+                    </div>
+                    <div class="mr-4 flex-1">
+                        <h3 id="dnsGuideTitle" class="app-item-title font-bold text-lg transition">طريقة تفعيل DNS الخاص (أندرويد)</h3>
+                        <p id="dnsGuideDesc" class="app-item-desc text-xs">لتثبيت AdGuard DNS يدوياً</p>
+                    </div>
+                </div>
+                <div class="w-full border-t border-white/[0.06] pt-4">
+                    <p id="dnsGuideIntro" class="text-sm font-bold app-item-desc mb-4 leading-relaxed text-right">
+                        للتخلص من الإعلانات المزعجة في التطبيقات والمتصفحات، اتبع الخطوات البسيطة التالية:
+                    </p>
+                    <div id="dnsStepsContainer" class="flex flex-col gap-2.5 text-right">
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs font-black">1</span>
+                            <p id="dnsStep1" class="text-xs app-item-desc leading-relaxed">افتح تطبيق <strong>الإعدادات (Settings)</strong> في هاتفك.</p>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs font-black">2</span>
+                            <p id="dnsStep2" class="text-xs app-item-desc leading-relaxed">اذهب إلى قسم <strong>الاتصالات (Connections)</strong> أو <strong>الشبكة والإنترنت (Network & internet)</strong>.</p>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs font-black">3</span>
+                            <p id="dnsStep3" class="text-xs app-item-desc leading-relaxed">ابحث عن خيار <strong>المزيد من إعدادات الاتصال (More connection settings)</strong> (في بعض الأجهزة قد تجد الخيار التالي مباشرة في القائمة السابقة).</p>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs font-black">4</span>
+                            <p id="dnsStep4" class="text-xs app-item-desc leading-relaxed">اضغط على خيار <strong>نظام أسماء النطاقات الخاص (Private DNS)</strong>.</p>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs font-black">5</span>
+                            <p id="dnsStep5" class="text-xs app-item-desc leading-relaxed">اختر: <strong>اسم مضيف مزود DNS الخاص (Private DNS provider hostname)</strong>.</p>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                            <span class="shrink-0 w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs font-black">6</span>
+                            <p id="dnsStep6" class="text-xs app-item-desc leading-relaxed">انسخ والصق الرابط التالي بدقة:</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 bg-white/[0.04] border border-emerald-500/30 rounded-xl p-3 flex items-center justify-between gap-2">
+                        <code id="dnsLinkText" class="text-sm font-mono font-black text-emerald-400 dir-ltr text-left flex-1 select-all">dns.adguard-dns.com</code>
+                        <button onclick="copyDnsLink()" id="dnsCopyBtn" class="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition active:scale-90">
+                            <i class="fas fa-copy text-sm"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-start gap-3 bg-white/[0.02] p-3 rounded-xl border border-white/[0.04] mt-2.5">
+                        <span class="shrink-0 w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs font-black">7</span>
+                        <p id="dnsStep7" class="text-xs app-item-desc leading-relaxed">اضغط على <strong>حفظ (Save)</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
             <div id="noResults" class="hidden col-span-2 text-center py-8 font-bold bg-white/[0.03] rounded-2xl border border-white/[0.05]">
                 <i class="fas fa-search-minus text-2xl mb-2 block opacity-50"></i>
                 لا توجد عناصر متوفرة حالياً في هذا القسم.
@@ -981,6 +1034,15 @@
                 ad_security: '<i class="fas fa-user-shield text-emerald-400 ml-1"></i> <strong>حول الأمان:</strong> هذه الخدمة آمنة تماماً ومقدمة من شركة <strong>AdGuard</strong> الرائدة عالمياً. تعمل التقنية على تصفية الاتصال وحظر الإعلانات والروابط الضارة تلقائياً دون الحاجة لتثبيت برامج خارجية مستهلكة للبطارية.',
                 ad_ios_desc: 'سيتم توجيهك إلى متصفح <strong>Safari</strong>. يرجى الانتقال إلى <strong>"الخيار الثاني" (Option 2: Configure AdGuard DNS manually)</strong> لتثبيت ملف التعريف التلقائي.',
                 ad_droid_desc: 'سيفتح الرابط في متصفح <strong>Chrome</strong>. يرجى الانتقال إلى <strong>"الخيار الثاني" (Option 2: Configure AdGuard DNS manually)</strong> لنسخ رابط الـ DNS وإضافته في إعدادات الاتصال.',
+                dns_guide_title: 'طريقة تفعيل DNS الخاص (أندرويد)', dns_guide_desc: 'لتثبيت AdGuard DNS يدوياً',
+                dns_guide_intro: 'للتخلص من الإعلانات المزعجة في التطبيقات والمتصفحات، اتبع الخطوات البسيطة التالية:',
+                dns_step1: 'افتح تطبيق <strong>الإعدادات (Settings)</strong> في هاتفك.',
+                dns_step2: 'اذهب إلى قسم <strong>الاتصالات (Connections)</strong> أو <strong>الشبكة والإنترنت (Network & internet)</strong>.',
+                dns_step3: 'ابحث عن خيار <strong>المزيد من إعدادات الاتصال (More connection settings)</strong> (في بعض الأجهزة قد تجد الخيار التالي مباشرة في القائمة السابقة).',
+                dns_step4: 'اضغط على خيار <strong>نظام أسماء النطاقات الخاص (Private DNS)</strong>.',
+                dns_step5: 'اختر: <strong>اسم مضيف مزود DNS الخاص (Private DNS provider hostname)</strong>.',
+                dns_step6: 'انسخ والصق الرابط التالي بدقة:',
+                dns_step7: 'اضغط على <strong>حفظ (Save)</strong>.',
                 card_sports: 'قنوات رياضية', card_sports_d: 'بث مباشر للمباريات',
                 card_vodu_m: 'مشاهدة منصة فودو', card_vodu_m_d: 'الموقع الرسمي للمشاهدة المباشرة (أفلام ومسلسلات)',
                 card_vodu_t: 'فودو TV', card_vodu_t_d: 'الموقع الرسمي لمشاهدة التلفزيون بث مباشر والقنوات',
@@ -1037,6 +1099,15 @@
                 ad_security: '<i class="fas fa-user-shield text-emerald-400 ml-1"></i> <strong>About Security:</strong> This service is completely safe and provided by <strong>AdGuard</strong>, a world leader. The technology filters traffic and blocks ads and malicious links automatically without installing battery-draining external apps.',
                 ad_ios_desc: 'You will be redirected to <strong>Safari</strong>. Please go to <strong>"Option 2: Configure AdGuard DNS manually"</strong> to install the automatic profile configuration.',
                 ad_droid_desc: 'The link will open in <strong>Chrome</strong>. Please go to <strong>"Option 2: Configure AdGuard DNS manually"</strong> to copy the DNS link and add it in your connection settings.',
+                dns_guide_title: 'Private DNS Setup (Android)', dns_guide_desc: 'Manual AdGuard DNS installation',
+                dns_guide_intro: 'To get rid of annoying ads in apps and browsers, follow these simple steps:',
+                dns_step1: 'Open <strong>Settings</strong> on your phone.',
+                dns_step2: 'Go to <strong>Connections</strong> or <strong>Network & internet</strong>.',
+                dns_step3: 'Look for <strong>More connection settings</strong> (on some devices you may find the next option directly in the previous menu).',
+                dns_step4: 'Tap on <strong>Private DNS</strong>.',
+                dns_step5: 'Select: <strong>Private DNS provider hostname</strong>.',
+                dns_step6: 'Copy and paste the following link exactly:',
+                dns_step7: 'Press <strong>Save</strong>.',
                 card_sports: 'Sports Channels', card_sports_d: 'Live match streaming',
                 card_vodu_m: 'Watch Vodu Platform', card_vodu_m_d: 'Official site for movies & series streaming',
                 card_vodu_t: 'Vodu TV', card_vodu_t_d: 'Official site for live TV & channels',
@@ -1088,6 +1159,7 @@
                 'sportsVlcSummary': 'sports_vlc', 'sportsVlcApple': 'sports_vlc_apple', 'sportsVlcGoogle': 'sports_vlc_google',
                 'sportsVlcS1': 'sports_vlc_s1', 'sportsVlcS2': 'sports_vlc_s2', 'sportsVlcS3': 'sports_vlc_s3',
                 'adTitle': 'ad_title', 'adDesc': 'ad_desc',
+                'dnsGuideTitle': 'dns_guide_title', 'dnsGuideDesc': 'dns_guide_desc', 'dnsGuideIntro': 'dns_guide_intro',
                 'qrPopupTitle': 'qr_title', 'qrPopupDesc': 'qr_desc',
                 'themeModalTitle': 'theme_title',
                 'noticeTitle': 'notice_title', 'noticeLabel': 'notice_label',
@@ -1116,6 +1188,10 @@
             if (adIosDescEl) adIosDescEl.innerHTML = tr('ad_ios_desc');
             const adDroidDescEl = document.getElementById('adDroidDesc');
             if (adDroidDescEl) adDroidDescEl.innerHTML = tr('ad_droid_desc');
+            const dnsGuideIntroEl = document.getElementById('dnsGuideIntro');
+            if (dnsGuideIntroEl) dnsGuideIntroEl.innerHTML = tr('dns_guide_intro');
+            const dnsStepEls = ['dnsStep1','dnsStep2','dnsStep3','dnsStep4','dnsStep5','dnsStep6','dnsStep7'];
+            dnsStepEls.forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = tr(id); });
 
             // Title attributes on buttons
             const titleMap = {
@@ -2209,6 +2285,27 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        function copyDnsLink() {
+            const text = 'dns.adguard-dns.com';
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    const btn = document.getElementById('dnsCopyBtn');
+                    btn.innerHTML = '<i class="fas fa-check text-sm"></i>';
+                    setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy text-sm"></i>'; }, 2000);
+                });
+            } else {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                const btn = document.getElementById('dnsCopyBtn');
+                btn.innerHTML = '<i class="fas fa-check text-sm"></i>';
+                setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy text-sm"></i>'; }, 2000);
+            }
         }
 
         function forceUpdateApp() {
