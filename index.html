@@ -390,9 +390,25 @@
         </div>
     </div>
 
+    <!-- نافذة تثبيت الأندرويد -->
+    <div id="androidInstallModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-[#050a14]/90 backdrop-blur-xl p-4 transition-all">
+        <div class="glass-panel p-6 rounded-[2rem] text-center w-full max-w-sm border border-white/[0.08] shadow-2xl shadow-indigo-900/20 relative bg-[#0f172a]">
+            <div class="w-16 h-16 bg-green-500/10 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-4 text-green-400 text-2xl">
+                <i class="fab fa-android"></i>
+            </div>
+            <h3 id="androidInstallTitle" class="text-white font-black text-xl mb-3">تثبيت التطبيق</h3>
+            <p id="androidInstallDesc" class="text-sm text-gray-300 leading-relaxed font-bold mb-6 px-2">هل تريد تثبيت المنصة على جهازك لتصفح أسرع وتجربة أفضل؟</p>
+            <div class="flex gap-3">
+                <button onclick="dismissAndroidInstall()" class="flex-1 bg-white/[0.06] hover:bg-white/12 text-white font-black py-3 rounded-2xl transition transform active:scale-95 border border-white/[0.08]">ليس الآن</button>
+                <button id="androidInstallConfirm" onclick="confirmAndroidInstall()" class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-black py-3 rounded-2xl transition transform active:scale-95 shadow-lg shadow-green-900/30">تثبيت</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تثبيت الآيفون -->
     <div id="iosPopup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-[#050a14]/90 backdrop-blur-xl p-4 transition-all">
         <div class="glass-panel p-6 rounded-[2rem] text-center w-full max-w-sm border border-white/[0.08] shadow-2xl shadow-indigo-900/20 relative bg-[#0f172a]">
-            <button onclick="document.getElementById('iosPopup').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition">
+            <button onclick="document.getElementById('iosPopup').classList.add('hidden');localStorage.setItem('fibertv_ios_dismissed','1')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition">
                 <i class="fas fa-times"></i>
             </button>
             <div class="w-16 h-16 bg-purple-500/10 border border-purple-500/30 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-400 text-2xl">
@@ -412,7 +428,7 @@
                     <span>اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong> <i class="fas fa-plus-square text-purple-400 mx-0.5"></i> من القائمة.</span>
                 </div>
             </div>
-            <button id="iosOkBtn" onclick="document.getElementById('iosPopup').classList.add('hidden')" class="w-full bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-black py-3 rounded-2xl transition transform active:scale-95 shadow-lg shadow-indigo-900/30">
+            <button id="iosOkBtn" onclick="document.getElementById('iosPopup').classList.add('hidden');localStorage.setItem('fibertv_ios_dismissed','1')" class="w-full bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-black py-3 rounded-2xl transition transform active:scale-95 shadow-lg shadow-indigo-900/30">
                 حسناً، فهمت
             </button>
         </div>
@@ -1083,6 +1099,8 @@
                 notice_title: 'تنويه هام للمستخدمين', notice_label: 'عدم إظهار هذه الرسالة مجدداً', notice_btn: 'موافق وفهمت',
                 notice_text: 'برامج المنصة مرفوعة بشكل آمن على <span class="text-blue-400">Google Drive</span>، لضمان تحميل وتشغيل التطبيقات بنجاح يرجى <span class="text-emerald-400">الضغط مطولاً وفتح رابط التطبيق في المتصفح الخارجي</span>، مع التأكد من السماح لـ Google Drive بصلاحية <span class="text-purple-400">"تثبيت التطبيقات من مصادر غير معروفة"</span> من إعدادات هاتفك.',
                 ios_title: 'التثبيت على الآيفون', ios_btn: 'حسناً، فهمت',
+                android_install_title: 'تثبيت التطبيق', android_install_desc: 'هل تريد تثبيت المنصة على جهازك لتصفح أسرع وتجربة أفضل؟',
+                android_install_yes: 'تثبيت', android_install_no: 'ليس الآن',
                 ios_step1: 'اضغط على زر <strong>المشاركة</strong> <i class="fas fa-share-square text-blue-400 mx-0.5"></i> أسفل الشاشة.',
                 ios_step2: 'اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong> <i class="fas fa-plus-square text-purple-400 mx-0.5"></i> من القائمة.',
                 sports_title: 'قنوات رياضية (مؤقتة)', sports_select: 'اختر القناة', sports_hint: 'انسخ أو شغّل',
@@ -1162,6 +1180,8 @@
                 notice_title: 'Important Notice', notice_label: "Don't show this again", notice_btn: 'I Understand',
                 notice_text: 'Platform apps are securely hosted on <span class="text-blue-400">Google Drive</span>. To download and install successfully, please <span class="text-emerald-400">long-press and open the app link in an external browser</span>, and make sure to allow Google Drive permission for <span class="text-purple-400">"Install apps from unknown sources"</span> in your phone settings.',
                 ios_title: 'Install on iPhone', ios_btn: 'Got it',
+                android_install_title: 'Install App', android_install_desc: 'Do you want to install the platform for faster browsing and better experience?',
+                android_install_yes: 'Install', android_install_no: 'Not now',
                 ios_step1: 'Tap the <strong>Share</strong> button <i class="fas fa-share-square text-blue-400 mx-0.5"></i> at the bottom of the screen.',
                 ios_step2: 'Choose <strong>"Add to Home Screen"</strong> <i class="fas fa-plus-square text-purple-400 mx-0.5"></i> from the menu.',
                 sports_title: 'Sports Channels (Beta)', sports_select: 'Select a channel', sports_hint: 'Copy or Play',
@@ -1262,6 +1282,7 @@
                 'themeModalTitle': 'theme_title',
                 'noticeTitle': 'notice_title', 'noticeLabel': 'notice_label',
                 'iosPopupTitle': 'ios_title', 'iosOkBtn': 'ios_btn',
+                'androidInstallTitle': 'android_install_title', 'androidInstallDesc': 'android_install_desc',
                 'notifTitle': 'notif_title', 'notifDesc': 'notif_desc', 'notifBtn': 'notif_btn', 'notifSkip': 'notif_skip',
                 'msgPopupTitle': 'msg_title', 'msgOkBtn': 'msg_btn',
                 'notifPanelTitle': 'notif_panel_title', 'notifEmptyMsg': 'notif_empty',
@@ -2127,6 +2148,22 @@
             return isStandaloneDisplay || isIosStandalone;
         }
 
+        function dismissAndroidInstall() {
+            localStorage.setItem('fibertv_install_dismissed', '1');
+            document.getElementById('androidInstallModal').classList.add('hidden');
+        }
+
+        function confirmAndroidInstall() {
+            document.getElementById('androidInstallModal').classList.add('hidden');
+            if (!deferredInstallPrompt) return;
+            deferredInstallPrompt.prompt();
+            deferredInstallPrompt.userChoice.then(() => {
+                deferredInstallPrompt = null;
+                const btn = document.getElementById('btnInstall');
+                if (btn) btn.classList.add('hidden');
+            });
+        }
+
         function initInstallPrompts() {
             if (isAppAlreadyInstalled()) return;
 
@@ -2137,6 +2174,13 @@
                 e.preventDefault();
                 deferredInstallPrompt = e;
                 if (btnInstall) btnInstall.classList.remove('hidden');
+                // Show automatic install popup for Android
+                setTimeout(() => {
+                    const modal = document.getElementById('androidInstallModal');
+                    if (modal && !localStorage.getItem('fibertv_install_dismissed')) {
+                        modal.classList.remove('hidden');
+                    }
+                }, 3000);
             });
 
             if (btnInstall) {
@@ -2163,6 +2207,13 @@
 
             if ((isIosDevice || isIPadOS13Up) && !isAppAlreadyInstalled()) {
                 if (btnIosInstall) btnIosInstall.classList.remove('hidden');
+                // Show automatic iOS install popup
+                setTimeout(() => {
+                    const popup = document.getElementById('iosPopup');
+                    if (popup && !localStorage.getItem('fibertv_ios_dismissed')) {
+                        popup.classList.remove('hidden');
+                    }
+                }, 4000);
             }
         }
 
