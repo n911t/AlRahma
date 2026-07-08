@@ -813,6 +813,16 @@
                                 <span id="adDnsGuideDesc" class="leading-relaxed">طريقة إضافة AdGuard DNS خطوة بخطوة</span>
                             </div>
                         </div>
+
+                        <a href="adguard-dns.mobileconfig" download class="bg-white/[0.03] hover:bg-white/[0.07] p-4 rounded-xl border border-white/[0.05] hover:border-sky-500/40 flex items-center gap-4 text-right cursor-pointer transition-all active:scale-[0.98] no-underline">
+                            <div class="w-12 h-12 rounded-full bg-sky-500/10 flex items-center justify-center shrink-0 border border-sky-500/20">
+                                <i class="fas fa-download text-2xl text-sky-400"></i>
+                            </div>
+                            <div class="flex-1 text-xs app-item-desc">
+                                <strong id="adDnsFileLabel" class="block text-sm text-sky-300 mb-1">تحميل ملف الإعدادات</strong>
+                                <span id="adDnsFileDesc" class="leading-relaxed">AdGuard DNS profile (iOS)</span>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1052,6 +1062,7 @@
                 dns_step6: 'ألصق الرابط التالي في المربع المخصص:',
                 dns_step7: 'اضغط على <strong>"حفظ" (Save)</strong>.',
                 ad_dns_guide_lbl: 'تثبيت يدوي', ad_dns_guide_desc: 'طريقة إضافة AdGuard DNS خطوة بخطوة',
+                ad_dns_file_lbl: 'تحميل ملف الإعدادات', ad_dns_file_desc: 'AdGuard DNS profile (iOS)',
                 card_sports: 'قنوات رياضية', card_sports_d: 'بث مباشر للمباريات',
                 card_vodu_m: 'مشاهدة منصة فودو', card_vodu_m_d: 'الموقع الرسمي للمشاهدة المباشرة (أفلام ومسلسلات)',
                 card_vodu_t: 'فودو TV', card_vodu_t_d: 'الموقع الرسمي لمشاهدة التلفزيون بث مباشر والقنوات',
@@ -1118,6 +1129,7 @@
                 dns_step6: 'Paste the following link in the box:',
                 dns_step7: 'Press <strong>Save</strong>.',
                 ad_dns_guide_lbl: 'Manual Setup', ad_dns_guide_desc: 'Step-by-step AdGuard DNS installation',
+                ad_dns_file_lbl: 'Download Config File', ad_dns_file_desc: 'AdGuard DNS profile (iOS)',
                 card_vodu_m: 'Watch Vodu Platform', card_vodu_m_d: 'Official site for movies & series streaming',
                 card_vodu_t: 'Vodu TV', card_vodu_t_d: 'Official site for live TV & channels',
                 card_egy: 'Watch EgyDead', card_egy_d: 'Latest movies & series',
@@ -1255,6 +1267,10 @@
             if (adDnsGuideLbl) adDnsGuideLbl.textContent = tr('ad_dns_guide_lbl');
             const adDnsGuideDesc = document.getElementById('adDnsGuideDesc');
             if (adDnsGuideDesc) adDnsGuideDesc.textContent = tr('ad_dns_guide_desc');
+            const adDnsFileLbl = document.getElementById('adDnsFileLabel');
+            if (adDnsFileLbl) adDnsFileLbl.textContent = tr('ad_dns_file_lbl');
+            const adDnsFileDesc = document.getElementById('adDnsFileDesc');
+            if (adDnsFileDesc) adDnsFileDesc.textContent = tr('ad_dns_file_desc');
 
             // Toggle button text - just ع or En
             const langLabel = document.querySelector('#langToggle .lang-label');
