@@ -1166,6 +1166,7 @@
                 notif_title: 'تفعيل الإشعارات', notif_desc: 'احصل على إشعارات فورية عند إضافة قنوات رياضية جديدة وتحديثات المنصة', notif_btn: 'تفعيل الإشعارات', notif_skip: 'تخطي', notif_granted: 'تم تفعيل الإشعارات بنجاح!',
                 msg_title: 'رسالة من المنصة', msg_btn: 'حسناً', msg_new: 'جديد',
                 notif_btn_title: 'الإشعارات', notif_panel_title: 'الإشعارات', notif_empty: 'لا توجد إشعارات',
+                notif_enable: 'تفعيل الإشعارات', notif_disable: 'إيقاف الإشعارات',
                 ch_name1: 'رابط القنوات', ch_name2: 'قناة 1', ch_name3: 'قناة 2',
                 t_glassDark: 'Neo Dark (الافتراضي)', t_woody: 'Woody (Toy Story)', t_retro: 'Retro', t_formal: 'Formal',
                 t_queen: 'Queen', t_sport: 'Sport', t_garage: 'Garage', t_smart: 'Smart', t_muscle: 'Muscle', t_nemo: 'Nemo',
@@ -1246,6 +1247,7 @@
                 notif_title: 'Enable Notifications', notif_desc: 'Get instant notifications when new sports channels and platform updates are added', notif_btn: 'Enable Notifications', notif_skip: 'Skip', notif_granted: 'Notifications enabled successfully!',
                 msg_title: 'Message from Platform', msg_btn: 'OK', msg_new: 'NEW',
                 notif_btn_title: 'Notifications', notif_panel_title: 'Notifications', notif_empty: 'No notifications',
+                notif_enable: 'Enable Notifications', notif_disable: 'Disable Notifications',
                 ch_name1: 'Channels Link', ch_name2: 'Channel 1', ch_name3: 'Channel 2',
                 t_glassDark: 'Neo Dark (Default)', t_woody: 'Woody (Toy Story)', t_retro: 'Retro', t_formal: 'Formal',
                 t_queen: 'Queen', t_sport: 'Sport', t_garage: 'Garage', t_smart: 'Smart', t_muscle: 'Muscle', t_nemo: 'Nemo',
@@ -1286,6 +1288,7 @@
                 'notifTitle': 'notif_title', 'notifDesc': 'notif_desc', 'notifBtn': 'notif_btn', 'notifSkip': 'notif_skip',
                 'msgPopupTitle': 'msg_title', 'msgOkBtn': 'msg_btn',
                 'notifPanelTitle': 'notif_panel_title', 'notifEmptyMsg': 'notif_empty',
+                'notifPanelEnableBtn': 'notif_enable', 'notifPanelDisableBtn': 'notif_disable',
             };
 
             // Set text content by ID
@@ -1948,12 +1951,44 @@
                 } else {
                     localStorage.setItem('fibertv_notif', 'dismissed');
                 }
+                updateNotifButtons();
             });
         }
 
         function dismissNotificationPrompt() {
             localStorage.setItem('fibertv_notif', 'dismissed');
             document.getElementById('notifPrompt').classList.add('hidden');
+        }
+
+        function disableNotifications() {
+            if (Notification.permission === 'granted') {
+                if (confirm('لإيقاف الإشعارات، يرجى الذهاب إلى إعدادات المتصفح > الإشعارات وإيقاف الإذن لهذا الموقع.')) {
+                    localStorage.setItem('fibertv_notif', 'dismissed');
+                    updateNotifButtons();
+                }
+            }
+        }
+
+        function enableNotifFromPanel() {
+            if (!('Notification' in window)) return;
+            if (Notification.permission === 'granted') {
+                updateNotifButtons();
+                return;
+            }
+            enableNotifications();
+        }
+
+        function updateNotifButtons() {
+            const enableBtn = document.getElementById('notifPanelEnableBtn');
+            const disableBtn = document.getElementById('notifPanelDisableBtn');
+            if (!enableBtn || !disableBtn) return;
+            const granted = Notification.permission === 'granted';
+            enableBtn.disabled = granted;
+            disableBtn.disabled = !granted;
+            enableBtn.classList.toggle('opacity-40', granted);
+            enableBtn.classList.toggle('cursor-not-allowed', granted);
+            disableBtn.classList.toggle('opacity-40', !granted);
+            disableBtn.classList.toggle('cursor-not-allowed', !granted);
         }
 
         async function fetchAndShowMessages() {
@@ -1996,6 +2031,7 @@
             if (panel.classList.contains('hidden')) {
                 panel.classList.remove('hidden');
                 renderNotifPanel();
+                setTimeout(updateNotifButtons, 100);
             } else {
                 panel.classList.add('hidden');
             }
@@ -2782,13 +2818,19 @@
     <div id="notifPanel" class="hidden fixed inset-0 z-[70] flex justify-end">
         <div onclick="toggleNotifPanel()" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
         <div class="relative w-full max-w-sm bg-[#0a1022] border-l border-white/[0.06] h-full overflow-y-auto shadow-2xl shadow-black/60 animate-slideLeft">
-            <div class="sticky top-0 bg-[#0a1022]/95 backdrop-blur-md z-10 p-4 border-b border-white/[0.06] flex items-center justify-between">
-                <h3 class="text-sm font-black text-white flex items-center gap-2">
-                    <i class="fas fa-bell text-indigo-400"></i> <span id="notifPanelTitle">الإشعارات</span>
-                </h3>
-                <button onclick="toggleNotifPanel()" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-white transition border border-white/[0.05] active:scale-90">
-                    <i class="fas fa-times text-xs"></i>
-                </button>
+            <div class="sticky top-0 bg-[#0a1022]/95 backdrop-blur-md z-10 border-b border-white/[0.06]">
+                <div class="p-4 flex items-center justify-between">
+                    <h3 class="text-sm font-black text-white flex items-center gap-2">
+                        <i class="fas fa-bell text-indigo-400"></i> <span id="notifPanelTitle">الإشعارات</span>
+                    </h3>
+                    <button onclick="toggleNotifPanel()" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/12 text-white transition border border-white/[0.05] active:scale-90">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                </div>
+                <div class="px-4 pb-3 flex gap-2">
+                    <button id="notifPanelEnableBtn" onclick="enableNotifFromPanel()" class="flex-1 text-xs font-black py-2 rounded-xl bg-indigo-500/20 border border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/30 transition active:scale-95">تفعيل الإشعارات</button>
+                    <button id="notifPanelDisableBtn" onclick="disableNotifications()" class="flex-1 text-xs font-black py-2 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition active:scale-95">إيقاف الإشعارات</button>
+                </div>
             </div>
             <div id="notifPanelBody" class="p-4 space-y-3">
                 <div class="text-center text-gray-500 text-sm font-bold py-10" id="notifEmptyMsg">لا توجد إشعارات</div>
