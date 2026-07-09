@@ -1962,7 +1962,16 @@
 
         function disableNotifications() {
             localStorage.setItem('fibertv_notif', 'dismissed');
-            updateNotifButtons();
+            const enableBtn = document.getElementById('notifPanelEnableBtn');
+            const disableBtn = document.getElementById('notifPanelDisableBtn');
+            if (enableBtn) {
+                enableBtn.disabled = false;
+                enableBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+            }
+            if (disableBtn) {
+                disableBtn.disabled = true;
+                disableBtn.classList.add('opacity-40', 'cursor-not-allowed');
+            }
         }
 
         function enableNotifFromPanel() {
@@ -1977,11 +1986,11 @@
             const granted = Notification.permission === 'granted';
             const dismissed = localStorage.getItem('fibertv_notif') === 'dismissed';
             enableBtn.disabled = granted;
-            disableBtn.disabled = !granted && !dismissed;
             enableBtn.classList.toggle('opacity-40', granted);
             enableBtn.classList.toggle('cursor-not-allowed', granted);
-            disableBtn.classList.toggle('opacity-40', !granted && !dismissed);
-            disableBtn.classList.toggle('cursor-not-allowed', !granted && !dismissed);
+            disableBtn.disabled = dismissed;
+            disableBtn.classList.toggle('opacity-40', dismissed);
+            disableBtn.classList.toggle('cursor-not-allowed', dismissed);
         }
 
         async function fetchAndShowMessages() {
