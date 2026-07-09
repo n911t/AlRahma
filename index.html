@@ -1961,20 +1961,12 @@
         }
 
         function disableNotifications() {
-            if (Notification.permission === 'granted') {
-                if (confirm('لإيقاف الإشعارات، يرجى الذهاب إلى إعدادات المتصفح > الإشعارات وإيقاف الإذن لهذا الموقع.')) {
-                    localStorage.setItem('fibertv_notif', 'dismissed');
-                    updateNotifButtons();
-                }
-            }
+            localStorage.setItem('fibertv_notif', 'dismissed');
+            updateNotifButtons();
         }
 
         function enableNotifFromPanel() {
             if (!('Notification' in window)) return;
-            if (Notification.permission === 'granted') {
-                updateNotifButtons();
-                return;
-            }
             enableNotifications();
         }
 
@@ -1983,12 +1975,13 @@
             const disableBtn = document.getElementById('notifPanelDisableBtn');
             if (!enableBtn || !disableBtn) return;
             const granted = Notification.permission === 'granted';
+            const dismissed = localStorage.getItem('fibertv_notif') === 'dismissed';
             enableBtn.disabled = granted;
-            disableBtn.disabled = !granted;
+            disableBtn.disabled = !granted && !dismissed;
             enableBtn.classList.toggle('opacity-40', granted);
             enableBtn.classList.toggle('cursor-not-allowed', granted);
-            disableBtn.classList.toggle('opacity-40', !granted);
-            disableBtn.classList.toggle('cursor-not-allowed', !granted);
+            disableBtn.classList.toggle('opacity-40', !granted && !dismissed);
+            disableBtn.classList.toggle('cursor-not-allowed', !granted && !dismissed);
         }
 
         async function fetchAndShowMessages() {
