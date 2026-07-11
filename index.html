@@ -531,8 +531,6 @@
         
         <!-- ====== الهيدر بتصميم جديد ====== -->
         <div id="mainHeaderCard" class="relative overflow-hidden rounded-3xl p-6 text-center mb-6 theme-transition">
-            <div class="absolute inset-0 bg-gradient-to-b from-indigo-950/60 to-[#080e1a] pointer-events-none"></div>
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-gradient-to-r from-transparent via-violet-500 to-transparent rounded-full opacity-60"></div>
             <div class="relative z-10">
                 <div class="flex items-center justify-center gap-3 select-none">
                     <span id="logoPart1" class="font-logo font-black text-4xl tracking-wide theme-transition">فايبر</span>
@@ -541,9 +539,7 @@
                     </span>
                 </div>
                 <div class="flex items-center justify-center gap-2 mt-3">
-                    <div class="h-px w-8 bg-gradient-to-l from-indigo-500/50 to-transparent"></div>
                     <p id="logoSubtitle" class="text-xs font-bold tracking-widest inline-block px-4 py-1.5 rounded-full theme-transition">تطبيقات وخدمات الانترنت الضوئي</p>
-                    <div class="h-px w-8 bg-gradient-to-r from-indigo-500/50 to-transparent"></div>
                 </div>
                 
                 <div class="mt-6 flex justify-center items-center gap-3 flex-wrap">
@@ -1031,17 +1027,9 @@
                     <span data-i18n-theme="t_smart" class="font-bold text-sm text-cyan-400">Smart</span>
                     <span class="w-4 h-4 rounded-sm bg-cyan-400 block"></span>
                 </button>
-                <button onclick="applyTheme('muscle')" class="w-full p-3.5 rounded-xl bg-red-950/40 border border-red-500/30 flex items-center justify-between hover:border-red-500 transition text-right">
-                    <span data-i18n-theme="t_muscle" class="font-bold text-sm text-red-500">Muscle</span>
-                    <span class="w-4 h-4 rounded-full bg-red-600 block"></span>
-                </button>
                 <button onclick="applyTheme('nemo')" class="w-full p-3.5 rounded-xl bg-sky-950/60 border border-orange-500/40 flex items-center justify-between hover:border-orange-400 transition text-right">
                     <span data-i18n-theme="t_nemo" class="font-bold text-sm text-orange-400">Nemo</span>
                     <span class="text-xs">🐠</span>
-                </button>
-                <button onclick="applyTheme('cyberpunk')" class="w-full p-3.5 rounded-xl bg-black border border-fuchsia-500/40 flex items-center justify-between hover:border-fuchsia-400 transition text-right">
-                    <span data-i18n-theme="t_cyberpunk" class="font-bold text-sm text-fuchsia-400">Cyberpunk</span>
-                    <span class="w-4 h-4 bg-gradient-to-r from-fuchsia-500 to-cyan-400 block"></span>
                 </button>
                 <button onclick="applyTheme('apple')" class="w-full p-3.5 rounded-xl bg-white/90 border border-white flex items-center justify-between hover:shadow-lg transition text-right">
                     <span data-i18n-theme="t_apple" class="font-bold text-sm text-gray-800">Apple iOS</span>
@@ -1070,10 +1058,6 @@
                 <button onclick="applyTheme('xbox')" class="w-full p-3.5 rounded-xl bg-[#1a1a1a] border border-[#107c10]/40 flex items-center justify-between hover:border-[#52b043] transition text-right">
                     <span data-i18n-theme="t_xbox" class="font-bold text-sm text-[#52b043]">Xbox</span>
                     <span class="w-4 h-4 rounded-full bg-[#107c10]"></span>
-                </button>
-                <button onclick="applyTheme('nintendo')" class="w-full p-3.5 rounded-xl bg-white/95 border-2 border-[#e60012] flex items-center justify-between hover:shadow-[0_4px_0px_#b3000e] transition text-right">
-                    <span data-i18n-theme="t_nintendo" class="font-black text-sm text-[#e60012]">Nintendo Switch</span>
-                    <span class="w-4 h-4 rounded-full bg-[#e60012]"></span>
                 </button>
                 <button onclick="applyTheme('tesla')" class="w-full p-3.5 rounded-xl bg-black border border-[#e82127]/30 flex items-center justify-between hover:border-[#e82127] transition text-right">
                     <span data-i18n-theme="t_tesla" class="font-bold text-sm text-white">Tesla</span>
@@ -1166,13 +1150,12 @@
                 notif_title: 'تفعيل الإشعارات', notif_desc: 'احصل على إشعارات فورية عند إضافة قنوات رياضية جديدة وتحديثات المنصة', notif_btn: 'تفعيل الإشعارات', notif_skip: 'تخطي', notif_granted: 'تم تفعيل الإشعارات بنجاح!',
                 msg_title: 'رسالة من المنصة', msg_btn: 'حسناً', msg_new: 'جديد',
                 notif_btn_title: 'الإشعارات', notif_panel_title: 'الإشعارات', notif_empty: 'لا توجد إشعارات',
-                notif_enable: 'تفعيل الإشعارات', notif_disable: 'إيقاف الإشعارات',
                 ch_name1: 'رابط القنوات', ch_name2: 'قناة 1', ch_name3: 'قناة 2',
                 t_glassDark: 'Neo Dark (الافتراضي)', t_woody: 'Woody (Toy Story)', t_retro: 'Retro', t_formal: 'Formal',
-                t_queen: 'Queen', t_sport: 'Sport', t_garage: 'Garage', t_smart: 'Smart', t_muscle: 'Muscle', t_nemo: 'Nemo',
-                t_cyberpunk: 'Cyberpunk', t_apple: 'Apple iOS', t_android: 'Android 14', t_ubuntu: 'Ubuntu Linux',
+                t_queen: 'Queen', t_sport: 'Sport', t_garage: 'Garage', t_smart: 'Smart', t_nemo: 'Nemo',
+                t_apple: 'Apple iOS', t_android: 'Android 14', t_ubuntu: 'Ubuntu Linux',
                 t_playstation: 'PlayStation', t_windows: 'Windows 11', t_spotify: 'Spotify', t_xbox: 'Xbox',
-                t_nintendo: 'Nintendo Switch', t_tesla: 'Tesla', t_samsung: 'Samsung One UI'
+                t_tesla: 'Tesla', t_samsung: 'Samsung One UI'
             },
             en: {
                 loader_title: 'Starting Fiber TV...', loader_desc: 'Please wait a moment',
@@ -1247,13 +1230,12 @@
                 notif_title: 'Enable Notifications', notif_desc: 'Get instant notifications when new sports channels and platform updates are added', notif_btn: 'Enable Notifications', notif_skip: 'Skip', notif_granted: 'Notifications enabled successfully!',
                 msg_title: 'Message from Platform', msg_btn: 'OK', msg_new: 'NEW',
                 notif_btn_title: 'Notifications', notif_panel_title: 'Notifications', notif_empty: 'No notifications',
-                notif_enable: 'Enable Notifications', notif_disable: 'Disable Notifications',
                 ch_name1: 'Channels Link', ch_name2: 'Channel 1', ch_name3: 'Channel 2',
                 t_glassDark: 'Neo Dark (Default)', t_woody: 'Woody (Toy Story)', t_retro: 'Retro', t_formal: 'Formal',
-                t_queen: 'Queen', t_sport: 'Sport', t_garage: 'Garage', t_smart: 'Smart', t_muscle: 'Muscle', t_nemo: 'Nemo',
-                t_cyberpunk: 'Cyberpunk', t_apple: 'Apple iOS', t_android: 'Android 14', t_ubuntu: 'Ubuntu Linux',
+                t_queen: 'Queen', t_sport: 'Sport', t_garage: 'Garage', t_smart: 'Smart', t_nemo: 'Nemo',
+                t_apple: 'Apple iOS', t_android: 'Android 14', t_ubuntu: 'Ubuntu Linux',
                 t_playstation: 'PlayStation', t_windows: 'Windows 11', t_spotify: 'Spotify', t_xbox: 'Xbox',
-                t_nintendo: 'Nintendo Switch', t_tesla: 'Tesla', t_samsung: 'Samsung One UI'
+                t_tesla: 'Tesla', t_samsung: 'Samsung One UI'
             }
         };
 
@@ -1288,7 +1270,7 @@
                 'notifTitle': 'notif_title', 'notifDesc': 'notif_desc', 'notifBtn': 'notif_btn', 'notifSkip': 'notif_skip',
                 'msgPopupTitle': 'msg_title', 'msgOkBtn': 'msg_btn',
                 'notifPanelTitle': 'notif_panel_title', 'notifEmptyMsg': 'notif_empty',
-                'notifPanelEnableBtn': 'notif_enable', 'notifPanelDisableBtn': 'notif_disable',
+                
             };
 
             // Set text content by ID
@@ -1409,9 +1391,7 @@
             sport: ['fa-futbol', 'fa-baseball', 'fa-basketball', 'fa-medal', 'fa-trophy', 'fa-flag-checkered', 'fa-volleyball', 'fa-person-running', 'fa-video', 'fa-stopwatch', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-dumbbell', 'fa-whistle', 'fa-shield-halved'],
             garage: ['fa-car', 'fa-wrench', 'fa-gauge-high', 'fa-oil-can', 'fa-screwdriver', 'fa-gears', 'fa-truck-monster', 'fa-road', 'fa-video', 'fa-bolt', 'fa-heart', 'fa-fire', 'fa-star', 'fa-hammer', 'fa-shield-halved', 'fa-shield-halved'],
             smart: ['fa-laptop-code', 'fa-microchip', 'fa-server', 'fa-wifi', 'fa-network-wired', 'fa-satellite', 'fa-mobile-screen', 'fa-cloud', 'fa-video', 'fa-terminal', 'fa-heart', 'fa-database', 'fa-star', 'fa-robot', 'fa-shield-cat', 'fa-shield-halved'],
-            muscle: ['fa-dumbbell', 'fa-mound', 'fa-bottle-water', 'fa-heart-pulse', 'fa-fire', 'fa-bolt', 'fa-weight-hanging', 'fa-person-walking-lucide', 'fa-video', 'fa-capsules', 'fa-heart', 'fa-child', 'fa-star', 'fa-trophy', 'fa-shield', 'fa-shield-halved'],
             nemo: ['fa-fish', 'fa-water', 'fa-anchor', 'fa-ship', 'fa-compass', 'fa-life-ring', 'fa-shrimp', 'fa-droplet', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-fish-fins', 'fa-star', 'fa-wand-magic', 'fa-masks-theater', 'fa-shield-halved'],
-            cyberpunk: ['fa-terminal', 'fa-user-ninja', 'fa-eye-dropper', 'fa-qrcode', 'fa-shield-halved', 'fa-flask', 'fa-microchip', 'fa-mask', 'fa-video', 'fa-bolt', 'fa-heart', 'fa-radiation', 'fa-star', 'fa-wand-magic-sparkles', 'fa-spider', 'fa-shield-halved'],
             woody: ['fa-hat-cowboy', 'fa-star', 'fa-horse', 'fa-ticket', 'fa-trophy', 'fa-user-astronaut', 'fa-film', 'fa-box-open', 'fa-video', 'fa-rocket', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-hat-wizard', 'fa-cat', 'fa-shield-halved'],
             apple: ['fa-apple-whole', 'fa-mobile-screen-button', 'fa-music', 'fa-camera', 'fa-message', 'fa-note-sticky', 'fa-film', 'fa-share-from-square', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic-sparkles', 'fa-cat', 'fa-shield-halved'],
             android: ['fa-robot', 'fa-microchip', 'fa-wifi', 'fa-brain', 'fa-cloud', 'fa-camera', 'fa-film', 'fa-share-nodes', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
@@ -1420,7 +1400,6 @@
             windows: ['fa-windows', 'fa-desktop', 'fa-cube', 'fa-layer-group', 'fa-table', 'fa-diagram-project', 'fa-film', 'fa-share-from-square', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
             spotify: ['fa-music', 'fa-headphones', 'fa-microphone', 'fa-volume-high', 'fa-compact-disc', 'fa-sliders', 'fa-film', 'fa-share-nodes', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
             xbox: ['fa-gamepad', 'fa-users', 'fa-trophy', 'fa-globe', 'fa-cloud-arrow-down', 'fa-people-group', 'fa-film', 'fa-share-from-square', 'fa-video', 'fa-bolt', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
-            nintendo: ['fa-wand-sparkles', 'fa-star', 'fa-heart', 'fa-gem', 'fa-crown', 'fa-gift', 'fa-film', 'fa-share-nodes', 'fa-video', 'fa-music', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
             tesla: ['fa-car', 'fa-bolt', 'fa-battery-full', 'fa-gauge-high', 'fa-road', 'fa-gears', 'fa-film', 'fa-share-from-square', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
             samsung: ['fa-mobile-screen', 'fa-display', 'fa-gear', 'fa-camera', 'fa-wifi', 'fa-bluetooth', 'fa-film', 'fa-share-nodes', 'fa-video', 'fa-wave-square', 'fa-heart', 'fa-futbol', 'fa-star', 'fa-wand-magic', 'fa-cat', 'fa-shield-halved'],
             glassDark: originalIcons
@@ -1429,7 +1408,7 @@
         const platformThemes = {
             glassDark: {
                 bodyBg: '#080e1a', b1: '#7c3aed', b2: '#4f46e5', b3: '#db2777', blobs: true,
-                header: 'bg-gradient-to-b from-indigo-950/60 to-[#080e1a] border border-indigo-500/15 rounded-3xl shadow-[0_0_30px_rgba(99,102,241,0.1)]',
+                header: 'bg-[#0b1222] border border-indigo-500/15 rounded-3xl shadow-[0_0_30px_rgba(99,102,241,0.1)]',
                 logo: 'text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-blue-400 to-violet-400 drop-shadow-[0_0_15px_rgba(56,189,248,0.2)]',
                 subtitle: 'bg-indigo-500/10 text-indigo-300 border border-indigo-500/20',
                 tabs: 'bg-[#0f172a]/80 border border-slate-700/30 rounded-2xl shadow-inner',
@@ -1603,32 +1582,10 @@
                 sportsDesc: 'text-fuchsia-500/80',
                 sportsIcon: 'rounded-lg bg-slate-900 text-fuchsia-400 border border-fuchsia-500/50 shadow-[0_0_8px_rgba(217,70,239,0.4)]'
             },
-            muscle: {
-                bodyBg: '#111827', b1: '#ef4444', b2: '#dc2626', b3: '#1f2937', blobs: true,
-                header: 'bg-gray-900 border-2 border-red-600 rounded-xl shadow-2xl',
-                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-stone-100 to-red-600 font-black uppercase tracking-wider',
-                subtitle: 'bg-red-600 text-white font-black px-3 rounded-none uppercase',
-                tabs: 'bg-gray-950 border-2 border-gray-800 p-1 rounded-lg',
-                btnWatchActive: 'bg-red-600 text-white font-black rounded-md uppercase border-b-4 border-red-800 shadow-md',
-                btnDlActive: 'bg-gray-700 text-white font-black rounded-md uppercase border-b-4 border-gray-900 shadow-md',
-                btnAdActive: 'bg-stone-700 text-white font-black rounded-md uppercase border-b-4 border-stone-900 shadow-md',
-                btnInActive: 'bg-gray-900 text-gray-300 border border-transparent rounded-md',
-                card: 'bg-gray-900 border border-gray-800 rounded-lg hover:border-red-600 text-gray-100 font-bold shadow-lg',
-                icon: 'rounded-none bg-gradient-to-br from-red-600 via-red-700 to-stone-900 text-white border-2 border-gray-600 shadow-xl',
-                ctrlBtn: 'bg-gray-800 border border-gray-700 text-red-500 rounded-lg hover:bg-gray-700',
-                actionBtn: 'bg-gradient-to-b from-red-600 to-red-700 text-white rounded-md font-black shadow-md border border-red-500',
-                socialIcon: 'bg-gray-800 border border-gray-700 text-white rounded-lg hover:bg-red-600',
-                footer: 'bg-gray-900 border-2 border-gray-800 rounded-xl',
-                footerText: 'text-gray-300',
-                sportsCard: 'bg-gray-900 border border-yellow-500 rounded-lg hover:border-yellow-400 shadow-[0_0_15px_rgba(234,179,8,0.2)]',
-                sportsTitle: 'text-yellow-400 uppercase',
-                sportsDesc: 'text-yellow-500/80',
-                sportsIcon: 'rounded-none bg-gradient-to-br from-yellow-500 to-amber-700 text-black border-2 border-gray-600 shadow-xl'
-            },
             nemo: {
                 bodyBg: '#0c4a6e', b1: '#f97316', b2: '#0284c7', b3: '#ea580c', blobs: true,
                 header: 'bg-white border-4 border-orange-500 rounded-[2rem] shadow-xl',
-                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-sky-600 to-orange-600 font-logo drop-shadow-sm',
+                logo: 'text-orange-500 font-logo drop-shadow-sm',
                 subtitle: 'bg-orange-500 text-white border-none rounded-full font-bold px-4',
                 tabs: 'bg-sky-950/50 border-2 border-sky-800 rounded-full p-1',
                 btnWatchActive: 'bg-orange-500 text-white rounded-full border-2 border-white font-black shadow-md',
@@ -1646,28 +1603,6 @@
                 sportsTitle: 'text-purple-700',
                 sportsDesc: 'text-purple-500',
                 sportsIcon: 'rounded-full bg-gradient-to-b from-purple-400 to-fuchsia-600 text-white border-4 border-white shadow-lg animate-floatFast'
-            },
-            cyberpunk: {
-                bodyBg: '#05050a', b1: '#06b6d4', b2: '#ec4899', b3: '#f43f5e', blobs: true,
-                header: 'bg-black border-2 border-fuchsia-500 rounded-none shadow-[0_0_15px_rgba(236,72,153,0.3)]',
-                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 via-purple-500 to-cyan-400 font-black',
-                subtitle: 'bg-fuchsia-950 text-fuchsia-400 border border-fuchsia-500 rounded-none uppercase text-[9px] tracking-widest',
-                tabs: 'bg-black border border-cyan-500 p-1 rounded-none',
-                btnWatchActive: 'bg-fuchsia-500 text-black border border-black rounded-none font-black shadow-[3px_3px_0px_#06b6d4]',
-                btnDlActive: 'bg-cyan-400 text-black border border-black rounded-none font-black shadow-[3px_3px_0px_#ec4899]',
-                btnAdActive: 'bg-yellow-400 text-black border border-black rounded-none font-black shadow-[3px_3px_0px_#ec4899]',
-                btnInActive: 'bg-stone-900 text-stone-300 border border-transparent rounded-none',
-                card: 'bg-black border border-fuchsia-500/60 rounded-none hover:border-cyan-400 text-cyan-400 shadow-[0_0_10px_rgba(236,72,153,0.1)]',
-                icon: 'rounded-none bg-black border-2 border-cyan-400 text-fuchsia-500 shadow-[0_0_12px_rgba(6,182,212,0.7)] font-black',
-                ctrlBtn: 'bg-black border border-fuchsia-500 text-cyan-400 rounded-none hover:bg-fuchsia-950',
-                actionBtn: 'bg-black border-2 border-cyan-400 text-fuchsia-400 rounded-none font-black hover:bg-cyan-900 shadow-[2px_2px_0px_rgba(236,72,153,1)]',
-                socialIcon: 'bg-black border border-cyan-500 text-white rounded-none hover:bg-fuchsia-500',
-                footer: 'bg-black border-2 border-fuchsia-500 rounded-none',
-                footerText: 'text-cyan-400',
-                sportsCard: 'bg-black border border-yellow-400 rounded-none hover:border-lime-400 shadow-[0_0_10px_rgba(250,204,21,0.2)]',
-                sportsTitle: 'text-yellow-400',
-                sportsDesc: 'text-lime-400/80',
-                sportsIcon: 'rounded-none bg-black border-2 border-yellow-400 text-lime-400 shadow-[0_0_12px_rgba(250,204,21,0.7)] font-black'
             },
             apple: {
                 bodyBg: '#f2f2f7', b1: '#007aff', b2: '#5856d6', b3: '#ff2d55', blobs: false,
@@ -1716,7 +1651,7 @@
             ubuntu: {
                 bodyBg: '#300a24', b1: '#e95420', b2: '#77216f', b3: '#5e2750', blobs: true,
                 header: 'bg-[#3d0b2b] border-2 border-[#e95420]/50 rounded-xl shadow-[0_0_20px_rgba(233,84,32,0.15)]',
-                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-[#e95420] via-[#77216f] to-white font-mono font-black tracking-tight',
+                logo: 'text-[#e95420] font-mono font-black tracking-tight',
                 subtitle: 'bg-[#e95420]/20 text-[#e95420] border-[#e95420]/30 rounded-md font-mono',
                 tabs: 'bg-[#1a0a14] border border-[#e95420]/20 rounded-lg p-1',
                 btnWatchActive: 'bg-[#e95420] text-white rounded-lg font-bold border border-[#e95420]/60 shadow-[0_0_10px_rgba(233,84,32,0.3)]',
@@ -1760,7 +1695,7 @@
             windows: {
                 bodyBg: '#1c1c1c', b1: '#60cdff', b2: '#9b59b6', b3: '#f3a183', blobs: false,
                 header: 'bg-[#2c2c2c]/80 backdrop-blur-2xl border border-[#ffffff]/10 rounded-2xl shadow-lg',
-                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-[#60cdff] via-[#9b59b6] to-[#f3a183] font-sans font-light tracking-tight',
+                logo: 'text-[#60cdff] font-sans font-light tracking-tight',
                 subtitle: 'bg-[#60cdff]/10 text-[#60cdff] border-[#60cdff]/20 rounded-md',
                 tabs: 'bg-[#2c2c2c] border border-[#ffffff]/8 rounded-2xl p-1',
                 btnWatchActive: 'bg-[#60cdff]/20 backdrop-blur-sm text-white rounded-xl font-semibold border border-[#60cdff]/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]',
@@ -1804,7 +1739,7 @@
             xbox: {
                 bodyBg: '#0e0e0e', b1: '#107c10', b2: '#52b043', b3: '#186818', blobs: true,
                 header: 'bg-[#1a1a1a] border-2 border-[#107c10]/40 rounded-2xl shadow-[0_0_20px_rgba(16,124,16,0.1)]',
-                logo: 'text-transparent bg-clip-text bg-gradient-to-r from-[#52b043] via-[#107c10] to-[#52b043] font-black tracking-wider',
+                logo: 'text-[#52b043] font-black tracking-wider',
                 subtitle: 'bg-[#107c10]/20 text-[#52b043] border-[#107c10]/30 rounded-full font-bold',
                 tabs: 'bg-[#0e0e0e] border border-[#107c10]/30 rounded-xl p-1',
                 btnWatchActive: 'bg-gradient-to-r from-[#107c10] to-[#52b043] text-white rounded-xl font-black border border-[#52b043]/40 shadow-[0_0_12px_rgba(16,124,16,0.3)]',
@@ -1822,28 +1757,6 @@
                 sportsTitle: 'text-[#e51400]',
                 sportsDesc: 'text-[#e51400]/70',
                 sportsIcon: 'rounded-2xl bg-gradient-to-br from-[#e51400] to-[#b31000] text-white shadow-lg border border-[#e51400]/40'
-            },
-            nintendo: {
-                bodyBg: '#e60012', b1: '#ff6b7a', b2: '#ff2d3b', b3: '#b3000e', blobs: true,
-                header: 'bg-white/95 border-4 border-[#e60012] rounded-[2rem] shadow-[0_8px_0px_#b3000e]',
-                logo: 'text-[#e60012] font-black tracking-tight drop-shadow-[2px_2px_0px_rgba(0,0,0,0.1)]',
-                subtitle: 'bg-[#e60012] text-white border-2 border-[#b3000e] rounded-full font-black',
-                tabs: 'bg-white/95 border-2 border-[#e60012] rounded-[2rem] p-1 shadow-[0_3px_0px_#b3000e]',
-                btnWatchActive: 'bg-[#e60012] text-white rounded-[2rem] font-black border-2 border-[#b3000e] shadow-[0_3px_0px_#b3000e]',
-                btnDlActive: 'bg-[#2e2e2e] text-white rounded-[2rem] font-bold border-2 border-[#1a1a1a] shadow-[0_3px_0px_#1a1a1a]',
-                btnAdActive: 'bg-[#4a4a4a] text-white rounded-[2rem] font-bold border-2 border-[#333] shadow-[0_3px_0px_#333]',
-                btnInActive: 'bg-transparent text-[#e60012] border border-transparent rounded-[2rem]',
-                card: 'bg-white/95 border-2 border-[#ddd] rounded-[1.75rem] hover:border-[#e60012] text-[#333] shadow-md hover:shadow-[0_8px_30px_rgba(230,0,18,0.1)]',
-                icon: 'rounded-full bg-gradient-to-br from-[#e60012] to-[#ff2d3b] text-white border-2 border-white shadow-lg',
-                ctrlBtn: 'bg-white/95 border-2 border-[#ddd] text-[#e60012] rounded-full hover:bg-[#e60012]/5 hover:border-[#e60012]/30',
-                actionBtn: 'bg-[#e60012]/5 border-2 border-[#e60012]/20 text-[#e60012] rounded-full font-bold hover:bg-[#e60012]/10',
-                socialIcon: 'bg-white/95 border-2 border-[#ddd] text-[#666] rounded-full hover:bg-[#e60012] hover:text-white',
-                footer: 'bg-white/95 border-2 border-[#ddd] rounded-[2rem]',
-                footerText: 'text-[#666]',
-                sportsCard: 'bg-white/95 border-2 border-[#00a1e9] rounded-[1.75rem] hover:border-[#00a1e9] shadow-md',
-                sportsTitle: 'text-[#00a1e9]',
-                sportsDesc: 'text-[#00a1e9]/70',
-                sportsIcon: 'rounded-full bg-gradient-to-br from-[#00a1e9] to-[#0079b5] text-white border-2 border-white shadow-lg'
             },
             tesla: {
                 bodyBg: '#0a0a0a', b1: '#e82127', b2: '#333333', b3: '#555555', blobs: true,
@@ -1951,7 +1864,6 @@
                 } else {
                     localStorage.setItem('fibertv_notif', 'dismissed');
                 }
-                updateNotifButtons();
             });
         }
 
@@ -1960,41 +1872,20 @@
             document.getElementById('notifPrompt').classList.add('hidden');
         }
 
-        function disableNotifications() {
-            localStorage.setItem('fibertv_notif', 'dismissed');
-            updateNotifButtons();
-        }
-
-        function enableNotifFromPanel() {
-            if (!('Notification' in window)) return;
-            enableNotifications();
-        }
-
-        function updateNotifButtons() {
-            const enableBtn = document.getElementById('notifPanelEnableBtn');
-            const disableBtn = document.getElementById('notifPanelDisableBtn');
-            if (!enableBtn || !disableBtn) return;
-            const granted = Notification.permission === 'granted';
-            const dismissed = localStorage.getItem('fibertv_notif') === 'dismissed';
-            // Enable button: active unless already granted
-            enableBtn.disabled = granted;
-            enableBtn.classList.toggle('opacity-40', granted);
-            enableBtn.classList.toggle('cursor-not-allowed', granted);
-            // Disable button: active only when granted
-            disableBtn.disabled = !granted;
-            disableBtn.classList.toggle('opacity-40', !granted);
-            disableBtn.classList.toggle('cursor-not-allowed', !granted);
-        }
-
         async function fetchAndShowMessages() {
             try {
-                const seenIds = JSON.parse(localStorage.getItem('fibertv_msg_seen') || '[]');
+                const lastSeenId = parseInt(localStorage.getItem('fibertv_last_seen_id') || '0', 10);
                 const res = await fetch('notifications.json?' + Date.now());
                 if (!res.ok) return;
                 const data = await res.json();
                 if (!data || !Array.isArray(data.messages)) return;
-                const activeMsgs = data.messages.filter(m => m.active && m.id && seenIds.indexOf(m.id) === -1);
-                if (activeMsgs.length > 0) { showMessagePopup(activeMsgs[0]); renderNotifBadge(); }
+                const activeMsgs = data.messages.filter(m => m.active);
+                if (activeMsgs.length === 0) return;
+                const latest = activeMsgs[activeMsgs.length - 1];
+                if (latest.id && latest.id !== lastSeenId) {
+                    showMessagePopup(latest);
+                    localStorage.setItem('fibertv_last_seen_id', String(latest.id));
+                }
             } catch (e) {
                 // silent
             }
@@ -2002,16 +1893,16 @@
 
         async function renderNotifBadge() {
             try {
-                const seenIds = JSON.parse(localStorage.getItem('fibertv_msg_seen') || '[]');
+                const lastSeenId = parseInt(localStorage.getItem('fibertv_last_seen_id') || '0', 10);
                 const res = await fetch('notifications.json?' + Date.now());
                 if (!res.ok) return;
                 const data = await res.json();
                 if (!data || !Array.isArray(data.messages)) return;
                 const active = data.messages.filter(m => m.active);
-                const unread = active.filter(m => seenIds.indexOf(m.id) === -1);
+                const latest = active.length > 0 ? active[active.length - 1] : null;
                 const badge = document.getElementById('notifBadge');
-                if (unread.length > 0) {
-                    badge.textContent = unread.length;
+                if (latest && latest.id && latest.id !== lastSeenId) {
+                    badge.textContent = '1';
                     badge.classList.remove('hidden');
                 } else {
                     badge.classList.add('hidden');
@@ -2026,7 +1917,6 @@
             if (panel.classList.contains('hidden')) {
                 panel.classList.remove('hidden');
                 renderNotifPanel();
-                setTimeout(updateNotifButtons, 100);
             } else {
                 panel.classList.add('hidden');
             }
@@ -2045,10 +1935,10 @@
                     body.innerHTML = '<div class="text-center text-gray-500 text-sm font-bold py-10">' + tr('notif_empty') + '</div>';
                     return;
                 }
-                const seenIds = JSON.parse(localStorage.getItem('fibertv_msg_seen') || '[]');
+                const lastSeenId = parseInt(localStorage.getItem('fibertv_last_seen_id') || '0', 10);
                 const isAr = currentLang === 'ar';
                 msgs.forEach(m => {
-                    const isNew = seenIds.indexOf(m.id) === -1;
+                    const isNew = m.id && m.id !== lastSeenId;
                     const div = document.createElement('div');
                     div.className = 'bg-white/[0.03] border border-white/[0.05] rounded-2xl p-4 transition hover:bg-white/[0.05]';
                     div.innerHTML = '<div class="flex items-start gap-3"><div class="w-9 h-9 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0"><i class="fas fa-bell text-sm"></i></div><div class="flex-1 min-w-0"><div class="flex items-center gap-2 mb-1"><h4 class="text-sm font-black text-white">' + (isAr ? m.title_ar : m.title_en) + '</h4>' + (isNew ? '<span class="text-[9px] font-black text-rose-400 bg-rose-500/10 px-1.5 py-0.5 rounded-full">' + tr('msg_new') + '</span>' : '') + '</div><p class="text-xs text-gray-400 font-bold leading-relaxed">' + (isAr ? m.body_ar : m.body_en) + '</p>' + (m.date ? '<p class="text-[10px] text-gray-600 font-bold mt-2">' + m.date + '</p>' : '') + '</div></div>';
@@ -2072,9 +1962,6 @@
             dateEl.textContent = msg.date || '';
             badge.classList.toggle('hidden', false);
             popup.classList.remove('hidden');
-            const seenIds = JSON.parse(localStorage.getItem('fibertv_msg_seen') || '[]');
-            if (seenIds.indexOf(msg.id) === -1) seenIds.push(msg.id);
-            localStorage.setItem('fibertv_msg_seen', JSON.stringify(seenIds));
         }
 
         function dismissMessagePopup() {
@@ -2822,10 +2709,7 @@
                         <i class="fas fa-times text-xs"></i>
                     </button>
                 </div>
-                <div class="px-4 pb-3 flex gap-2">
-                    <button id="notifPanelEnableBtn" onclick="enableNotifFromPanel()" class="flex-1 text-xs font-black py-2 rounded-xl bg-indigo-500/20 border border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/30 transition active:scale-95">تفعيل الإشعارات</button>
-                    <button id="notifPanelDisableBtn" onclick="disableNotifications()" class="flex-1 text-xs font-black py-2 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition active:scale-95">إيقاف الإشعارات</button>
-                </div>
+
             </div>
             <div id="notifPanelBody" class="p-4 space-y-3">
                 <div class="text-center text-gray-500 text-sm font-bold py-10" id="notifEmptyMsg">لا توجد إشعارات</div>
