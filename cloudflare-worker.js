@@ -34,8 +34,7 @@ async function handleRequest(request) {
         else if (cmd === '/delchannel') await cmdDelChannel(chatId, args);
         else if (cmd === '/setchannel') await cmdSetChannel(chatId, parts);
         else if (cmd === '/notify') await cmdNotify(chatId, args);
-        else if (cmd === '/cleanup') await cmdCleanup(chatId, args);
-        else await sendMsg(chatId, '❓ أمر غير معروف. الأوامر المتاحة:\n/channels\n/addchannel <url> <type>\n/delchannel <id>\n/setchannel <id> <url> <type>\n/notify title_ar | body_ar | title_en | body_en\n/cleanup [keep] — حذف الإشعارات القديمة');
+        else await sendMsg(chatId, '❓ أمر غير معروف. الأوامر المتاحة:\n/channels\n/addchannel <url> <type>\n/delchannel <id>\n/setchannel <id> <url> <type>\n/notify title_ar | body_ar | title_en | body_en');
     } catch (e) {
         await sendMsg(chatId, '⚠️ خطأ: ' + e.message);
     }
@@ -98,8 +97,7 @@ async function cmdStart(chatId) {
 /addchannel <url> <type> — إضافة قناة جديدة (type: stream أو web)
 /delchannel <id> — حذف قناة
 /setchannel <id> <url> <type> — تعديل قناة
-/notify title_ar | body_ar | title_en | body_en — إرسال رسالة
-/cleanup [keep] — حذف الإشعارات القديمة (يتبقى آخر 10)`);
+/notify title_ar | body_ar | title_en | body_en — إرسال رسالة`);
 }
 
 async function cmdChannels(chatId) {
@@ -180,17 +178,6 @@ async function cmdNotify(chatId, args) {
     });
     await ghPutFile('notifications.json', data, file ? file.sha : null);
     await sendMsg(chatId, `✅ تم إرسال الرسالة (#${newId}). ستظهر للمستخدمين عند فتح المنصة.`);
-}
-
-async function cmdCleanup(chatId, args) {
-    const keep = parseInt(args) || 10;
-    const file = await ghGetFile('notifications.json');
-    if (!file) return await sendMsg(chatId, '⚠️ الملف غير موجود.');
-    const data = file.content;
-    if (!data.messages || data.messages.length <= keep) return await sendMsg(chatId, `📭 الملف صغير الحجم (${data.messages.length} رسائل)، لا يحتاج تنظيف.`);
-    data.messages = data.messages.slice(-keep);
-    await ghPutFile('notifications.json', data, file.sha);
-    await sendMsg(chatId, `✅ تم حذف ${data.messages.length > keep ? 'الرسائل القديمة' : 'المكررات'}، بقي آخر ${keep} رسائل.`);
 }
 
 // ---------- Base64 utils (Cloudflare Worker has no btoa/atob) ----------
