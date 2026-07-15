@@ -331,6 +331,7 @@
 
         #notifBadge:not(.hidden) { animation: pulse 1.5s infinite; }
         html[dir="ltr"] #notifBadge { right: auto; left: -0.25rem; }
+        .notif-unread i { color: #ef4444 !important; }
         html[dir="ltr"] #notifPanel > div:first-child + div { border-left: none; border-right: 1px solid rgba(255,255,255,0.06); }
     </style>
     <script data-goatcounter="https://fiber-tv.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -598,7 +599,7 @@
             <div id="watch-temp-sports" data-mode="watch" data-i18n-title="card_sports" data-i18n-desc="card_sports_d" onclick="openSportsModal()" class="app-item col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-5 flex items-center p-3 rounded-2xl group theme-transition cursor-pointer card-shine">
                 <div data-icon-index="4" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shrink-0 theme-transition relative">
                     <i class="fas fa-futbol"></i>
-                    <span class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full animate-pulseLive border-2 border-white/20"></span>
+                    <span class="absolute -bottom-1 -right-1 text-[8px] font-black text-red-500 bg-white px-1 rounded-sm leading-tight">LIVE</span>
                 </div>
                 <div class="mr-4 flex-1">
                     <div class="flex items-center gap-2">
@@ -642,7 +643,6 @@
             <a href="https://cee.buzz" target="_blank" id="watch-cee" data-mode="watch" data-i18n-title="card_cee" data-i18n-desc="card_cee_d" class="app-item flex flex-col items-center text-center p-4 rounded-2xl group theme-transition card-shine">
                 <div data-icon-index="2" class="app-icon-box w-14 h-14 flex items-center justify-center text-2xl shrink-0 relative theme-transition">
                     <i class="fas fa-tv"></i>
-                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulseLive"></span>
                 </div>
                 <div class="mt-3">
                     <h3 class="app-item-title font-bold text-sm transition">مشاهدة منصة CEE</h3>
@@ -1815,14 +1815,7 @@
         let sportsChannelsData = [
             { id: 1, name: 'رابط القنوات', url: 'https://cdn.soft31.com/erthlik/22', type: 'web' },
             { id: 2, name: 'قناة 1', url: 'https://s3.us-east-2.amazonaws.com/cdnw102/live/stream/720p/tracks-v1a1/mono.m3u8', type: 'stream' },
-            { id: 3, name: 'قناة 2', url: 'https://mc.rootsee.shop/citroo3_720/index.m3u8', type: 'stream' },
-            { id: 4, name: 'قناة 3', url: '', type: 'stream' },
-            { id: 5, name: 'قناة 4', url: '', type: 'stream' },
-            { id: 6, name: 'قناة 5', url: '', type: 'stream' },
-            { id: 7, name: 'قناة 6', url: '', type: 'stream' },
-            { id: 8, name: 'قناة 7', url: '', type: 'stream' },
-            { id: 9, name: 'قناة 8', url: '', type: 'stream' },
-            { id: 10, name: 'قناة 9', url: '', type: 'stream' }
+            { id: 3, name: 'قناة 2', url: 'https://mc.rootsee.shop/citroo3_720/index.m3u8', type: 'stream' }
         ];
         let sportsDataLoaded = false;
 
@@ -1901,11 +1894,14 @@
                 const active = data.messages.filter(m => m.active);
                 const latest = active.length > 0 ? active[active.length - 1] : null;
                 const badge = document.getElementById('notifBadge');
+                const notifBtn = document.getElementById('btnNotifications');
                 if (latest && latest.id && latest.id !== lastSeenId) {
                     badge.textContent = '1';
                     badge.classList.remove('hidden');
+                    if (notifBtn) notifBtn.classList.add('notif-unread');
                 } else {
                     badge.classList.add('hidden');
+                    if (notifBtn) notifBtn.classList.remove('notif-unread');
                 }
             } catch (e) {
                 // silent
@@ -2581,6 +2577,11 @@
 
         function playSportsChannel(url) {
             const videoElement = document.getElementById('sportsVideoPlayer');
+            
+            if (!url || !url.trim()) {
+                alert(currentLang === 'ar' ? 'هذه القناة غير متوفرة حالياً' : 'This channel is currently unavailable');
+                return;
+            }
             
             if (hlsPlayerInstance) {
                 hlsPlayerInstance.destroy();
