@@ -58,5 +58,11 @@
     "name": "قناة 15",
     "url": "https://m5.kora-sami.com/b-1/",
     "type": "web"
+  },
+  {
+    "id": 16,
+    "name": "قناة 16",
+    "url": "https://m.syria-scores.com/matches/arsenal-vs-man-city-2/",
+    "type": "web"
   }
 ]
