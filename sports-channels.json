@@ -40,5 +40,11 @@
     "name": "قناة 11",
     "url": "https://fabor-tv.to/",
     "type": "web"
+  },
+  {
+    "id": 12,
+    "name": "قناة 12",
+    "url": "https://baytkooora.com/",
+    "type": "web"
   }
 ]
