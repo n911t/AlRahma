@@ -46,5 +46,11 @@
     "name": "قناة 12",
     "url": "https://mobikora.live/",
     "type": "web"
+  },
+  {
+    "id": 13,
+    "name": "قناة 13",
+    "url": "https://www.getkoora.org/",
+    "type": "web"
   }
 ]
